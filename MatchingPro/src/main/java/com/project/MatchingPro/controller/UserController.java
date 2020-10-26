@@ -1,7 +1,5 @@
 package com.project.MatchingPro.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
@@ -9,9 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.MatchingPro.domain.user.User;
@@ -34,11 +30,6 @@ public class UserController {	//app,web 둘다적용
 		return userService.join(user);
 	}
 	
-	@GetMapping("/list")
-	public List<User> userList(){
-		return userRepository.findAll();
-	}
-	
 	//id 중복체크
 	@GetMapping("/idCheck/{loginid}")
 	public ResponseEntity<?> idCheck(@PathVariable String loginid){
@@ -58,17 +49,4 @@ public class UserController {	//app,web 둘다적용
 		//session.invalidate();	//모든 세션 정보 삭제
 		return new ResponseEntity<String>("ok", HttpStatus.OK);
 	}
-//	@GetMapping("/post/modify/{id}")
-//	public String update(@PathVariable int id, @RequestBody User user){
-//		System.out.println("zz");
-//		userService.userModify(id, user);
-//		return "ok";
-//	}
-	       
-	@PutMapping("/post/modify/{id}")
-	public ResponseEntity<?> modify(@PathVariable int id, @RequestBody User user){
-		userService.modify(id, user);
-		return new ResponseEntity<String>("ok", HttpStatus.OK);
-	}
-	
 }

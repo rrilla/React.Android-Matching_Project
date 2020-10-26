@@ -1,35 +1,23 @@
 package com.project.MatchingPro.domain.user;
 
-import java.sql.Timestamp;	
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.project.MatchingPro.domain.position.Position;
 import com.project.MatchingPro.domain.team.Team;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-
-
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @Data
 @Entity
 public class User {
@@ -50,17 +38,11 @@ public class User {
 	@CreationTimestamp	//default 현재시간 자동 적용
 	private Timestamp joindate;
 	
-//	@JoinColumn(name="teamid")
-//	@ManyToOne(fetch = FetchType.EAGER)
-//	private Team team;
-	
-	@JsonIgnoreProperties({"user"})
-	@OneToMany(mappedBy = "user")
-	private List<Team> teams;
-
-//	@JsonIgnoreProperties({"user"})
-//	@OneToMany(mappedBy = "user")
-//	private List<Position> positions;
+//	@OneToMany
+//	private List<Team> team;
+//	
+//	@OneToMany
+//	private List<Position> position;
 	
 	
 	//joindate 출력양식
@@ -72,4 +54,12 @@ public class User {
 		//return createDate.toString().substring(0,10);
 		return sdf.format(joindate);
 	}
+	
+	/*
+	 	public String getDate() {
+		Timestamp time = this.getJoindate();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		return format.format(time);
+	}
+	 */
 }

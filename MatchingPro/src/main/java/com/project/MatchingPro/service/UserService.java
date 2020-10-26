@@ -1,7 +1,5 @@
 package com.project.MatchingPro.service;
 
-import javax.transaction.Transactional;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -18,9 +16,11 @@ public class UserService {
 	private final UserRepository userRepository;
 	
 	//회원가입
+	//어떤 타입인지 몰라서 <?>
 	public ResponseEntity<?> join(User user){
 		user.setRole("USER");
 		userRepository.save(user);
+		//string으로 return 
 		return new ResponseEntity<String>("ok",HttpStatus.CREATED);
 	}
 	
@@ -38,18 +38,11 @@ public class UserService {
 	public ResponseEntity<?> nicknameCheck(String nickname){
 		int n = userRepository.countByNickname(nickname);
 		if(n == 0) {
+			System.out.println("ddd");
 			return new ResponseEntity<String>("ok", HttpStatus.OK);
 		}else {
 			return new ResponseEntity<String>("no", HttpStatus.OK);
 		}
 	}
 	
-	@Transactional
-	//public ResponseEntity<String> userModify(int id, User user){
-		public void modify(int id, User user){
-		User user2 = userRepository.findById(id).orElseThrow();
-		user2.setEmail(user.getEmail());
-		user2.setUsername(user.getUsername());
-		//return new ResponseEntity<String>("ok",HttpStatus.OK);
-	}
 }
