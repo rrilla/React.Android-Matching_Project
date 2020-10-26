@@ -46,8 +46,12 @@ public class JwtAuthenticationFilter implements Filter{
 			ObjectMapper om = new ObjectMapper();
 			try {
 				User person = om.readValue(req.getInputStream(), User.class);
-
+				System.out.println(person);
 				if(userRepository.countByLoginid(person.getLoginid())==0) {
+				//	System.out.println("============="+person);
+					
+					
+					System.out.println("***************"+person.getLoginid());
 					out.print("아이디x");
 					out.flush();
 				}else {

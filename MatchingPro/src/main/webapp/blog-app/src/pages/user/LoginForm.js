@@ -3,7 +3,7 @@ import { Container } from 'react-bootstrap';
 
 function LoginForm() {
   const [user, setUser] = useState({
-    username: "",
+    loginid: "",
     password: "",
   });
 
@@ -32,11 +32,11 @@ function LoginForm() {
 
   const loginRequest = () => {
     let person = {
-      username: user.username,
+      loginid : user.loginid,
       password: user.password
     }
 
-    fetch("http://localhost:8000/loginProc", {
+    fetch("http://localhost:8000/login", {
       method: "POST",
       body: JSON.stringify(person),
       headers: {
@@ -83,10 +83,10 @@ function LoginForm() {
     <Container>
       <input
         type="text"
-        name="username"
-        placeholder="username"
+        name="loginid"
+        placeholder="loginid"
         onChange={inputHandle}
-        value={user.username}
+        value={user.loginid}
       />
       <br />
       <input
@@ -97,28 +97,11 @@ function LoginForm() {
         value={user.password}
       />
       <br />
-      <input
-        type="text"
-        name="id"
-        placeholder="id"
-        onChange={inputHandle}
-        value={user.id}
-      />
+
       <br />
       <hr />
-      <button onClick={deleteUser}>토큰삭제</button>
-      <button onClick={submitUser}>확인</button>
-      <br />
       <button onClick={loginRequest}>login</button>
       <br />
-      <button onClick={detailRequest}>detail</button>
-      <hr />
-      설명<br/>
-      1. 토큰 삭제 : 현재 등록된 토큰을 삭제한다<br/>
-      2. 확인 : 토큰이 등록되었는지, 없는지 확인<br/>
-      3. login : db에 저장된 id, pw를 비교해서 맞으면 ok가 뜨고 토큰이 생성된다. id는 입력할 필요 없다<br/>
-      4. detail : id 1번의 user data를 select해서 fetch해온다. 성공하면 state로 관리되는 input창 3개에 data가 뜬다<br/>
-      <hr/>
     </Container>
   );
 }

@@ -54,4 +54,12 @@ public class User {
 		//return createDate.toString().substring(0,10);
 		return sdf.format(joindate);
 	}
+	
+	/*
+	 	public String getDate() {
+		Timestamp time = this.getJoindate();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		return format.format(time);
+	}
+	 */
 }
