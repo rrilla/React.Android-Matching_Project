@@ -1,5 +1,7 @@
 package com.project.MatchingPro.service;
 
+import javax.transaction.Transactional;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -42,4 +44,12 @@ public class UserService {
 		}
 	}
 	
+	@Transactional
+	//public ResponseEntity<String> userModify(int id, User user){
+		public void modify(int id, User user){
+		User user2 = userRepository.findById(id).orElseThrow();
+		user2.setEmail(user.getEmail());
+		user2.setUsername(user.getUsername());
+		//return new ResponseEntity<String>("ok",HttpStatus.OK);
+	}
 }
