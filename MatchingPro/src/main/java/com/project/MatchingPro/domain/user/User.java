@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.project.MatchingPro.domain.Member.Member;
 import com.project.MatchingPro.domain.position.Position;
 import com.project.MatchingPro.domain.team.Team;
 
@@ -59,17 +60,16 @@ public class User {
 	private List<Team> teams;
 
 //	@JsonIgnoreProperties({"user"})
+//	@OneToMany(mappedBy = "user")	// Post obj의 user 변수 (post에서 fk로 적어놓은 변수명) 
+//	private List<Member> members;
+	
+//	@JsonIgnoreProperties({"user"})
 //	@OneToMany(mappedBy = "user")
 //	private List<Position> positions;
 	
-	
-	//joindate 출력양식
-	public String getJoindate() {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		//SimpleDateFormat sdf2 = new SimpleDateFormat("hh:mm:ss");	//hh12,HH24
-		//String time[] = {sdf.format(createDate), sdf2.format(createDate)};
-		
-		//return createDate.toString().substring(0,10);
-		return sdf.format(joindate);
+	public String getDate() {
+		Timestamp time = this.getJoindate();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		return format.format(time);
 	}
 }

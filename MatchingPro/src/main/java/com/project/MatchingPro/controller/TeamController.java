@@ -22,9 +22,6 @@ public class TeamController {
 	//팀생성
 	@PostMapping("/post/join")
 	public ResponseEntity<?> join(@RequestBody Team team){
-		
-		
-		
 		return teamService.join(team) ;
 	}
 }
