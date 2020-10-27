@@ -23,6 +23,7 @@ public class TeamService {
 		return new ResponseEntity<String>("ok", HttpStatus.OK);
 	}
 	
+
 	//팀이름 체크
 	public ResponseEntity<?> nameCheck(String name){
 		int n = teamRepository.countByName(name);
@@ -32,5 +33,5 @@ public class TeamService {
 			return new ResponseEntity<String>("no", HttpStatus.OK);
 		}
 	}
-	
+  
 }

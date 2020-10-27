@@ -28,6 +28,7 @@ public class Team {
 	@Column(unique = true, nullable = false)
 	private String name;
 
+
 	@Column(nullable = false)
 	private String explaintation; // 팀설명
 	
