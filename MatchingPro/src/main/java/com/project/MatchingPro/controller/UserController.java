@@ -20,10 +20,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserController {	//app,web 둘다적용
 
-	private final UserRepository userRepository;
 	private final UserService userService;
 	private final HttpSession session;
-	
+	 
 	//회원가입
 	@PostMapping("/join")
 	public ResponseEntity<?> join(@RequestBody User user) {
