@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Container } from 'react-bootstrap';
+import { Container, Form, Col, Button } from 'react-bootstrap';
 
 function LoginForm() {
+
   const [user, setUser] = useState({
     loginid: "",
     password: "",
@@ -12,22 +13,6 @@ function LoginForm() {
       ...user,
       [e.target.name]: e.target.value,
     });
-  };
-
-  const deleteUser = (e) => {
-    e.preventDefault();
-    localStorage.removeItem("Authorization");
-  };
-
-  const submitUser = (e) => {
-    e.preventDefault();
-    console.log(user);
-    let jwtToken = localStorage.getItem("Authorization");
-    if (jwtToken != null) {
-      alert("token이 정상적으로 localStorage에 등록 되었습니다");
-    }else{
-      alert("현재 토큰 없음");
-    }
   };
 
   const loginRequest = () => {
@@ -59,29 +44,12 @@ function LoginForm() {
     });
   }
 
-  const detailRequest = () => {
-    fetch("http://localhost:8000/person/1", {
-      method: "GET",
-      headers: {
-        'Authorization': localStorage.getItem("Authorization")
-      }
-    }).then(res => {
-      console.log("detail fetch의 첫 번째 then의 res: " + res);
-      console.log(res);
-      return res.json();
-    }).then(res => {
-      console.log(res);
-      setUser(res);
-      //alert(res);   // 로그인의 결과
-    });
-  }
-
   useEffect(() => {
   }, []);
 
   return (
     <Container>
-      <input
+      {/* <input
         type="text"
         name="loginid"
         placeholder="loginid"
@@ -101,7 +69,33 @@ function LoginForm() {
       <br />
       <hr />
       <button onClick={loginRequest}>login</button>
-      <br />
+      <br /> */}
+
+      <Form.Group as={Col} controlId="formGridEmail">
+						<Form.Label>아이디</Form.Label>
+						<Form.Control
+							type="text"
+							name="loginid"
+							placeholder="아이디"
+							onChange={inputHandle}
+							value={user.loginid} />
+				
+					</Form.Group>
+
+
+
+
+
+					<Form.Group as={Col} controlId="formGridPassword">
+						<Form.Label>비밀번호</Form.Label>
+						<Form.Control
+							type="password"
+							name="password"
+							placeholder="비밀번호"
+							onChange={inputHandle}
+							value={user.password} />
+					</Form.Group>
+          <Button variant="success" onClick={loginRequest}>로그인</Button>{' '}
     </Container>
   );
 }
