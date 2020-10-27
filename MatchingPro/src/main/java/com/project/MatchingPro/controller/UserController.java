@@ -30,13 +30,13 @@ public class UserController {	//app,web 둘다적용
 	}
 	
 	//id 중복체크
-	@GetMapping("/idCheck/{loginid}")
+	@GetMapping("/check/{loginid}")
 	public ResponseEntity<?> idCheck(@PathVariable String loginid){
 		return userService.idCheck(loginid);
 	}
 	
 	//닉네임 중복체크
-	@GetMapping("/nicknameCheck/{nickname}")
+	@GetMapping("/check/{nickname}")
 	public ResponseEntity<?> nicknameCheck(@PathVariable String nickname){
 		return userService.nicknameCheck(nickname);
 	}
