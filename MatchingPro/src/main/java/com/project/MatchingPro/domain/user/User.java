@@ -41,11 +41,18 @@ public class User {
 	@CreationTimestamp // default 현재시간 자동 적용
 	private Timestamp joindate;
 
+	
+	
+	
+	 	public String getDate() {
+
+
 	@JoinColumn(name = "teams_id")
 	@ManyToOne	
 	private Team teams;
 
 	public String getDate() {
+
 		Timestamp time = this.getJoindate();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		return format.format(time);
