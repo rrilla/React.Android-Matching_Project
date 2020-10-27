@@ -31,6 +31,9 @@ const JoinForm = () => {
 	//   text-align: center;
 	// 	`;
 
+	let emptyFlag = true;	// 빈 칸 확인 플레그 true : 가입가능
+	let idCheckFlag = false; // id 중복확인 플레그 true : 사용가능
+	let nicknameCheckFlag = false;
 	const joinRequest = () => {
 		let person = {
 			loginid: user.loginid,
@@ -42,20 +45,20 @@ const JoinForm = () => {
 			location: user.location
 		}
 
-		let flag = true;	// 가입가능
 		const keys = Object.keys(person) // ['name', 'weight', 'price', 'isFresh']
+		
 
 		for (let i = 0; i < keys.length; i++) {
 			const key = keys[i] // 각각의 키
 			const value = person[key] // 각각의 키에 해당하는 각각의 값
 
-			if (value == ""){
-				flag = false;	// 빈 값 들어오면 가입 불가능
+			if (value == "") {
+				emptyFlag = false;	// 빈 값 들어오면 가입 불가능
 			}
 		}
 
 
-		if (flag) {
+		if (emptyFlag & idCheckFlag & nicknameCheckFlag) {
 			fetch("http://localhost:8000/join", {
 				method: "POST",
 				body: JSON.stringify(person),
@@ -73,8 +76,16 @@ const JoinForm = () => {
 			}).then(res => {
 				alert(res);   // 로그인의 결과
 			});
-		}else{
-			alert("빈 값 있음");
+		} else {
+			if(!emptyFlag){	// emptyflag가 f면 alert띄우는거지 
+				alert("빈 값 있음");
+			}
+			if(!idCheckFlag){
+				alert("id중복확인을 해 주세요");
+			}
+			if(!nicknameCheckFlag){
+				alert("nickname 중복확인을 해 주세요");
+			}
 		}
 	}
 
@@ -98,24 +109,21 @@ const JoinForm = () => {
 
 
 	const idDuplicateCheck = () => {
-
 		fetch(`http://localhost:8000/idCheck/${user.loginid}`, {
 			method: "GET",
 			headers: {
 			}
-		}).then(res => {
-			console.log(res);
-			if (res.text() == "ok") {
-				return "사용 가능한 아이디 입니다";
-
-			} else {
-				return "이미 존재하는 아이디입니다.";
-			}
-
-		}).then(res => {
-			alert(res);   // 로그인의 결과
-		});
+		}).then(res => res.text())
+			.then(res => {
+				if (res == "ok") {
+					idCheckFlag=true;
+					alert("사용 가능한 아이디  입니다");
+				} else {
+					alert("중복 아이디 입니다");
+				}
+			});
 	}
+
 
 	const nicknameDuplicateCheck = () => {
 
@@ -126,6 +134,7 @@ const JoinForm = () => {
 		}).then(res => res.text())
 			.then(res => {
 				if (res == "ok") {
+					nicknameCheckFlag=true;
 					alert("사용 가능한 닉네임  입니다");
 				} else {
 					alert("중복  닉네임  입니다");
