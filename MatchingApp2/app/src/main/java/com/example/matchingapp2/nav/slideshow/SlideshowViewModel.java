@@ -1,4 +1,4 @@
-package com.example.matchingapp2.ui.slideshow;
+package com.example.matchingapp2.nav.slideshow;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
