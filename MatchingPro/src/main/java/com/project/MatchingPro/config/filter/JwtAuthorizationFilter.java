@@ -33,12 +33,13 @@ public class JwtAuthorizationFilter implements Filter {
 
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse resp = (HttpServletResponse) response;
-		PrintWriter out = resp.getWriter();
+		
 		resp.setContentType("text/html; charset=UTF-8"); 
 		
 		String jwtToken = req.getHeader(JwtProps.header);
 
 		if (jwtToken == null) {
+			PrintWriter out = resp.getWriter();
 			out.print("jwtToken not found");
 			out.flush();
 		} else {
@@ -51,6 +52,7 @@ public class JwtAuthorizationFilter implements Filter {
 				session.setAttribute("principal", personEntity);
 				chain.doFilter(request, response);
 			} catch (Exception e) {
+				PrintWriter out = resp.getWriter();
 				out.print("verify fail");
 				out.flush();
 			}
