@@ -25,14 +25,14 @@ public class TeamController {
 	private final TeamRepository teamRepository;
 	private final HttpSession session;
 	
-	@PostMapping("/post/join")
-	public ResponseEntity<?> join(@RequestBody Team team){
+	@PostMapping("/user/create")
+	public ResponseEntity<?> create(@RequestBody Team team){
 		User user = (User)session.getAttribute("principal");
 		return teamService.save(team, user);
 	}
 	
-	@GetMapping("/list")
-	public List<Team> list(){
+	@GetMapping("/teamList")
+	public List<Team> teamList(){
 		return teamRepository.findAll();
 	}
 }

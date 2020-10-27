@@ -21,5 +21,5 @@ public class TeamService {
 		teamRepository.save(team);
 		return new ResponseEntity<String>("ok", HttpStatus.OK);
 	}
-
+	
 }
