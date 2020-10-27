@@ -42,23 +42,40 @@ const JoinForm = () => {
 			location: user.location
 		}
 
-		fetch("http://localhost:8000/join", {
-			method: "POST",
-			body: JSON.stringify(person),
-			headers: {
-				'Content-Type': "application/json; charset=utf-8"
-			}
-		}).then(res => {
-			if (res.text = "ok") {
-				return "회원가입에 성공하였습니다.";
+		let flag = true;	// 가입가능
+		const keys = Object.keys(person) // ['name', 'weight', 'price', 'isFresh']
 
-			} else {
-				return "회원가입 실패하였습니다.";
-			}
+		for (let i = 0; i < keys.length; i++) {
+			const key = keys[i] // 각각의 키
+			const value = person[key] // 각각의 키에 해당하는 각각의 값
 
-		}).then(res => {
-			alert(res);   // 로그인의 결과
-		});
+			if (value == ""){
+				flag = false;	// 빈 값 들어오면 가입 불가능
+			}
+		}
+
+
+		if (flag) {
+			fetch("http://localhost:8000/join", {
+				method: "POST",
+				body: JSON.stringify(person),
+				headers: {
+					'Content-Type': "application/json; charset=utf-8"
+				}
+			}).then(res => {
+				if (res.text = "ok") {
+					return "회원가입에 성공하였습니다.";
+
+				} else {
+					return "회원가입 실패하였습니다.";
+				}
+
+			}).then(res => {
+				alert(res);   // 로그인의 결과
+			});
+		}else{
+			alert("빈 값 있음");
+		}
 	}
 
 
@@ -107,13 +124,13 @@ const JoinForm = () => {
 			headers: {
 			}
 		}).then(res => res.text())
-		.then(res => {
-			if (res == "ok") {
-				alert("사용 가능한 닉네임  입니다");
-			} else {
-				alert("중복  닉네임  입니다");
-			}
-		});
+			.then(res => {
+				if (res == "ok") {
+					alert("사용 가능한 닉네임  입니다");
+				} else {
+					alert("중복  닉네임  입니다");
+				}
+			});
 	}
 
 
