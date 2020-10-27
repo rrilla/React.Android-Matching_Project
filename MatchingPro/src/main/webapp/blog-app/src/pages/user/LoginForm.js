@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Form, Col, Button } from 'react-bootstrap';
 
-function LoginForm() {
 
+function LoginForm() {
+  
   const [user, setUser] = useState({
     loginid: "",
     password: "",
   });
+  
+  const [isToken, setIsToken] = useState(false);  
+  // 토큰 있는 지 없는 지 확인용 state. 0면 없고  1면 있다 
 
   const inputHandle = (e) => {
     setUser({
@@ -30,17 +34,37 @@ function LoginForm() {
     }).then(res => {
       //console.log("첫 번째 then의 res", res);
       for (let header of res.headers.entries()) {
-        if (header[0] == "authorization") {
+
+
+        if (header[0] == "authorization")
+
+                
+        
+        {
           let data = header[1];
           data = data.substring(7);
           console.log(data);
           localStorage.setItem("Authorization", data);
+
+          
+          setIsToken(true);
+          console.log(isToken);
+          if(isToken){
+            console.log("토큰 생성");
+          }else{
+            console.log("토큰 생성 안됨");
+          }
+
+
         }
       }
       return res.text();
     }).then(res => {
       //console.log("두 번째 then의 res", res);
       alert(res);   // 로그인의 결과
+      setIsToken(true
+        );
+      console.log(isToken);
     });
   }
 

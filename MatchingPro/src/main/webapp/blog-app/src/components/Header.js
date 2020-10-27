@@ -5,6 +5,18 @@ import styled from "styled-components";
 
 const Header = () => {
 
+  //const [isToken, setIsToken] = useState(false);  
+
+  const tokenCheck = () => {
+
+    //let isToken = false;
+
+    console.log(localStorage.getItem("Authorization"));
+    alert("as");
+    //return true;  // 토큰 있으면
+
+  } 
+
   const LinkStyle = styled.span`
     color : black;
   `;
@@ -15,6 +27,7 @@ const Header = () => {
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
+          {tokenCheck()}
             <Nav.Link><Link to="/Login"><LinkStyle>로그인</LinkStyle></Link></Nav.Link>
            <Nav.Link><Link to="/Join"><LinkStyle>회원가입</LinkStyle></Link></Nav.Link>
           <NavDropdown title="마이페이지" id="basic-nav-dropdown">
@@ -23,6 +36,7 @@ const Header = () => {
             <NavDropdown.Item href="#action/3.3">ㅁㄴ</NavDropdown.Item>
             <NavDropdown.Divider />
             <NavDropdown.Item href="#action/3.4">주변 경기 보기</NavDropdown.Item>
+            <NavDropdown.Item><Link to="/Logout">Logout</Link></NavDropdown.Item>
           </NavDropdown>
         </Nav>
         <Form inline>
