@@ -6,6 +6,9 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import org.springframework.web.bind.annotation.PathVariable;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,6 +34,13 @@ public class TeamController {
 		return teamService.save(team, user);
 	}
 	
+
+	//팀 이름 체크
+	@GetMapping("/check/{teamname}")
+	public ResponseEntity<?> nameCheck(@PathVariable String teamname){
+		return teamService.nameCheck(teamname);
+	}
+
 	@GetMapping("/teamList")
 	public List<Team> teamList(){
 		return teamRepository.findAll();
