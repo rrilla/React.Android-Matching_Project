@@ -50,8 +50,6 @@ public class JwtAuthenticationFilter implements Filter{
 				if(userRepository.countByLoginid(person.getLoginid())==0) {
 				//	System.out.println("============="+person);
 					
-					
-					System.out.println("***************"+person.getLoginid());
 					out.print("아이디x");
 					out.flush();
 				}else {

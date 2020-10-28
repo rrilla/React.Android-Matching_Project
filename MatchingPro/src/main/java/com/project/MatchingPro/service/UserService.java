@@ -19,9 +19,13 @@ public class UserService {
 	//어떤 타입인지 몰라서 <?>
 	public ResponseEntity<?> join(User user){
 		user.setRole("USER");
-		userRepository.save(user);
-		//string으로 return 
-		return new ResponseEntity<String>("ok",HttpStatus.CREATED);
+		try {
+			userRepository.save(user);
+			return new ResponseEntity<String>("ok",HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<String>("no",HttpStatus.EXPECTATION_FAILED);
+		}
+
 	}
 	
 	//아이디 체크
@@ -38,7 +42,6 @@ public class UserService {
 	public ResponseEntity<?> nicknameCheck(String nickname){
 		int n = userRepository.countByNickname(nickname);
 		if(n == 0) {
-			System.out.println("ddd");
 			return new ResponseEntity<String>("ok", HttpStatus.OK);
 		}else {
 			return new ResponseEntity<String>("no", HttpStatus.OK);
