@@ -13,6 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.project.MatchingPro.domain.party.Party;
 import com.project.MatchingPro.domain.user.User;
 
 import lombok.Data;
@@ -32,11 +33,18 @@ public class Team {
 	@Column(nullable = false)
 	private String explaintation; // 팀설명
 	
+	@Column(length = 1000000000)
+	private String image;
+	
 	@OneToOne
 	private User owner;
 
-	// @JsonIgnoreProperties({"teams"})
+	@JsonIgnoreProperties({"teams"})
 	@OneToMany(mappedBy = "teams", fetch = FetchType.LAZY)
 	private List<User> users;
+	
+	@JsonIgnoreProperties({"team","user"})
+	@OneToMany(mappedBy = "team", fetch = FetchType.LAZY)
+	private List<Party> partys;
 	
 }

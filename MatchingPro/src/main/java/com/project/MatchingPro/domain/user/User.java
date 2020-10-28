@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,6 +17,7 @@ import javax.persistence.OneToMany;
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.project.MatchingPro.domain.party.Party;
 import com.project.MatchingPro.domain.position.Position;
 import com.project.MatchingPro.domain.team.Team;
 
@@ -37,20 +39,22 @@ public class User {
 	private String email;
 	private String phone;
 	private String location;	
+	@Column(length = 1000000000)
+	private String image;
 	private String role; // 권한
 	@CreationTimestamp // default 현재시간 자동 적용
 	private Timestamp joindate;
 
-	
-	
-	
-	 	public String getDate() {
-
-
 	@JoinColumn(name = "teams_id")
 	@ManyToOne	
 	private Team teams;
+	
+	@JsonIgnoreProperties({"user"})
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+	private List<Party> partys;
+	
 
+	
 	public String getDate() {
 
 		Timestamp time = this.getJoindate();
