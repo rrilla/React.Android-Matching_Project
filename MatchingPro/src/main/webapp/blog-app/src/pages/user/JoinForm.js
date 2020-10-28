@@ -41,7 +41,6 @@ const JoinForm = () => {
 	// 	`;
 
 
-
 	const joinRequest = (e) => {
 		e.preventDefault();
 		let person = {
@@ -120,10 +119,12 @@ const JoinForm = () => {
 	const idDuplicateCheck = (e) => {
 		e.preventDefault();
 
+
 		fetch(`http://localhost:8000/idCheck/${user.loginid}`, {
 			method: "GET",
 			headers: {
 			}
+
 		}).then(res => res.text())
 			.then(res => {
 				if (res == "ok") {
@@ -155,6 +156,7 @@ const JoinForm = () => {
 
 
 	return (
+
 
 
 

@@ -46,5 +46,4 @@ public class Team {
 	@JsonIgnoreProperties({"team","user"})
 	@OneToMany(mappedBy = "team", fetch = FetchType.LAZY)
 	private List<Party> partys;
-	
-}
+

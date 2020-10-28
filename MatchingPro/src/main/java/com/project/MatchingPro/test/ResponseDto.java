@@ -13,7 +13,4 @@ public class ResponseDto {
 	private String errorCode;
 	private String errorMsg;
 	private Object data;
-
-	//hihi ㅁㄴㅇ러ㅏㅣㅓㅁㄴㅇ라ㅣ
-
 }

@@ -19,17 +19,13 @@ public class UserService {
 	//어떤 타입인지 몰라서 <?>
 	public ResponseEntity<?> join(User user){
 		user.setRole("USER");
-		//userRepository.save(user);
-		
 		try {
 			userRepository.save(user);
-			//System.out.println("회원가입 성공");
 			return new ResponseEntity<String>("ok",HttpStatus.OK);
 		} catch (Exception e) {
-			//System.out.println("회원가입 실패");
 			return new ResponseEntity<String>("no",HttpStatus.EXPECTATION_FAILED);
 		}
-		//string으로 return 
+
 	}
 	
 	//아이디 체크

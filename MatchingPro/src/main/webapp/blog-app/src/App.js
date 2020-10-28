@@ -7,6 +7,7 @@ import JoinForm from './pages/user/JoinForm';
 import Team_create from './pages/team/Team_create';
 import Logout from './pages/user/Logout';
 
+
 const App = () => {
   return (
     <div>
@@ -17,7 +18,8 @@ const App = () => {
       <Route path="/Login" exact={true} component={LoginForm}></Route>
       <Route path="/Join" exact={true} component={JoinForm}></Route>
       <Route path="/Team_create" exact={true} component={Team_create}></Route>
-       <Route path="/Logout" exact={true} component={Logout}></Route>
+      <Route path="/Logout" exact={true} component={Logout}></Route>
+
     </div>
   );
 };

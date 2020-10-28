@@ -12,12 +12,14 @@ function LoginForm() {
   const [isToken, setIsToken] = useState(false);  
   // 토큰 있는 지 없는 지 확인용 state. 0면 없고  1면 있다 
 
+
   const inputHandle = (e) => {
     setUser({
       ...user,
       [e.target.name]: e.target.value,
     });
   };
+
 
   const loginRequest = () => {
     let person = {
@@ -36,11 +38,13 @@ function LoginForm() {
       for (let header of res.headers.entries()) {
 
 
+
         if (header[0] == "authorization")
 
                 
         
         {
+
           let data = header[1];
           data = data.substring(7);
           console.log(data);
@@ -56,12 +60,14 @@ function LoginForm() {
           }
 
 
+
         }
       }
       return res.text();
     }).then(res => {
       //console.log("두 번째 then의 res", res);
       alert(res);   // 로그인의 결과
+
       setIsToken(true
         );
       console.log(isToken);

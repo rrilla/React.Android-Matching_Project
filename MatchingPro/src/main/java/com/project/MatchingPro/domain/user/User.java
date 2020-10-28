@@ -6,18 +6,22 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
 import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.project.MatchingPro.domain.party.Party;
+
 import com.project.MatchingPro.domain.position.Position;
 import com.project.MatchingPro.domain.team.Team;
 
@@ -72,5 +76,4 @@ public class User {
 //	}
 
 	}
-
 }

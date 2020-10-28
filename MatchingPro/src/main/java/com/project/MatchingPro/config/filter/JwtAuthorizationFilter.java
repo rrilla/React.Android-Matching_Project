@@ -33,7 +33,6 @@ public class JwtAuthorizationFilter implements Filter {
 
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse resp = (HttpServletResponse) response;
-		
 		resp.setContentType("text/html; charset=UTF-8"); 
 		
 		String jwtToken = req.getHeader(JwtProps.header);
@@ -44,7 +43,6 @@ public class JwtAuthorizationFilter implements Filter {
 			out.flush();
 		} else {
 			jwtToken = jwtToken.replace(JwtProps.auth, "");
-
 			try {
 				int personId = JWT.require(Algorithm.HMAC512(JwtProps.secret)).build().verify(jwtToken).getClaim("id").asInt();
 				HttpSession session = req.getSession();
