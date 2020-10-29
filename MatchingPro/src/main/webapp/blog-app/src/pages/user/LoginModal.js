@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { Container, Form, Col, Button } from 'react-bootstrap';
+import React, {  useEffect, useState} from 'react';
+import {  Modal, Button } from 'react-bootstrap';
 
-
-function LoginForm(props) {
-
-  const setToken = props.setToken;
+function LoginModal(props) {
+const setToken = props.setToken;
   console.log(6,setToken)
+  
   const isToken = props.data;
   const setIsToken = props.data2;
 
@@ -79,57 +78,54 @@ function LoginForm(props) {
   useEffect(() => {
   }, []);
 
+
+
+
   return (
-    <Container>
-      {/* <input
-        type="text"
-        name="loginid"
-        placeholder="loginid"
-        onChange={inputHandle}
-        value={user.loginid}
-      />
-      <br />
-      <input
-        type="text"
-        name="password"
-        placeholder="password"
-        onChange={inputHandle}
-        value={user.password}
-      />
-      <br />
-
-      <br />
-      <hr />
-      <button onClick={loginRequest}>login</button>
-      <br /> */}
-
-      <Form.Group as={Col} controlId="formGridEmail">
-						<Form.Label>아이디</Form.Label>
-						<Form.Control
-							type="text"
-							name="loginid"
-							placeholder="아이디"
-							onChange={inputHandle}
-							value={user.loginid} />
-				
-					</Form.Group>
 
 
-token:{isToken}
 
-
-					<Form.Group as={Col} controlId="formGridPassword">
-						<Form.Label>비밀번호</Form.Label>
-						<Form.Control
-							type="password"
-							name="password"
-							placeholder="비밀번호"
-							onChange={inputHandle}
-							value={user.password} />
-					</Form.Group>
-          <Button variant="success" onClick={loginRequest}>로그인</Button>{' '}
-    </Container>
+    <Modal
+      {...props}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-vcenter">
+          Modal heading
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <h4>Centered Modal</h4>
+        <p>
+          Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
+          dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
+          consectetur ac, vestibulum at eros.
+        </p>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button onClick={props.onHide}>Close</Button>
+      </Modal.Footer>
+    </Modal>
   );
 }
 
-export default LoginForm;
+function LoginModalhideshow() {
+  const [modalShow, setModalShow] = React.useState(false);
+
+  return (
+    <>
+      <Button variant="primary" onClick={() => setModalShow(true)}>
+        Launch vertically centered modal
+      </Button>
+
+      <LoginModal
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+      />
+    </>
+  );
+}; 
+
+export default LoginModal;
