@@ -12,6 +12,8 @@
         android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:textStyle="bold"
         android:text="ID" />
 
     <EditText
@@ -27,6 +29,8 @@
         android:id="@+id/textView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:textStyle="bold"
         android:text="Password" />
 
     <EditText
@@ -35,13 +39,16 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:gravity="right"
-        android:inputType="textPersonName"/>
+        android:inputType="textPersonName"
+        android:layout_marginBottom="40dp"/>
 
     <TextView
         android:id="@+id/login_tv_result"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="#FF0000"
+        android:textSize="25dp"
+        android:textStyle="bold"
         android:gravity="right"/>
 
     <Button
