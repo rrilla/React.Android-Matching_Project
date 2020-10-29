@@ -37,12 +37,14 @@ public class PartyService {
 		}
 	}
 	
-		public ResponseEntity<?> teamsave(User user, int userid){
-			try {
-				
+	//팀 -> 개인 초대
+	public ResponseEntity<?> teamsave(User user, int userid){
+		System.out.println("durldha1");
+		try {
+			System.out.println(user.getTeams().getId());
 				Team team = teamRepository.findById(user.getTeams().getId()).orElseThrow(()-> new IllegalArgumentException(userid+"는 존재하지 않습니다."));
 				User userEntity = userRepository.findById(userid).orElseThrow(()-> new IllegalArgumentException(userid+"는 존재하지 않습니다."));
-				
+				System.out.println("zz");
 				Party party = new Party();
 				party.setRoleNumber(1);	// 팀 -> 개인 요청
 				party.setUser(userEntity);
@@ -50,6 +52,7 @@ public class PartyService {
 				partyRepository.save(party);
 				return new ResponseEntity<String>("ok",HttpStatus.OK);
 			}catch(Exception e) {
+				System.out.println("durldha2");
 				return new ResponseEntity<String>("no",HttpStatus.EXPECTATION_FAILED);
 			}
 	

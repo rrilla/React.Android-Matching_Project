@@ -28,7 +28,7 @@ public class PartyController {
 	private final PartyService partyService;
 
 	// 개인 -> 팀 에 가입 신청
-	@PostMapping("/user/apply1/{teamid}") // @RequestBody Party party,
+	@PostMapping("/user/apply1/{teamid}")
 	public ResponseEntity<?> soloApply(@PathVariable int teamid) {
 		User user = (User) session.getAttribute("principal");
 		return partyService.solosave(user, teamid);
