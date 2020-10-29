@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.MatchingPro.domain.party.Party;
 import com.project.MatchingPro.domain.team.Team;
 import com.project.MatchingPro.domain.team.TeamRepository;
 import com.project.MatchingPro.domain.user.User;
@@ -53,12 +54,19 @@ public class TeamController {
 	}
 	
 	//팀가입요청왔을 때 승인
-	@PutMapping("/user/Acknowledgment/{teamid}")
-	public ResponseEntity<?> teamJoin(@PathVariable int teamid){
-		User user = (User) session.getAttribute("principal");
-		return teamService.teamJoin(user, teamid);
-	}
-
+//	@PutMapping("/user/Acknowledgment/{teamid}")
+//	public ResponseEntity<?> teamJoin(@PathVariable int teamid){
+//		User user = (User) session.getAttribute("principal");
+//		return teamService.teamJoin(user, teamid);
+//	}
+	
+//	@PutMapping("/Acknowledgment/{teamid}")
+//	public ResponseEntity<?> Acknowledgment(@PathVariable int teamid){
+//		User user = (User) session.getAttribute("principal");
+//		return teamService.teamJoin(user,teamid);
+//	}
+	
+	
 	//팀 리스트
 	@GetMapping("/teamList")
 	public List<Team> teamList(){
