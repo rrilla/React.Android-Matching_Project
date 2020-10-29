@@ -53,18 +53,12 @@ public class TeamController {
 		return teamService.detail(teamid);
 	}
 	
-	//팀가입요청왔을 때 승인
-//	@PutMapping("/user/Acknowledgment/{teamid}")
-//	public ResponseEntity<?> teamJoin(@PathVariable int teamid){
-//		User user = (User) session.getAttribute("principal");
-//		return teamService.teamJoin(user, teamid);
-//	}
 	
-//	@PutMapping("/Acknowledgment/{teamid}")
-//	public ResponseEntity<?> Acknowledgment(@PathVariable int teamid){
-//		User user = (User) session.getAttribute("principal");
-//		return teamService.teamJoin(user,teamid);
-//	}
+	@PutMapping("/Acknowledgment/{partyid}")
+	public ResponseEntity<?> Acknowledgment(@PathVariable int partyid){
+		//User user = (User) session.getAttribute("principal");
+		return teamService.teamJoin(partyid);
+	}
 	
 	
 	//팀 리스트
@@ -73,3 +67,10 @@ public class TeamController {
 		return teamRepository.findAll();
 	}
 }
+
+//팀가입요청왔을 때 승인
+//@PutMapping("/user/Acknowledgment/{teamid}")
+//public ResponseEntity<?> teamJoin(@PathVariable int teamid){
+//	User user = (User) session.getAttribute("principal");
+//	return teamService.teamJoin(user, teamid);
+//}

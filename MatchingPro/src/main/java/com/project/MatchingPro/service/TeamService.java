@@ -1,5 +1,6 @@
 package com.project.MatchingPro.service;
 
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -21,8 +22,8 @@ public class TeamService {
 	private final TeamRepository teamRepository;
 	private final UserRepository userRepository;
 	private final PartyRepository partyRepository;
-	
 	// 팀 생성
+	@Transactional
 	public ResponseEntity<?> save(Team team, User user) {
 		try {
 			team.setOwner(user);
@@ -35,42 +36,19 @@ public class TeamService {
 		}
 	}
 	
-	//팀 가입하자이 (이거를 팀장이 승인하면 이걸 실행하고)
-//	@Transactional
-//	public ResponseEntity<?> teamJoin(User user, int teamid){
-//		
-//		User userEntity =userRepository.findById(user.getId()).orElseThrow(()-> new IllegalArgumentException(teamid+"는 존재하지 않습니다."));
-//		userEntity.setTeams(teamRepository.findById(teamid).orElseThrow(()-> new IllegalArgumentException(teamid+"는 존재하지 않습니다.")));
-//		
-//		return new ResponseEntity<String>("ok", HttpStatus.OK);
-//	}
+	//팀 가입 수락 (이거를 팀장이 승인하면 이걸 실행하고)
+	@Transactional
+	public ResponseEntity<?> teamJoin(int partyid){
 	
-	//팀 가입하자이 (이거를 팀장이 승인하면 이걸 실행하고)
-//	@Transactional
-//	public ResponseEntity<?> teamJoin(User user,int teamid){
-//	
-//		Party partyEntity = partyRepository.
-//		partyEntity.getTeam();
-//		
-//			Party party= partyRepository.mFindByTeamid(teamid);
-//			int partyid = party.getId();
-//			
-//			User userEntity =userRepository.findById(party.getUser().getId()).orElseThrow(()-> new IllegalArgumentException(teamid+"는 존재하지 않습니다."));
-//			userEntity.setTeams(teamRepository.findById(teamid).orElseThrow(()-> new IllegalArgumentException(teamid+"는 존재하지 않습니다.")));
-//		//User user = new User();
-//
-//			return new ResponseEntity<String>("ok", HttpStatus.OK);
+		Party partyEntity = partyRepository.findById(partyid).orElseThrow(()-> new IllegalArgumentException(partyid+"는 존재하지 않습니다."));
+			
+		User userEntity = partyEntity.getUser();
+		userEntity.setTeams(partyEntity.getTeam());
 
-		
-//		User userEntity =userRepository
-//				.findById(user.getId()).orElseThrow(()->
-//				new IllegalArgumentException(teamid+"는 존재하지 않습니다."));
-//		
-//		userEntity
-//		.setTeams(teamRepository.findById(teamid).orElseThrow(()-> 
-//		new IllegalArgumentException(teamid+"는 존재하지 않습니다.")));
-		
-//	}
+			return new ResponseEntity<String>("ok", HttpStatus.OK);
+	}
+	
+	// 팀 가입 수락( 이거를 유저가 승인하면 이걸 실행하게끔)
 	
 	//팀상세보기
 	public ResponseEntity<?> detail(int id){
@@ -91,3 +69,12 @@ public class TeamService {
 	}
   
 }
+//팀 가입하자이 (이거를 팀장이 승인하면 이걸 실행하고)
+//@Transactional
+//public ResponseEntity<?> teamJoin(User user, int teamid){
+//	
+//	User userEntity =userRepository.findById(user.getId()).orElseThrow(()-> new IllegalArgumentException(teamid+"는 존재하지 않습니다."));
+//	userEntity.setTeams(teamRepository.findById(teamid).orElseThrow(()-> new IllegalArgumentException(teamid+"는 존재하지 않습니다.")));
+//	
+//	return new ResponseEntity<String>("ok", HttpStatus.OK);
+//}

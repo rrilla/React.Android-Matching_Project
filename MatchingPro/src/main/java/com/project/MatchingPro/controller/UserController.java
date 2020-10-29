@@ -1,6 +1,8 @@
 package com.project.MatchingPro.controller;
 
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;	
 
 
@@ -28,6 +30,7 @@ public class UserController {	//app,web 둘다적용
 
 	private final UserService userService;
 	private final HttpSession session;
+	private final UserRepository userRepository;
 	 
 	//회원가입
 	@PostMapping("/join")
@@ -55,5 +58,10 @@ public class UserController {	//app,web 둘다적용
 		session.removeAttribute("principal");
 		//session.invalidate();	//모든 세션 정보 삭제
 		return new ResponseEntity<String>("ok", HttpStatus.OK);
+	}
+	
+	@GetMapping("/userList")
+	public List<User> list(){
+		return userRepository.findAll();
 	}
 }
