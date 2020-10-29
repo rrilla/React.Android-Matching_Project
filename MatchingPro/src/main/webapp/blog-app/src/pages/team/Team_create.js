@@ -3,20 +3,23 @@ import { Container } from 'react-bootstrap';
 
 const Team_create = () => {
 	const [team, setTeam] = useState({
-		teamname: "",
+		name: "",
+		explaintation: ""
 	});
 
 
 	const joinRequest = () => {
 		let team2 = {
-			teamname: team.teamname,
+			name: team.name,
+			explaintation: team.explaintation
 		}
-
-		fetch("http://localhost:8000/joinProc2", {
+		console.log(team2);
+		fetch("http://localhost:8000/user/create", {
 			method: "POST",
 			body: JSON.stringify(team2),
 			headers: {
-				'Content-Type': "application/json; charset=utf-8"
+				'Content-Type': "application/json; charset=utf-8",
+				'Authorization': localStorage.getItem("Authorization")
 			}
 		}).then(res => {
 			return res.text();
@@ -38,10 +41,18 @@ const Team_create = () => {
 		<Container>
 			<input
 				type="text"
-				name="teamname"
-				placeholder="teamname"
+				name="name"
+				placeholder="name"
 				onChange={inputHandle}
-				value={team.teamname}
+				value={team.name}
+			/>
+			<br />
+			<input
+				type="text"
+				name="explaintation"
+				placeholder="explaintation"
+				onChange={inputHandle}
+				value={team.explaintation}
 			/>
 			<br />
 			<button onClick={joinRequest}>join</button>
