@@ -13,6 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.deser.DataFormatReaders.Match;
 import com.project.MatchingPro.domain.party.Party;
 import com.project.MatchingPro.domain.user.User;
 
@@ -47,4 +48,14 @@ public class Team {
 	@JsonIgnoreProperties({"team","user"})
 	@OneToMany(mappedBy = "team", fetch = FetchType.LAZY)//LAZY
 	private List<Party> partys;
+	
+//	////////////////////////////////////////////////////
+//	
+//	@JsonIgnoreProperties({"team1"})
+//	@OneToMany(mappedBy = "team1", fetch = FetchType.EAGER)//LAZY
+//	private List<Match> Match1;
+//	
+//	@JsonIgnoreProperties({"team2"}) 
+//	@OneToMany(mappedBy = "team2", fetch = FetchType.EAGER)//LAZY
+//	private List<Match> Mach2;
 }

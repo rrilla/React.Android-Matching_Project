@@ -38,7 +38,7 @@ public class TeamController {
 	public ResponseEntity<?> create(@RequestBody Team team){
 		User user = (User)session.getAttribute("principal");
 		teamService.save(user, team);
-		teamService.aaa(user, team.getId());
+		teamService.TeamsRegister(user, team.getId());
 		 return new ResponseEntity<String>("ok", HttpStatus.OK);
 	}
 	
@@ -58,7 +58,6 @@ public class TeamController {
 	//팀 가입 요청시 수락
 	@PutMapping("/Acknowledgment/{partyid}")
 	public ResponseEntity<?> Acknowledgment(@PathVariable int partyid){
-		//User user = (User) session.getAttribute("principal");
 		return teamService.teamJoin(partyid);
 	}
 	
