@@ -9,4 +9,6 @@ public interface UserRepository extends JpaRepository<User, Integer>{
 	int countByLoginid(String loginid);	//count = 결과 레코드수 반환
 
 	int countByNickname(String nickname);
+	
+	// 유저 테이블의 팀 칼럼 수정하는 쿼리 만들어서
 }

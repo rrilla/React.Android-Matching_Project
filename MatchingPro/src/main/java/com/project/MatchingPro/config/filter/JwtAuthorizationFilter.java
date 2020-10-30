@@ -45,8 +45,9 @@ public class JwtAuthorizationFilter implements Filter {
 			jwtToken = jwtToken.replace(JwtProps.auth, "");
 			try {
 				int personId = JWT.require(Algorithm.HMAC512(JwtProps.secret)).build().verify(jwtToken).getClaim("id").asInt();
+				System.out.println("personID: "+personId);
 				HttpSession session = req.getSession();
-				User personEntity = userRepository.findById(personId).orElseThrow(()-> new IllegalArgumentException("는 존재하지 않습니다."));
+				User personEntity = (User)(userRepository.findById(personId).orElseThrow(()-> new IllegalArgumentException("는 존재하지 않습니다.")));
 				session.setAttribute("principal", personEntity);
 				chain.doFilter(request, response);
 			} catch (Exception e) {

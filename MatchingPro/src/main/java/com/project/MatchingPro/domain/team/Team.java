@@ -1,6 +1,6 @@
 package com.project.MatchingPro.domain.team;
 
-import java.util.List;
+import java.util.List;	
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -36,14 +36,15 @@ public class Team {
 	@Column(length = 1000000000)
 	private String image;
 	
+	@JsonIgnoreProperties({"teams"})
 	@OneToOne
 	private User owner;
 
-	@JsonIgnoreProperties({"teams"})
-	@OneToMany(mappedBy = "teams", fetch = FetchType.LAZY)
+	@JsonIgnoreProperties({"teams","partys"})
+	@OneToMany(mappedBy = "teams", fetch = FetchType.LAZY)//LAZY
 	private List<User> users;
 	
 	@JsonIgnoreProperties({"team","user"})
-	@OneToMany(mappedBy = "team", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "team", fetch = FetchType.LAZY)//LAZY
 	private List<Party> partys;
 }

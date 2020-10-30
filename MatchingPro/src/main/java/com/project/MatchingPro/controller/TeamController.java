@@ -1,6 +1,6 @@
 package com.project.MatchingPro.controller;
 
-import java.util.ArrayList;	
+import java.util.ArrayList;		
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -37,7 +37,9 @@ public class TeamController {
 	@PostMapping("/user/create")
 	public ResponseEntity<?> create(@RequestBody Team team){
 		User user = (User)session.getAttribute("principal");
-		return teamService.save(team, user);
+		teamService.save(user, team);
+		teamService.aaa(user, team.getId());
+		 return new ResponseEntity<String>("ok", HttpStatus.OK);
 	}
 	
 
@@ -53,11 +55,18 @@ public class TeamController {
 		return teamService.detail(teamid);
 	}
 	
-	
+	//팀 가입 요청시 수락
 	@PutMapping("/Acknowledgment/{partyid}")
 	public ResponseEntity<?> Acknowledgment(@PathVariable int partyid){
 		//User user = (User) session.getAttribute("principal");
 		return teamService.teamJoin(partyid);
+	}
+	
+	// 로그인한 유저의 팀 아이디값 리턴기능
+	@GetMapping("/user/myTeam")
+	public ResponseEntity<?> teamid(){
+		User user = (User) session.getAttribute("principal");
+		return teamService.myTeam(user);
 	}
 	
 	
@@ -67,10 +76,3 @@ public class TeamController {
 		return teamRepository.findAll();
 	}
 }
-
-//팀가입요청왔을 때 승인
-//@PutMapping("/user/Acknowledgment/{teamid}")
-//public ResponseEntity<?> teamJoin(@PathVariable int teamid){
-//	User user = (User) session.getAttribute("principal");
-//	return teamService.teamJoin(user, teamid);
-//}
