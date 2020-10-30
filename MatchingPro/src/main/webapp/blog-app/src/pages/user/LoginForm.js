@@ -57,7 +57,7 @@ function LoginForm(props) {
 
         if (header[0] == "authorization") {
           let data = header[1];
-          data = data.substring(7);
+          //data = data.substring(7);
           console.log(data);
           localStorage.setItem("Authorization", data);
 
