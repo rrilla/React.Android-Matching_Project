@@ -1,4 +1,4 @@
-package com.project.MatchingPro.test;
+package com.project.MatchingPro.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

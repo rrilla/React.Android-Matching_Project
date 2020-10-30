@@ -98,7 +98,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 Log.d("test-토큰값",result[1]);
                 if (result[0].equals("ok")){
-
                     //자동로그인 체크시 토큰 저장
                     if(cbAuto.isChecked()){
                         Log.d("test-자동로그인체크","자동로그인 체크됨");
@@ -116,12 +115,12 @@ public class LoginActivity extends AppCompatActivity {
                         intent.putExtra("jwtToken",result[1]);
                         startActivity(intent);  //데이터 담고 가야됨.
                     }
-                }else if(result.equals("아이디x")){
-                    tvResult.setText("아이디 ㄴㄴ");
-                    Toast.makeText(LoginActivity.this, "아디 ㄴㄴ", Toast.LENGTH_SHORT).show();
-                }else{
+                }else if(result[0].equals("비번x")){
                     tvResult.setText("비번 ㄴㄴ");
                     Toast.makeText(LoginActivity.this, "비번 ㄴㄴ", Toast.LENGTH_SHORT).show();
+                }else{
+                    tvResult.setText("아디 ㄴㄴ");
+                    Toast.makeText(LoginActivity.this, "아디 ㄴㄴ", Toast.LENGTH_SHORT).show();
                 }
             }
         });
