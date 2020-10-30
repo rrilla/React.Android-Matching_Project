@@ -39,7 +39,7 @@ public class JoinActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Gson gson = new Gson();
-                String result = "";
+                String[] result = new String[1];
                 RestAPITask task = new RestAPITask("join");
                 User user = new User();
 
@@ -58,8 +58,7 @@ public class JoinActivity extends AppCompatActivity {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-
-                Log.d("test",result);
+                Log.d("test",result[0]);
             }
         });
 
