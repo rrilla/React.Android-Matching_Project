@@ -8,6 +8,7 @@ import Team_create from './pages/team/Team_create';
 import Logout from './pages/user/Logout';
 import LoginModal from './pages/user/LoginModal';
 import Team_detail from './pages/team/Team_detail';
+import MyTeam from './pages/team/MyTeam';
 
 const App = () => {
   // 토큰이 있다(1) or 없다(0) => 있다=로그인o, 없다=로그인x
@@ -35,6 +36,9 @@ const App = () => {
       <Route path="/Team_create" exact={true} component={Team_create}></Route>
       <Route path="/Logout" exact={true} component={Logout}><Logout setToken={setToken}></Logout></Route>
       <Route path="/Team_detail/:id" exact={true} component={Team_detail}></Route>
+       <Route path="/MyTeam" exact={true} component={MyTeam}></Route>
+       {/* path에 적은 주소로 요청이 들어오면 component를 return해준다 */}
+       {/* link to - /MyTeam -> component={MyTeam} */}
     </div>
   );
 };

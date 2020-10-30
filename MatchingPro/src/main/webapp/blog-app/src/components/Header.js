@@ -65,7 +65,7 @@ const Header = (props) => {
           <NavDropdown title="마이페이지" id="basic-nav-dropdown">
             <NavDropdown.Item href="#action/3.1">내 프로필</NavDropdown.Item>
             <NavDropdown.Item href="#action/3.2">경기일정</NavDropdown.Item>
-            <NavDropdown.Item href="#action/3.3">ㅁㄴ</NavDropdown.Item>
+            <NavDropdown.Item ><Nav.Link><Link to="/MyTeam"><LinkStyle>우리팀 보기</LinkStyle></Link></Nav.Link></NavDropdown.Item>
             <NavDropdown.Divider />
             <NavDropdown.Item href="#action/3.4">주변 경기 보기</NavDropdown.Item>
             {/* <NavDropdown.Item><Link to="/Logout">Logout</Link></NavDropdown.Item> */}

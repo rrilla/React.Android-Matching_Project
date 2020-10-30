@@ -16,6 +16,7 @@ const TeamCard = (props) => {
 	console.log("id: "+id);
 	const url = "/Team_detail/"+id;
 	return (
+		<div>
 		<Card style={{ width: '18rem' }}>
 			<Card.Img variant="top" src="1slideepic.png" />
 			<Card.Body>
@@ -35,6 +36,8 @@ const TeamCard = (props) => {
 				{/* <Card.Link href="#">일정보기</Card.Link> */}
 			</Card.Body>
 		</Card>
+		<br/>
+		</div>
 	);
 };
 

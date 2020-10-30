@@ -5,11 +5,25 @@ import { Container, Row, Col, Carousel, Jumbotron, Button, Breadcrumb, Card, Lis
 import { Link } from 'react-router-dom';
 import TeamCard from '../components/TeamCard';
 
+
+
 const MainForm = () => {
   const MainCardStyle = styled.div`
 		width: 100%;
 		margin: auto;
   `;
+
+  const Background_videoStlye = styled.video`
+
+width: Dimension.get('window').width,
+  height: Dimensions.get('window').height
+float: left;
+top: 0;
+padding: none;
+position: fixed; /* optional depending on what you want to do in your app */`
+
+
+;
 
   const LinkStyle = styled.span`
     color : black;
@@ -36,16 +50,30 @@ const MainForm = () => {
 
 
   return (
+  
     <Container>
+      {/* <Row>
+      <video className='videoTag' autoPlay loop muted>
+    <source src={soccerstadium.mp4} type='video/mp4' />
+</video>
+</Row> */}
+<div>
+      <Background_videoStlye id="background-video" loop autoPlay>
 
-      <Row>
+        <source src="soccerstadium.mp4" type="video/ogg" />
+        Your browser does not support the video tag.
+        
+      </Background_videoStlye>
+
+      </div>
+      
+<Row>
         <Breadcrumb>
           <Breadcrumb.Item href="#">Home</Breadcrumb.Item>
           <Breadcrumb.Item href="#">Home</Breadcrumb.Item>
           <Breadcrumb.Item href="#">Home</Breadcrumb.Item>
         </Breadcrumb>
       </Row>
-
       <Row>
         <Col md={11}>
           <Carousel>
@@ -106,7 +134,6 @@ const MainForm = () => {
       </Row>
 
       <Row>
-        asd
         {teams.map((res) => (<Col md={4}><TeamCard team={res} key={res.id}></TeamCard></Col>))}
       </Row>
     </Container>
