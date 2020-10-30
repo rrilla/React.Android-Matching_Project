@@ -15,8 +15,8 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class RestAPITask extends AsyncTask<String, Object, String[]> {
-    //final static String ip ="172.30.1.42"; // IP - 집
-    final static String ip ="10.100.102.15"; // IP - 학원
+    final static String ip ="172.30.1.42"; // IP - 집
+    //final static String ip ="10.100.102.15"; // IP - 학원
     //final static String ip ="localhost"; // IP - 학원
     private String serverUrl = "http://"+ip+":8000/"; // 연결할 서버주소
     private String reqUrl = "";
@@ -43,6 +43,11 @@ public class RestAPITask extends AsyncTask<String, Object, String[]> {
         }else if(reqUrl.equals("join")){
             serverUrl += reqUrl;
             method = "POST";
+            reqData = json[0];
+        }else if(reqUrl.equals("user/appmain")){
+            Log.d("test","여까지옴");
+            serverUrl += reqUrl;
+            method = "GET";
             reqData = json[0];
         }
 
@@ -77,6 +82,8 @@ public class RestAPITask extends AsyncTask<String, Object, String[]> {
                         }
                         Log.d("test-받은header 토큰값", authorization);
                     }
+                    Log.d("test-request body data", reqData);
+                    Log.d("test-response body data", resData);
                     return new String[]{resData, authorization};
                 }
             } else {
@@ -99,7 +106,7 @@ public class RestAPITask extends AsyncTask<String, Object, String[]> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Log.d("test-request body data", json[0]);
+        Log.d("test-request body data", reqData);
         Log.d("test-response body data", resData);
 
         return new String[]{resData};

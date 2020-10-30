@@ -9,9 +9,13 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -21,11 +25,14 @@ import com.project.matchingapp3.adapter.ViewPagerAdapter;
 import com.project.matchingapp3.fragment.Fragment1;
 import com.project.matchingapp3.fragment.Fragment2;
 import com.project.matchingapp3.fragment.Fragment3;
+import com.project.matchingapp3.task.RestAPITask;
+
+import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    ViewPager pager;
     BottomNavigationView bottomNavigationView;
+    ViewPager pager;
     Toolbar toolbar;
     DrawerLayout drawer;
 
@@ -33,6 +40,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent intent = getIntent();
+        String jwtToken = intent.getStringExtra("jwtToken");
+
+        String[] result = new String[1];
+        RestAPITask task = new RestAPITask("user/appmain", jwtToken);
+
+        try {
+            result = task.execute("d").get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+            Toast.makeText(MainActivity.this, "서버통신오류", Toast.LENGTH_SHORT).show();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Log.d("test-데이터받음",result[0]);
 
         //툴바
         toolbar = findViewById(R.id.toolbar);
@@ -46,8 +69,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+
+        //네비게이션 뷰
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        //네비뷰의 로그아웃 버튼
+        View header = navigationView.getHeaderView(0);
+        Button btnLogout = header.findViewById(R.id.nav_btn_logout);
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences pref = getSharedPreferences("autoLogin", MODE_PRIVATE);
+                SharedPreferences.Editor editor = pref.edit();
+                editor.remove("id");
+                editor.remove("pw");
+                editor.commit();
+
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
         //뷰 페이저
@@ -114,6 +156,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_menu3) {
             Toast.makeText(this, "네비-메뉴3 선택", Toast.LENGTH_LONG).show();
             //onFragmentSelected(2, null);
+        } else if (id == R.id.nav_btn_logout) {
+
         }
 
         drawer.closeDrawer(GravityCompat.START);
@@ -151,7 +195,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    //얜 뭐임??
+    //뒤로가기 때 호출 - 네비창 닫기
     @Override
     public void onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
