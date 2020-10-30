@@ -22,21 +22,32 @@ public class TeamService {
 	private final TeamRepository teamRepository;
 	private final UserRepository userRepository;
 	private final PartyRepository partyRepository;
-	// 팀 생성
-	@Transactional
-	public ResponseEntity<?> save(Team team, User user) {
-		try {
-			team.setOwner(user);
-			teamRepository.save(team);
-			System.out.println("팀 생성 성공");
-			return new ResponseEntity<String>("ok", HttpStatus.OK);
-		} catch (Exception e) {
-			System.out.println("회원가입 실패");
-			return new ResponseEntity<String>("no",HttpStatus.EXPECTATION_FAILED);
-		}
-	}
 	
-	//팀 가입 수락 (이거를 팀장이 승인하면 이걸 실행하고)
+	// 팀 생성
+		public ResponseEntity<?> save(User user, Team team) {
+			try {
+				team.setOwner(user);
+				teamRepository.save(team);
+				// 여기서 그 쿼리 써서 팀에 teamId를 넣으면
+				//  유저의 팀에 team id가 들어가니까 
+
+				System.out.println("팀 생성 성공");
+				return new ResponseEntity<String>("ok", HttpStatus.OK);
+			} catch (Exception e) {
+				System.out.println("팀생성 실패");
+				return new ResponseEntity<String>("no",HttpStatus.OK);
+			}
+		}
+	
+	@Transactional
+	public void aaa(User user, int teamId) {
+		User realUser = userRepository.findById(user.getId()).orElseThrow(()-> new IllegalArgumentException(teamId+"는 존재하지 않습니다."));
+		realUser.setTeams(teamRepository.findById(teamId).get());
+		
+	}
+		
+	
+	//팀 가입 요청시 수락
 	@Transactional
 	public ResponseEntity<?> teamJoin(int partyid){
 	
@@ -48,7 +59,6 @@ public class TeamService {
 			return new ResponseEntity<String>("ok", HttpStatus.OK);
 	}
 	
-	// 팀 가입 수락( 이거를 유저가 승인하면 이걸 실행하게끔)
 	
 	//팀상세보기
 	public ResponseEntity<?> detail(int id){
@@ -67,14 +77,12 @@ public class TeamService {
 			return new ResponseEntity<String>("no", HttpStatus.OK);
 		}
 	}
+	
+	// 로그인한 유저의 팀 아이디값 리턴기능
+	public ResponseEntity<?> myTeam(User user){
+		
+		return new ResponseEntity<Integer>(user.getTeams().getId(),HttpStatus.OK);
+		
+	}
   
 }
-//팀 가입하자이 (이거를 팀장이 승인하면 이걸 실행하고)
-//@Transactional
-//public ResponseEntity<?> teamJoin(User user, int teamid){
-//	
-//	User userEntity =userRepository.findById(user.getId()).orElseThrow(()-> new IllegalArgumentException(teamid+"는 존재하지 않습니다."));
-//	userEntity.setTeams(teamRepository.findById(teamid).orElseThrow(()-> new IllegalArgumentException(teamid+"는 존재하지 않습니다.")));
-//	
-//	return new ResponseEntity<String>("ok", HttpStatus.OK);
-//}

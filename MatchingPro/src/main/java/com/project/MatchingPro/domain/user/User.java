@@ -26,6 +26,7 @@ import com.project.MatchingPro.domain.position.Position;
 import com.project.MatchingPro.domain.team.Team;
 
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 @Entity
@@ -49,12 +50,13 @@ public class User {
 	@CreationTimestamp // default 현재시간 자동 적용
 	private Timestamp joindate;
 
+	//@JsonIgnoreProperties({"users","partys"})
 	@JoinColumn(name = "teams_id")
 	@ManyToOne	
 	private Team teams;
 	
 	@JsonIgnoreProperties({"user","team"})
-	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)//LAZY
 	private List<Party> partys;
 	
 
