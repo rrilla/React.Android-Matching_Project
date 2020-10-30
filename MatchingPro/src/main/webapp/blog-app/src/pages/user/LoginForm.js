@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Form, Col, Button } from 'react-bootstrap';
+import { Container, Form, Col, Button, Row } from 'react-bootstrap';
+import styled from 'styled-components';
 
 
 function LoginForm(props) {
@@ -13,6 +14,8 @@ function LoginForm(props) {
     loginid: "",
     password: "",
   });
+
+
   
   // const [isToken, setIsToken] = useState(false);  
   // 토큰 있는 지 없는 지 확인용 state. 0면 없고  1면 있다 
@@ -23,6 +26,16 @@ function LoginForm(props) {
       [e.target.name]: e.target.value,
     });
   };
+
+  const Form_Style = styled.input`
+			width: 100%;
+			padding: 15px;
+			margin: auto;
+			display: inline-block;
+			border: solid black;
+			background: #f1f1f1;
+			align : center;
+		`;
 
   const loginRequest = () => {
     let person = {
@@ -81,6 +94,9 @@ function LoginForm(props) {
 
   return (
     <Container>
+      <br/>
+       <br/>
+        <br/>
       {/* <input
         type="text"
         name="loginid"
@@ -102,8 +118,11 @@ function LoginForm(props) {
       <hr />
       <button onClick={loginRequest}>login</button>
       <br /> */}
-
-      <Form.Group as={Col} controlId="formGridEmail">
+      
+ <Form.Row>
+   <Col md={2}></Col>
+      <Form.Group as={Col} md={8} controlId="formGridEmail">
+       
 						<Form.Label>아이디</Form.Label>
 						<Form.Control
 							type="text"
@@ -113,11 +132,12 @@ function LoginForm(props) {
 							value={user.loginid} />
 				
 					</Form.Group>
+</Form.Row>
+{/* 
+token:{isToken} */}
 
-
-token:{isToken}
-
-
+<Form.Row>
+  <Col md={2}></Col>
 					<Form.Group as={Col} controlId="formGridPassword">
 						<Form.Label>비밀번호</Form.Label>
 						<Form.Control
@@ -127,7 +147,12 @@ token:{isToken}
 							onChange={inputHandle}
 							value={user.password} />
 					</Form.Group>
+          </Form.Row>
+          <Form.Row>
+            <Col md={4}></Col>
           <Button variant="success" onClick={loginRequest}>로그인</Button>{' '}
+          </Form.Row>
+        
     </Container>
   );
 }
