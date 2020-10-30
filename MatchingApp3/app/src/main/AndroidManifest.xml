@@ -15,7 +15,7 @@
         <activity android:name=".activity.JoinActivity"
             android:label="회원가입"/>
         <activity android:name=".activity.LoginActivity"
-            android:label="로그인"/>/>
+            android:label="로그인"/>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
