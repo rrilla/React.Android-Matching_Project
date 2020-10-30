@@ -14,28 +14,34 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
-public class RestAPITask extends AsyncTask<String, Object, String> {
-    final static String ip ="172.30.1.42"; // IP - 집
-    //final static String ip ="192.168.0.27"; // IP - 학원
+public class RestAPITask extends AsyncTask<String, Object, String[]> {
+    //final static String ip ="172.30.1.42"; // IP - 집
+    final static String ip ="10.100.102.15"; // IP - 학원
+    //final static String ip ="localhost"; // IP - 학원
     private String serverUrl = "http://"+ip+":8000/"; // 연결할 서버주소
-    private String url = "";
+    private String reqUrl = "";
     private String method = "";
     private String contentType = "application/json; charset=utf-8";
-    private String Authorization = "";
+    private String authorization = "";
     private String reqData,resData = "";
 
     public RestAPITask(String url){
-        this.url = url;
+        this.reqUrl = url;
+    }
+
+    public RestAPITask(String reqUrl, String authorization){
+        this.reqUrl = reqUrl;
+        this.authorization = authorization;
     }
 
     @Override
-    protected String doInBackground(String... json) {
-        if(url.equals("login")){
-            serverUrl += url;
+    protected String[] doInBackground(String... json) {
+        if(reqUrl.equals("login")){
+            serverUrl += reqUrl;
             method = "POST";
             reqData = json[0];
-        }else if(url.equals("join")){
-            serverUrl += url;
+        }else if(reqUrl.equals("join")){
+            serverUrl += reqUrl;
             method = "POST";
             reqData = json[0];
         }
@@ -44,7 +50,7 @@ public class RestAPITask extends AsyncTask<String, Object, String> {
             String str = "";
             URL url = new URL(serverUrl);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestProperty("Authorization", Authorization);   //토큰
+            conn.setRequestProperty("Authorization", authorization);   //토큰
             conn.setRequestProperty("Content-Type", contentType);
             conn.setRequestMethod(method);
             OutputStreamWriter osw = new OutputStreamWriter(conn.getOutputStream(), "UTF-8");
@@ -53,7 +59,27 @@ public class RestAPITask extends AsyncTask<String, Object, String> {
             osw.close();
 
             if(conn.getResponseCode() == conn.HTTP_OK) {
+                InputStreamReader tmp = new InputStreamReader(conn.getInputStream(), "UTF-8");
+                BufferedReader reader = new BufferedReader(tmp);
+                StringBuffer buffer = new StringBuffer();
 
+                while ((str = reader.readLine()) != null) {
+                    buffer.append(str);
+                }
+                resData = buffer.toString();
+                //login요청일 때만 map에 헤더정보 넣기.
+                if(reqUrl.equals("login")){
+                    Map m = conn.getHeaderFields();
+                    if(m.containsKey("Authorization")) {
+                        Collection c =(Collection)m.get("Authorization");
+                        for(Iterator i = c.iterator(); i.hasNext(); ) {
+                            authorization = (String)i.next();
+                        }
+                        Log.d("test-받은header 토큰값", authorization);
+                    }
+                    return new String[]{resData, authorization};
+                }
+            } else {
                 InputStreamReader tmp = new InputStreamReader(conn.getInputStream(), "UTF-8");
                 BufferedReader reader = new BufferedReader(tmp);
                 StringBuffer buffer = new StringBuffer();
@@ -62,22 +88,11 @@ public class RestAPITask extends AsyncTask<String, Object, String> {
                     buffer.append(str);
                 }
 
-                //response header 토큰값 추출
-                Map m = conn.getHeaderFields();
-                if(m.containsKey("Authorization")) {
-                    Collection c =(Collection)m.get("Authorization");
-                    for(Iterator i = c.iterator(); i.hasNext(); ) {
-                        Authorization = (String)i.next();
-                    }
-                }
-                Log.d("test-받은header 토큰값", Authorization);
                 resData = buffer.toString();
-            } else {
-                StringBuffer buffer = new StringBuffer();
-                buffer.append(str);
-                Log.i("응답 코드", conn.getResponseCode()+"에러");    //응답코드받기
-                Log.i("응답 메시지", conn.getResponseMessage());    //응답메시지
-                Log.d("response body data", str);
+
+                Log.d("응답 코드", conn.getResponseCode()+"에러");    //응답코드받기
+                Log.d("응답 메시지", conn.getResponseMessage());    //응답메시지
+                Log.d("response body data", resData);
             }
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -86,11 +101,8 @@ public class RestAPITask extends AsyncTask<String, Object, String> {
         }
         Log.d("test-request body data", json[0]);
         Log.d("test-response body data", resData);
-        return resData;
+
+        return new String[]{resData};
     }
 
-    @Override
-    protected void onPostExecute(String o) {
-        super.onPostExecute(o);
-    }
 }
