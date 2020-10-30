@@ -45,6 +45,12 @@ public class UserController {	//app,web 둘다적용
 		return userService.idCheck(loginid);
 	}
 	
+	//유저 상세보기
+	@GetMapping("/userDetail/{userid}")
+	public ResponseEntity<?> detail(@PathVariable int userid){
+		return userService.detail(userid);
+	}
+	
 	//닉네임 중복체크
 
 	@GetMapping("/nicknameCheck/{nickname}")

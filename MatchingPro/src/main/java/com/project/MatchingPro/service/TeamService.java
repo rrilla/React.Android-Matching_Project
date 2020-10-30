@@ -40,10 +40,9 @@ public class TeamService {
 		}
 	
 	@Transactional
-	public void aaa(User user, int teamId) {
+	public void TeamsRegister(User user, int teamId) {
 		User realUser = userRepository.findById(user.getId()).orElseThrow(()-> new IllegalArgumentException(teamId+"는 존재하지 않습니다."));
 		realUser.setTeams(teamRepository.findById(teamId).get());
-		
 	}
 		
 	
@@ -55,7 +54,8 @@ public class TeamService {
 			
 		User userEntity = partyEntity.getUser();
 		userEntity.setTeams(partyEntity.getTeam());
-
+		//수락을 했으면 파티테이블에 있는 해당 데이터 삭제
+		partyRepository.deleteById(partyid);
 			return new ResponseEntity<String>("ok", HttpStatus.OK);
 	}
 	

@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.project.MatchingPro.domain.team.Team;
 import com.project.MatchingPro.domain.user.User;
 import com.project.MatchingPro.domain.user.UserRepository;
 
@@ -46,6 +47,13 @@ public class UserService {
 		}else {
 			return new ResponseEntity<String>("no", HttpStatus.OK);
 		}
+	}
+	
+	//유저상세보기
+	public ResponseEntity<?> detail(int id){
+		User user = userRepository.findById(id).get();
+		
+		return new ResponseEntity<User>(user ,HttpStatus.OK);
 	}
 	
 }
