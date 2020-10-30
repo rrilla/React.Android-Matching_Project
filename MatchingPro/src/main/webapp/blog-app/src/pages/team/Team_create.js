@@ -43,7 +43,7 @@ const Team_create = () => {
 		}
 
 		//빈 값 없음이 이렇게 해도 되나?
-		if (team2.name == "" || team2.explaintation == "") {
+		if (team.name == "" || team.explaintation == "") {
 			emptyFlag = false;
 
 		}
@@ -64,7 +64,7 @@ const Team_create = () => {
 
 		console.log("empty flag"+emptyFlag)
 		console.log(team2);
-		if (emptyFlag) {
+		if (emptyFlag&&teamNameCheckFlag) {
 			fetch("http://localhost:8000/user/create", {
 				method: "POST",
 				body: JSON.stringify(team2),

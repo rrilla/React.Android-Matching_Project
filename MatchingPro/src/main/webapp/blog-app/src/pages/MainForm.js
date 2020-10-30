@@ -5,6 +5,8 @@ import { Container, Row, Col, Carousel, Jumbotron, Button, Breadcrumb, Card, Lis
 import { Link } from 'react-router-dom';
 import TeamCard from '../components/TeamCard';
 
+
+
 const MainForm = () => {
   const MainCardStyle = styled.div`
 		width: 100%;
@@ -37,7 +39,17 @@ const MainForm = () => {
 
   return (
     <Container>
+      {/* <Row>
+      <video className='videoTag' autoPlay loop muted>
+    <source src={soccerstadium.mp4} type='video/mp4' />
+</video>
+</Row> */}
 
+<video id="background-video" loop autoPlay>
+    
+    <source src="soccerstadium.mp4" type="video/ogg" />
+    Your browser does not support the video tag.
+</video>
       <Row>
         <Breadcrumb>
           <Breadcrumb.Item href="#">Home</Breadcrumb.Item>
