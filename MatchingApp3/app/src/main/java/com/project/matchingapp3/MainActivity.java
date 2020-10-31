@@ -45,16 +45,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         String jwtToken = intent.getStringExtra("jwtToken");
 
         String[] result = new String[1];
-        RestAPITask task = new RestAPITask("user/appmain", jwtToken);
+        RestAPITask task = new RestAPITask(jwtToken);
 
         try {
-            result = task.execute("d").get();
+            result = task.execute("user/appmain").get();
         } catch (ExecutionException e) {
             e.printStackTrace();
             Toast.makeText(MainActivity.this, "서버통신오류", Toast.LENGTH_SHORT).show();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+      
         Log.d("test-데이터받음",result[0]);
 
         //툴바
