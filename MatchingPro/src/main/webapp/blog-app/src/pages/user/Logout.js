@@ -12,7 +12,7 @@ const Logout = (props) => {
 			}
 		}).then(res => res.text())
 			.then(res => {
-				if (res == "ok") {
+				if (res === "ok") {
 					setToken();
 					alert("로그아웃에 성공하였습니다");
 				} else {

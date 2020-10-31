@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, Container } from 'react-bootstrap';
 
 const MyTeam = () => {
 	const joinTeamReq = () => {
@@ -47,7 +47,7 @@ const MyTeam = () => {
 
 
 	return (
-		<div>
+		<Container>
 			팀 이름 : {name}
 			<br />
 			팀 이름 : {id}
@@ -66,7 +66,7 @@ const MyTeam = () => {
 				<div>이 팀에 들어온 파티 번호 : {res.id}</div>
 			))}
 
-		</div>
+		</Container>
 	);
 };
 // 일단 우리팀의 id를 찾는다
