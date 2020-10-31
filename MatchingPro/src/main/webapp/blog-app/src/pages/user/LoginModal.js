@@ -40,7 +40,7 @@ const setToken = props.setToken;
       for (let header of res.headers.entries()) {
 
 
-        if (header[0] == "authorization")
+        if (header[0] === "authorization")
 
                 
         

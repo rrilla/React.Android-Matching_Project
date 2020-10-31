@@ -45,7 +45,7 @@ function LoginForm() {
     }).then(res => {
       //console.log("첫 번째 then의 res", res);
       for (let header of res.headers.entries()) {
-        if (header[0] == "authorization") {
+        if (header[0] === "authorization") {
           let data = header[1];
           data = data.substring(7);
           console.log(data);

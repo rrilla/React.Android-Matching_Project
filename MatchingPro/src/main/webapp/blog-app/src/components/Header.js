@@ -1,107 +1,74 @@
-import React, {  } from "react";
+import React, { } from "react";
 import { Link } from "react-router-dom";
-import { Form, Button, Navbar, Nav, NavDropdown, FormControl } from 'react-bootstrap';
+import { Form, Button, Navbar, Nav, NavDropdown, FormControl, Row } from 'react-bootstrap';
 import styled from "styled-components";
+
+const LinkStyle = styled.span`
+    color : black;
+`;
 
 const Header = (props) => {
 
-  const isToken = props.data;
-  const setIsToken = props.data2;
-  //const [isToken, setIsToken] = useState(0);  
 
-/*   const setToken = () =>{
-    if(isToken) setIsToken(0);
-    else setIsToken(1);
-  }  */
+const HeaderPosition = styled.div`
+ min-weight: 100%
+ min-height: 100%
+ left:0;
+ right:0;
+ top:0;
+  float: left;
+  
+  padding: none;
+  position: fixed; /* optional depending on what you want to do in your app */
+  z-index: 1;
 
-  const tokenCheck = () => {
+`;
 
-    //let isToken = false;
+  const isToken = props.isToken;
+  //const setIsToken = props.setIsToken;
 
-    console.log(localStorage.getItem("Authorization"));
-    //alert("as");
-    //return true;  // 토큰 있으면
+  /*const tokenCheck = () => {
+    console.log("header:: display Authorization", localStorage.getItem("Authorization"));
+    if(localStorage.getItem("Authorization") != null) return true;
+    else return false;
+  }*/
 
-  } 
-
-  // const Narae = <div></div>;
-
-  // if(isToken) {
-  //   Narae = <Nav.Link><Link to="/Login/1"><LinkStyle>로그인</LinkStyle></Link></Nav.Link>;
-  // }
-
-  //---------이게 하윤이가 해놓은 거였음--------
-  // const narae = (flag) =>{
-  //   if(flag) return          <Nav.Link><Link to="/Logout"><LinkStyle>Logout</LinkStyle></Link></Nav.Link>;
-  //   else return <Nav.Link><Link to="/Login/1"><LinkStyle>로그인</LinkStyle></Link></Nav.Link>;
-  // }
-//---------이게 하윤이가 해놓은 거였음--------
-
-  const narae = (flag) =>{
-    if(flag) return          <Nav.Link><Link to="/Logout"><LinkStyle>Logout</LinkStyle></Link></Nav.Link>;
-    else return <Nav.Link><Link to="/Login/1"><LinkStyle>로그인</LinkStyle></Link></Nav.Link>;
+  const isLogin = (flag) => {
+    if (flag) {
+      return <Row> 
+        <Nav.Link><Link to="/Logout"><LinkStyle>Logout</LinkStyle></Link></Nav.Link>
+        <NavDropdown title="MYPAGE" id="basic-nav-dropdown">
+            <NavDropdown.Item ><Nav.Link><Link to="/"><LinkStyle>MyPage(x)</LinkStyle></Link></Nav.Link></NavDropdown.Item>
+            <NavDropdown.Item ><Nav.Link><Link to="/MyTeam"><LinkStyle>MyTeam(o)</LinkStyle></Link></Nav.Link></NavDropdown.Item>
+            <NavDropdown.Divider />
+            <NavDropdown.Item ><Nav.Link><Link to="/"><LinkStyle>MyTeam(x)</LinkStyle></Link></Nav.Link></NavDropdown.Item>
+          </NavDropdown>
+        </Row>
+    }
+    else {
+      return <Row>
+        <Nav.Link><Link to="/Login"><LinkStyle>로그인</LinkStyle></Link></Nav.Link>
+        <Nav.Link><Link to="/Join"><LinkStyle>회원가입</LinkStyle></Link></Nav.Link>
+        </Row>
+    }
   }
-  const LinkStyle = styled.span`
-    color : black;
-  `;
 
   return (
+    <HeaderPosition>
     <Navbar bg="success" expand="lg">
-      token:{isToken}
-      <Navbar.Brand > <Nav.Link><Link to="/"><LinkStyle>main lofo</LinkStyle></Link></Nav.Link></Navbar.Brand>
+      <Navbar.Brand ><Nav.Link><Link to="/"><LinkStyle>main lofo</LinkStyle></Link></Nav.Link></Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
-          {tokenCheck()}
-
-            {/* isToken 0이면 로그인x -> 그러면 로그인이랑 회원가입 버튼을 보여준다 */}
-            
-           {/* <Nav.Link><Link to="/Login/1"><LinkStyle>로그인</LinkStyle></Link></Nav.Link>
-           <Nav.Link><Link to="/Join"><LinkStyle>회원가입</LinkStyle></Link></Nav.Link> */}
-
-              {narae(isToken)}
-
-            {/* isToken 1이면 로그인o -> 마이페이지, 로그아웃을 보여준다 */}
-          <NavDropdown title="마이페이지" id="basic-nav-dropdown">
-            <NavDropdown.Item href="#action/3.1">내 프로필</NavDropdown.Item>
-            <NavDropdown.Item href="#action/3.2">경기일정</NavDropdown.Item>
-            <NavDropdown.Item ><Nav.Link><Link to="/MyTeam"><LinkStyle>우리팀 보기</LinkStyle></Link></Nav.Link></NavDropdown.Item>
-            <NavDropdown.Divider />
-            <NavDropdown.Item href="#action/3.4">주변 경기 보기</NavDropdown.Item>
-            {/* <NavDropdown.Item><Link to="/Logout">Logout</Link></NavDropdown.Item> */}
-          </NavDropdown>
+          {isLogin(isToken)}
         </Nav>
         <Form inline>
           <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-          <Button variant="outline-success">Search</Button>
+          <Button variant="outline-success"><LinkStyle>Search</LinkStyle></Button>
         </Form>
       </Navbar.Collapse>
     </Navbar>
-    // <nav class="navbar navbar-expand-md bg-success navbar-dark">
-    //   {/* <!-- Brand --> */}
-    //   <a class="navbar-brand" href="#">Navbar</a>
-
-    //   {/* <!-- Toggler/collapsibe Button --> */}
-    //   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-    //     <span class="navbar-toggler-icon"></span>
-    //   </button>
-
-    //   {/* <!-- Navbar links --> */}
-    //   <div class="collapse navbar-collapse" id="collapsibleNavbar">
-    //     <ul class="navbar-nav">
-    //       <li class="nav-item">
-    //         <Link to="/Login">Login</Link>      </li>
-    //          <li class="nav-item">
-    //         <Link to="/Logout">Logout</Link>      </li>
-    //       <li class="nav-item">
-    //         <Link to="/Join">Join</Link>
-    //       </li>
-    //       <li class="nav-item">
-    //         <Link to="/Team_create">create team</Link>
-    //       </li>
-    //     </ul>
-    //   </div>
-    // </nav>
+    </HeaderPosition>
   )
 };
 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Button } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
+import Party from '../../components/Party';
 
 const MyTeam = () => {
 	const joinTeamReq = () => {
@@ -8,8 +9,9 @@ const MyTeam = () => {
 
 	const [team, setTeam] = useState([]);
 	const { id, explaintation, name } = team;
+	const [owner, setOwner] = useState([]);
 	const [partys, setPartys] = useState([]);
-	const [user, setUser] = useState([]);
+	const [users, setUsers] = useState([]);
 
 	useEffect(() => {
 		// 해당 페이지에 진입했을 때 한 번만 실행
@@ -39,34 +41,39 @@ const MyTeam = () => {
 						console.log(res.owner.id);
 
 						//console.log(res.party[0].id);
-						setUser(res.owner);
+						setOwner(res.owner);
 						setPartys(res.partys);
+						console.log("users=====", res.users);
+						setUsers(res.users)
 					}); // state 변수에 넣어준다
 			}); // state 변수에 넣어준다
 	}, []);
 
 
 	return (
-		<div>
+		<Container>
+			<h3>팀 정보</h3>
 			팀 이름 : {name}
 			<br />
-			팀 이름 : {id}
+			팀 번호 : {id}
 			<br />
-			팀 이름 : {explaintation}
+			팀 설명 : {explaintation}
+			<hr />
+			<h3>팀장 정보</h3>
+			팀장번호: {owner.id}
 			<br />
-
-			<br /><br />
-			팀장번호: {user.id}
-			<br />
-			팀장닉네임: {user.nickname}
-			<br />
-			<Button onClick={joinTeamReq} variant="outline-success">가입신청</Button>
-			<br />
-			{partys.map((res) => (
-				<div>이 팀에 들어온 파티 번호 : {res.id}</div>
+			팀장닉네임: {owner.nickname}
+			<hr />
+			<h3>팀원 정보</h3>
+			{users.map((res) => (//이 팀에 들어온 파티 번호 : {res.id}
+				<div>#{res.nickname}</div>
 			))}
-
-		</div>
+			<hr />
+			<h3>팀 가입 요청</h3>
+			{partys.map((res) => (//이 팀에 들어온 파티 번호 : {res.id}
+				<div><Party id={res.id}></Party></div>
+			))}
+		</Container>
 	);
 };
 // 일단 우리팀의 id를 찾는다
