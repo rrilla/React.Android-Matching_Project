@@ -55,6 +55,10 @@ public class PartyService {
 			System.out.println("durldha2");
 			return new ResponseEntity<String>("no",HttpStatus.EXPECTATION_FAILED);
 		}
+	}
 	
+	public ResponseEntity<?> partyInfo(int partyid){
+		Party partyEntity = partyRepository.findById(partyid).orElseThrow(()-> new IllegalArgumentException(partyid+"는 존재하지 않습니다."));
+		return new ResponseEntity<Party>(partyEntity,HttpStatus.OK);
 	}
 }

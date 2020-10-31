@@ -46,4 +46,10 @@ public class PartyController {
 	public List<Party> party(){
 		return partyRepository.findAll();
 	}
+	
+	//파티정보
+	@GetMapping("/user/partyInfo/{partyid}")
+	public ResponseEntity<?> partyInfo(@PathVariable int partyid){
+		return partyService.partyInfo(partyid);
+	}
 }
