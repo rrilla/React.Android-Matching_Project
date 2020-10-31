@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
@@ -16,15 +17,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.tabs.TabLayout;
+import com.google.gson.Gson;
 import com.project.matchingapp3.activity.LoginActivity;
+import com.project.matchingapp3.activity.MyPageActivity;
 import com.project.matchingapp3.adapter.ViewPagerAdapter;
 import com.project.matchingapp3.fragment.Fragment1;
 import com.project.matchingapp3.fragment.Fragment2;
 import com.project.matchingapp3.fragment.Fragment3;
+import com.project.matchingapp3.model.dto.MainDataDto;
 import com.project.matchingapp3.task.RestAPITask;
 
 import java.util.concurrent.ExecutionException;
@@ -35,6 +41,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ViewPager pager;
     Toolbar toolbar;
     DrawerLayout drawer;
+    MainDataDto mainDataDto;
+    String jwtToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,21 +50,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
         Intent intent = getIntent();
-        String jwtToken = intent.getStringExtra("jwtToken");
+        jwtToken = intent.getStringExtra("jwtToken");
 
         String[] result = new String[1];
         RestAPITask task = new RestAPITask(jwtToken);
 
         try {
-            result = task.execute("user/appmain").get();
+            result = task.execute("user/mainData").get();
         } catch (ExecutionException e) {
             e.printStackTrace();
-            Toast.makeText(MainActivity.this, "서버통신오류", Toast.LENGTH_SHORT).show();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-      
+
         Log.d("test-데이터받음",result[0]);
+        Gson gson = new Gson();
+        mainDataDto = gson.fromJson(result[0],MainDataDto.class);
+        Log.d("test",mainDataDto.getNickname());
+        Log.d("test",mainDataDto.getPhone());
+
 
         //툴바
         toolbar = findViewById(R.id.toolbar);
@@ -74,10 +86,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //네비게이션 뷰
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
         //네비뷰의 로그아웃 버튼
         View header = navigationView.getHeaderView(0);
-        Button btnLogout = header.findViewById(R.id.nav_btn_logout);
+        Button btnLogout = header.findViewById(R.id.navHeader_btn_logout);
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,6 +102,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intent);
             }
         });
+        //네비뷰 헤더의 사용자 정보
+        //이미지
+//        ImageView navImage = header.findViewById(R.id.navHeader_iv_image);
+//        navImage.setImageURI(URI.);
+        //텍스트
+        TextView navName = header.findViewById(R.id.navHeader_tv_username);
+        TextView navtName = header.findViewById(R.id.navHeader_tv_tName);
+        navName.setText(mainDataDto.getUsername()+"("+mainDataDto.getNickname()+")");
+        navtName.setText(mainDataDto.getT_name());
 
 
         //뷰 페이저
@@ -99,16 +119,48 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        Fragment1 fragment1 = new Fragment1();
+        final Fragment1 fragment1 = new Fragment1();
         adapter.addItem(fragment1);
 
-        Fragment2 fragment2 = new Fragment2();
+        final Fragment2 fragment2 = new Fragment2();
         adapter.addItem(fragment2);
 
-        Fragment3 fragment3 = new Fragment3();
+        final Fragment3 fragment3 = new Fragment3();
         adapter.addItem(fragment3);
 
         pager.setAdapter(adapter);
+
+
+        //상단 탭 네비
+        TabLayout tabs = findViewById(R.id.tab_layout);
+        tabs.addTab(tabs.newTab().setText("내 경기"));
+        tabs.addTab(tabs.newTab().setText("내 점수"));
+        tabs.addTab(tabs.newTab().setText("내 팀"));
+        tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int position = tab.getPosition();
+                String text = "";
+                String title = "";
+                if(position == 0){
+                    text = "상단탭 1 선택";
+                    title = "내 경기";
+                }else if(position == 1){
+                    text = "상단탭 2 선택";
+                    title = "내 점수";
+                }else if(position == 2){
+                    text = "상단탭 3 선택";
+                    title = "내 팀";
+                }
+                Toast.makeText(getApplicationContext(), text,Toast.LENGTH_SHORT).show();
+                pager.setCurrentItem(position,true);   // true = 페이지 전환시 스무스
+                toolbar.setTitle(title);
+            }
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {}
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {}
+        });
 
 
         //하단 탭 네비
@@ -118,21 +170,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.tab1:
-                        Toast.makeText(getApplicationContext(), "하단-탭1 선택",Toast.LENGTH_SHORT).show();
-                        pager.setCurrentItem(0,true);   // true = 페이지 전환시 스무스
-                        toolbar.setTitle("탭 1");
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        intent.putExtra("jwtToken", jwtToken);
+                        startActivity(intent);
                         return true;
-
                     case R.id.tab2:
-                        Toast.makeText(getApplicationContext(), "하단-탭2 선택",Toast.LENGTH_SHORT).show();
-                        pager.setCurrentItem(1,true);
-                        toolbar.setTitle("탭 2");
+                        //팀 액티비티
                         return true;
-
                     case R.id.tab3:
-                        Toast.makeText(getApplicationContext(), "하단-탭3 선택",Toast.LENGTH_SHORT).show();
-                        pager.setCurrentItem(2,true);
-                        toolbar.setTitle("탭 3");
+                        //선수 액티비티
                         return true;
                 }
                 return false;
@@ -143,29 +189,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //네비게이션 메뉴의 아이템 선택시 - 인텐트 액티비티 이동, 페이지 이동 구현
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
         int id = item.getItemId();
 
         if (id == R.id.nav_menu1) {
-            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            intent.putExtra("jwtToken", jwtToken);
             startActivity(intent);
-            Toast.makeText(this, "네비-메뉴1 선택", Toast.LENGTH_LONG).show();
-            //onFragmentSelected(0, null);
         } else if (id == R.id.nav_menu2) {
             Toast.makeText(this, "네비-메뉴2 선택", Toast.LENGTH_LONG).show();
-            //onFragmentSelected(1, null);
         } else if (id == R.id.nav_menu3) {
             Toast.makeText(this, "네비-메뉴3 선택", Toast.LENGTH_LONG).show();
-            //onFragmentSelected(2, null);
-        } else if (id == R.id.nav_btn_logout) {
-
         }
-
         drawer.closeDrawer(GravityCompat.START);
-
         return true;
-
-        //return false;
     }
 
     //앱바 메뉴의 아이템 선택시 -
@@ -173,14 +209,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int curId = item.getItemId();
         switch (curId) {
-            case R.id.appbar_menu1:
-                Toast.makeText(this, "앱바-메뉴1 선택", Toast.LENGTH_SHORT).show();
+            case R.id.appbar_search:
+                Toast.makeText(this, "앱바-메뉴1 검색 선택", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.appbar_menu2:
-                Toast.makeText(this, "앱바-메뉴2 선택", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.appbar_menu3:
-                Toast.makeText(this, "앱바-메뉴3 선택", Toast.LENGTH_SHORT).show();
+            case R.id.appbar_info:
+                Intent intent = new Intent(getApplicationContext(), MyPageActivity.class);
+                intent.putExtra("jwtToken", jwtToken);
+                intent.putExtra("mainDataDto", mainDataDto);
+                startActivity(intent);
                 break;
             default:
                 break;
@@ -192,7 +228,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.appbar_menu, menu);
-
+        toolbar.setTitle("홈");
         return true;
     }
 

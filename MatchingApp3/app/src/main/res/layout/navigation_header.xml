@@ -13,13 +13,14 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/navHeader_iv_image"
         android:layout_width="108dp"
         android:layout_height="108dp"
         android:contentDescription="@string/nav_header_desc"
         app:srcCompat="@drawable/user" />
 
     <TextView
+        android:id="@+id/navHeader_tv_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
@@ -30,7 +31,7 @@
         />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/navHeader_tv_tName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/nav_header_subtitle"
@@ -38,7 +39,7 @@
         />
 
     <Button
-        android:id="@+id/nav_btn_logout"
+        android:id="@+id/navHeader_btn_logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="로그아웃"

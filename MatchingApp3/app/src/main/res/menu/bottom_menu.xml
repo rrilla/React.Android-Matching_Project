@@ -6,21 +6,21 @@
         android:id="@+id/tab1"
         app:showAsAction="ifRoom"
         android:enabled="true"
-        android:icon="@android:drawable/ic_dialog_info"
-        android:title="탭1" />
+        android:icon="@drawable/icon_home2"
+        android:title="홈" />
 
     <item
         android:id="@+id/tab2"
         app:showAsAction="ifRoom"
         android:enabled="true"
-        android:icon="@android:drawable/ic_dialog_alert"
-        android:title="탭2" />
+        android:icon="@drawable/icon_team"
+        android:title="팀" />
 
     <item
         android:id="@+id/tab3"
         app:showAsAction="ifRoom"
         android:enabled="true"
-        android:icon="@android:drawable/btn_dialog"
-        android:title="탭3" />
+        android:icon="@drawable/icon_member2"
+        android:title="선수" />
 
 </menu>

@@ -6,9 +6,9 @@
     <string name="nav_header_subtitle">바르셀로나</string>
     <string name="nav_header_desc">Navigation header</string>
 
-    <string name="nav_menu_1">네비 메뉴1</string>
-    <string name="nav_menu_2">네비 메뉴2</string>
-    <string name="nav_menu_3">네비 메뉴3</string>
+    <string name="nav_menu_1">홈</string>
+    <string name="nav_menu_2">팀</string>
+    <string name="nav_menu_3">선수</string>
 
     <string name="appbar_menu_1">앱바 메뉴1</string>
     <string name="appbar_menu_2">앱바 메뉴2</string>
