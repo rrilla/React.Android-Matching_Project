@@ -20,6 +20,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.project.MatchingPro.domain.maching.Battle;
 import com.project.MatchingPro.domain.party.Party;
 
 import com.project.MatchingPro.domain.position.Position;
@@ -55,10 +56,20 @@ public class User {
 	@ManyToOne	
 	private Team teams;
 	
+	//party에 fk키 있음
 	@JsonIgnoreProperties({"user","team"})
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)//LAZY
 	private List<Party> partys;
 	
+	//Fk키            //ref : user테이블
+	@JoinColumn(name = "users_team1")
+	@ManyToOne	
+	private Battle users_team1;
+	
+	//Fk키            //ref : user테이블
+	@JoinColumn(name = "users_team2")
+	@ManyToOne	
+	private Battle users_team2;
 
 	
 	public String getDate() {

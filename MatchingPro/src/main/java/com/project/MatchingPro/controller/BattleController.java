@@ -1,5 +1,7 @@
 package com.project.MatchingPro.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.http.ResponseEntity;
@@ -23,11 +25,11 @@ public class BattleController {
 	private final BattleService battleService;
 	private final HttpSession session;
 	
-	@PostMapping("/user/battle/{teamid}")
-	public ResponseEntity<?> Register(@RequestBody Battle battle,@PathVariable int teamid){
+	@PostMapping("/user/battle/{userid}") //teamid
+	public ResponseEntity<?> Register(@RequestBody Battle battle,@PathVariable int userid){
 		User user = (User) session.getAttribute("principal");
 		
-		return battleService.register(battle,user.getTeams(), teamid);
+		return battleService.register(battle,user.getTeams(), userid);
 	}
 	
 }
