@@ -47,10 +47,10 @@ public class LoginActivity extends AppCompatActivity {
             String[] result = new String[2];
             user.setLoginid(id);
             user.setPassword(pw);
-            RestAPITask task = new RestAPITask("login");
+            RestAPITask task = new RestAPITask();
 
             try {
-                result = task.execute(gson.toJson(user)).get();
+                result = task.execute("login",gson.toJson(user)).get();
             } catch (ExecutionException e) {
                 e.printStackTrace();
                 Toast.makeText(LoginActivity.this, "서버통신오류", Toast.LENGTH_SHORT).show();
@@ -86,10 +86,10 @@ public class LoginActivity extends AppCompatActivity {
                 String[] result = new String[2];
                 user.setLoginid(etId.getText().toString());
                 user.setPassword(etPw.getText().toString());
-                RestAPITask task = new RestAPITask("login");
+                RestAPITask task = new RestAPITask();
 
                 try {
-                    result = task.execute(gson.toJson(user)).get();
+                    result = task.execute("login", gson.toJson(user)).get();
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                     Toast.makeText(LoginActivity.this, "서버통신오류", Toast.LENGTH_SHORT).show();

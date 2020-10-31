@@ -23,38 +23,38 @@ public class RestAPITask extends AsyncTask<String, Object, String[]> {
     private String method = "";
     private String contentType = "application/json; charset=utf-8";
     private String authorization = "";
-    private String reqData,resData = "";
+    private String reqData = "noData";
+    private String resData = "";
 
-    public RestAPITask(String url){
-        this.reqUrl = url;
-    }
+    public RestAPITask(){}
 
-    public RestAPITask(String reqUrl, String authorization){
-        this.reqUrl = reqUrl;
+    public RestAPITask(String authorization){
         this.authorization = authorization;
     }
 
     @Override
     protected String[] doInBackground(String... json) {
-        if(reqUrl.equals("login")){
+        if(json[0].equals("login")){
+            reqUrl = json[0];
             serverUrl += reqUrl;
             method = "POST";
-            reqData = json[0];
-        }else if(reqUrl.equals("join")){
+            reqData = json[1];
+        }else if(json[0].equals("join")){
+            reqUrl = json[0];
             serverUrl += reqUrl;
             method = "POST";
-            reqData = json[0];
-        }else if(reqUrl.equals("user/appmain")){
-            Log.d("test","여까지옴");
+            reqData = json[1];
+        }else if(json[0].equals("user/appmain")){
+            reqUrl = json[0];
             serverUrl += reqUrl;
-            method = "GET";
-            reqData = json[0];
+            method = "POST";
         }
 
         try {
             String str = "";
             URL url = new URL(serverUrl);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            Log.d("test","토큰대가리심음 : "+authorization);
             conn.setRequestProperty("Authorization", authorization);   //토큰
             conn.setRequestProperty("Content-Type", contentType);
             conn.setRequestMethod(method);
@@ -99,11 +99,13 @@ public class RestAPITask extends AsyncTask<String, Object, String[]> {
 
                 Log.d("응답 코드", conn.getResponseCode()+"에러");    //응답코드받기
                 Log.d("응답 메시지", conn.getResponseMessage());    //응답메시지
-                Log.d("response body data", resData);
+                Log.d("test", "응답코드가 ok가 아님");
             }
         } catch (MalformedURLException e) {
+            Log.d("test","MalformedURLException");
             e.printStackTrace();
         } catch (IOException e) {
+            Log.d("test","IOException");
             e.printStackTrace();
         }
         Log.d("test-request body data", reqData);
