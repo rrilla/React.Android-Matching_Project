@@ -38,6 +38,7 @@ public class AppService {
 					t_image(user.getTeams().getImage()).
 					t_explaintation(user.getTeams().getExplaintation()).build();
 		}
-		
+    
 	}
+  
 }
