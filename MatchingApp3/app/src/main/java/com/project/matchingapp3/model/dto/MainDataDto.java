@@ -1,6 +1,8 @@
 package com.project.matchingapp3.model.dto;
 
-public class MainDataDto {
+import java.io.Serializable;
+
+public class MainDataDto implements Serializable {
     private String username;
     private String nickname;
     private String phone;
