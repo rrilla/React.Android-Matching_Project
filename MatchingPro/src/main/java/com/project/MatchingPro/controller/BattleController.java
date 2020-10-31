@@ -25,11 +25,11 @@ public class BattleController {
 	private final BattleService battleService;
 	private final HttpSession session;
 	
-	@PostMapping("/user/battle/{userid}") //teamid
-	public ResponseEntity<?> Register(@RequestBody Battle battle,@PathVariable int userid){
+	@PostMapping("/battle/{infoid}") //teamid
+	public ResponseEntity<?> Register(@PathVariable int infoid){
 		User user = (User) session.getAttribute("principal");
 		
-		return battleService.register(battle,user.getTeams(), userid);
+		return battleService.register(infoid);
 	}
 	
 }

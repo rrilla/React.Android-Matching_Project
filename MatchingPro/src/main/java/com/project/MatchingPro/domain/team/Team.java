@@ -16,6 +16,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.deser.DataFormatReaders.Match;
 import com.project.MatchingPro.domain.maching.Battle;
 import com.project.MatchingPro.domain.party.Party;
+import com.project.MatchingPro.domain.teamInfo.TeamInfo;
 import com.project.MatchingPro.domain.user.User;
 
 import lombok.Data;
@@ -52,11 +53,13 @@ public class Team {
 	
 //	////////////////////////////////////////////////////
 	
-	@JsonIgnoreProperties({"team1"})
-	@OneToMany(mappedBy = "team1", fetch = FetchType.LAZY)//LAZY
-	private List<Battle> battle1;
-	
-	@JsonIgnoreProperties({"team2"}) 
-	@OneToMany(mappedBy = "team2", fetch = FetchType.LAZY)//LAZY
-	private List<Battle> battle2;
+//	@JsonIgnoreProperties({"team1"})
+//	@OneToMany(mappedBy = "team1", fetch = FetchType.LAZY)//LAZY
+//	private List<Battle> battle1;
+//	
+//	
+//	 @JsonIgnoreProperties({"team2"})
+//	 @OneToMany(mappedBy = "team2", fetch = FetchType.LAZY)//LAZY private
+//	  List<Battle> battle2;
+	 
 }

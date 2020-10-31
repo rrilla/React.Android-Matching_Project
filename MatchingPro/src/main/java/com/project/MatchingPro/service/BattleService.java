@@ -12,6 +12,8 @@ import com.project.MatchingPro.domain.maching.BattleRepository;
 import com.project.MatchingPro.domain.party.PartyRepository;
 import com.project.MatchingPro.domain.team.Team;
 import com.project.MatchingPro.domain.team.TeamRepository;
+import com.project.MatchingPro.domain.teamInfo.TeamInfo;
+import com.project.MatchingPro.domain.teamInfo.TeamInfoRepository;
 import com.project.MatchingPro.domain.user.User;
 import com.project.MatchingPro.domain.user.UserRepository;
 
@@ -23,16 +25,13 @@ public class BattleService {
 	private final BattleRepository battleRepository;
 	private final TeamRepository teamRepository;
 	private final UserRepository userRepositoty;
+	private final TeamInfoRepository teamInfoRepository;
 	
-	public ResponseEntity<?> register(Battle battle,Team team1, int userid){
-		battle.setTeam1(team1);
-		List<User> users = new ArrayList<User>();
-		users.add(userRepositoty.findById(userid).orElseThrow(()-> new IllegalArgumentException(userid+"는 존재하지 않습니다.")));
+	public ResponseEntity<?> register(int infoid){
 		
-		battle.setUsers_1team(users);
-		
-//		Team team2 =teamRepository.findById(teamid).orElseThrow(()-> new IllegalArgumentException(teamid+"는 존재하지 않습니다."));
-//		battle.setTeam2(team2);
+		Battle battle = new Battle();
+		TeamInfo teamInfoEntity = teamInfoRepository.findById(infoid).orElseThrow(()-> new IllegalArgumentException(infoid+"는 존재하지 않습니다."));
+		battle.setTeamInfo1(teamInfoEntity);	
 		battleRepository.save(battle);
 		return new ResponseEntity<String>("ok",HttpStatus.OK);
 	}
