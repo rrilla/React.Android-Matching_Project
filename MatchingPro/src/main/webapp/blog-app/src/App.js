@@ -11,6 +11,7 @@ import MyTeam from './pages/team/MyTeam';
 
 const App = () => {
 
+
   // 페이지가 로딩 되면 localStorage에서 token을 check해서 true or false를 return해준다
   const tokenCheck = () => {
     console.log("App.js:: display Authorization - 로그인 여부 확인을 위한 token check", localStorage.getItem("Authorization"));
@@ -30,7 +31,6 @@ const App = () => {
   return (
     <div>
       <Header isToken={isToken} setIsToken={setIsToken}></Header>
-
       {/* 아래는 Router */}
       <Route path="/" exact={true} component={MainForm}></Route>
       <Route path="/Join" exact={true} component={JoinForm}></Route>

@@ -9,6 +9,21 @@ const LinkStyle = styled.span`
 
 const Header = (props) => {
 
+
+const HeaderPosition = styled.div`
+ min-weight: 100%
+ min-height: 100%
+ left:0;
+ right:0;
+ top:0;
+  float: left;
+  
+  padding: none;
+  position: fixed; /* optional depending on what you want to do in your app */
+  z-index: 1;
+
+`;
+
   const isToken = props.isToken;
   //const setIsToken = props.setIsToken;
 
@@ -39,6 +54,7 @@ const Header = (props) => {
   }
 
   return (
+    <HeaderPosition>
     <Navbar bg="success" expand="lg">
       <Navbar.Brand ><Nav.Link><Link to="/"><LinkStyle>main lofo</LinkStyle></Link></Nav.Link></Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -52,6 +68,7 @@ const Header = (props) => {
         </Form>
       </Navbar.Collapse>
     </Navbar>
+    </HeaderPosition>
   )
 };
 

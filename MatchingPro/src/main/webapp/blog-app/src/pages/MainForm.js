@@ -11,12 +11,16 @@ const MainCardStyle = styled.div`
 `;
 
 const Background_videoStlye = styled.video`
-  width: Dimension.get('window').width,
-  height: Dimensions.get('window').height
+ min-weight: 100%
+ min-height: 100%
+ left:0;
+ right:0;
+ top:0;
   float: left;
-  top: 0;
+  
   padding: none;
   position: fixed; /* optional depending on what you want to do in your app */
+  z-index: -1;
 `;
 
 const LinkStyle = styled.span`
@@ -49,22 +53,16 @@ const MainForm = () => {
 </video>
 </Row> */}
       <div>
-        {/*       <Background_videoStlye id="background-video" loop autoPlay>
+              <Background_videoStlye id="background-video" loop autoPlay>
 
         <source src="soccerstadium.mp4" type="video/ogg" />
         Your browser does not support the video tag.
         
-      </Background_videoStlye> */}
+      </Background_videoStlye>
 
       </div>
 
-      <Row>
-        <Breadcrumb>
-          <Breadcrumb.Item href="#">Home</Breadcrumb.Item>
-          <Breadcrumb.Item href="#">Home</Breadcrumb.Item>
-          <Breadcrumb.Item href="#">Home</Breadcrumb.Item>
-        </Breadcrumb>
-      </Row>
+      
       <Row>
         <Col md={11}>
           <Carousel>
