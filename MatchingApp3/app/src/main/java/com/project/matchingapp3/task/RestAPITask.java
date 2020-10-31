@@ -44,7 +44,11 @@ public class RestAPITask extends AsyncTask<String, Object, String[]> {
             serverUrl += reqUrl;
             method = "POST";
             reqData = json[1];
-        }else if(json[0].equals("user/appmain")){
+        }else if(json[0].equals("user/mainData")){
+            reqUrl = json[0];
+            serverUrl += reqUrl;
+            method = "POST";
+        }else if(json[0].equals("user/myPage")){
             reqUrl = json[0];
             serverUrl += reqUrl;
             method = "POST";
@@ -59,7 +63,11 @@ public class RestAPITask extends AsyncTask<String, Object, String[]> {
             conn.setRequestProperty("Content-Type", contentType);
             conn.setRequestMethod(method);
             OutputStreamWriter osw = new OutputStreamWriter(conn.getOutputStream(), "UTF-8");
-            osw.write(reqData);
+
+            if(!reqData.equals("noData")){
+                osw.write(reqData);
+            }
+
             osw.flush();
             osw.close();
 

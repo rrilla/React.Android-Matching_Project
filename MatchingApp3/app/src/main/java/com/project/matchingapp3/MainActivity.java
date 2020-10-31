@@ -16,15 +16,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.gson.Gson;
 import com.project.matchingapp3.activity.LoginActivity;
+import com.project.matchingapp3.activity.MyPageActivity;
 import com.project.matchingapp3.adapter.ViewPagerAdapter;
 import com.project.matchingapp3.fragment.Fragment1;
 import com.project.matchingapp3.fragment.Fragment2;
 import com.project.matchingapp3.fragment.Fragment3;
+import com.project.matchingapp3.model.dto.MainDataDto;
 import com.project.matchingapp3.task.RestAPITask;
 
 import java.util.concurrent.ExecutionException;
@@ -35,6 +39,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ViewPager pager;
     Toolbar toolbar;
     DrawerLayout drawer;
+    MainDataDto mainDataDto;
+    String jwtToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,21 +48,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
         Intent intent = getIntent();
-        String jwtToken = intent.getStringExtra("jwtToken");
+        jwtToken = intent.getStringExtra("jwtToken");
 
         String[] result = new String[1];
         RestAPITask task = new RestAPITask(jwtToken);
 
         try {
-            result = task.execute("user/appmain").get();
+            result = task.execute("user/mainData").get();
         } catch (ExecutionException e) {
             e.printStackTrace();
-            Toast.makeText(MainActivity.this, "서버통신오류", Toast.LENGTH_SHORT).show();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
       
         Log.d("test-데이터받음",result[0]);
+        Gson gson = new Gson();
+        mainDataDto = gson.fromJson(result[0],MainDataDto.class);
+        Log.d("test",mainDataDto.getNickname());
+        Log.d("test",mainDataDto.getPhone());
+
 
         //툴바
         toolbar = findViewById(R.id.toolbar);
@@ -74,10 +84,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //네비게이션 뷰
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
         //네비뷰의 로그아웃 버튼
         View header = navigationView.getHeaderView(0);
-        Button btnLogout = header.findViewById(R.id.nav_btn_logout);
+        Button btnLogout = header.findViewById(R.id.navHeader_btn_logout);
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,6 +100,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intent);
             }
         });
+        //네비뷰 헤더의 사용자 정보
+        //이미지
+//        ImageView navImage = header.findViewById(R.id.navHeader_iv_image);
+//        navImage.setImageURI(URI.);
+        //텍스트
+        TextView navName = header.findViewById(R.id.navHeader_tv_username);
+        TextView navtName = header.findViewById(R.id.navHeader_tv_tName);
+        navName.setText(mainDataDto.getUsername()+"("+mainDataDto.getNickname()+")");
+        navtName.setText(mainDataDto.getT_name());
 
 
         //뷰 페이저
@@ -157,15 +175,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_menu3) {
             Toast.makeText(this, "네비-메뉴3 선택", Toast.LENGTH_LONG).show();
             //onFragmentSelected(2, null);
-        } else if (id == R.id.nav_btn_logout) {
-
         }
 
         drawer.closeDrawer(GravityCompat.START);
 
         return true;
-
-        //return false;
     }
 
     //앱바 메뉴의 아이템 선택시 -
@@ -173,14 +187,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int curId = item.getItemId();
         switch (curId) {
-            case R.id.appbar_menu1:
-                Toast.makeText(this, "앱바-메뉴1 선택", Toast.LENGTH_SHORT).show();
+            case R.id.appbar_search:
+                Toast.makeText(this, "앱바-메뉴1 검색 선택", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.appbar_menu2:
-                Toast.makeText(this, "앱바-메뉴2 선택", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.appbar_menu3:
-                Toast.makeText(this, "앱바-메뉴3 선택", Toast.LENGTH_SHORT).show();
+            case R.id.appbar_info:
+                Intent intent = new Intent(getApplicationContext(), MyPageActivity.class);
+                intent.putExtra("jwtToken", jwtToken);
+                startActivity(intent);
+                Toast.makeText(this, "앱바-메뉴2 정보 선택", Toast.LENGTH_SHORT).show();
                 break;
             default:
                 break;
