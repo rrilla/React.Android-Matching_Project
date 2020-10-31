@@ -61,15 +61,15 @@ public class User {
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)//LAZY
 	private List<Party> partys;
 	
-	//Fk키            //ref : user테이블
-	@JoinColumn(name = "users_team1")
-	@ManyToOne	
-	private Battle users_team1;
-	
-	//Fk키            //ref : user테이블
-	@JoinColumn(name = "users_team2")
-	@ManyToOne	
-	private Battle users_team2;
+//	//Fk키            //ref : user테이블
+//	@JoinColumn(name = "users_team1")
+//	@ManyToOne	
+//	private Battle users_team1;
+//	
+//	//Fk키            //ref : user테이블
+//	@JoinColumn(name = "users_team2")
+//	@ManyToOne	
+//	private Battle users_team2;
 
 	
 	public String getDate() {
