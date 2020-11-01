@@ -24,11 +24,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.project.matchingapp3.MainActivity;
 import com.project.matchingapp3.R;
-import com.project.matchingapp3.model.dto.MainDataDto;
+import com.project.matchingapp3.TeamActivity;
+import com.project.matchingapp3.model.dto.NavDataDto;
 import com.project.matchingapp3.task.ImageTask;
 import com.project.matchingapp3.task.RestAPITask;
 
-import java.net.URI;
 import java.util.concurrent.ExecutionException;
 
 public class MyPageActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -37,7 +37,7 @@ public class MyPageActivity extends AppCompatActivity implements NavigationView.
     DrawerLayout drawer;
     BottomNavigationView bottomNavigationView;
 
-    MainDataDto mainDataDto;
+    NavDataDto navDataDto;
     String jwtToken;
     Bitmap bitImg;
 
@@ -52,7 +52,7 @@ public class MyPageActivity extends AppCompatActivity implements NavigationView.
 
         Intent intent = getIntent();
         jwtToken = intent.getStringExtra("jwtToken");
-        mainDataDto = (MainDataDto)intent.getSerializableExtra("mainDataDto");
+        navDataDto = (NavDataDto)intent.getSerializableExtra("navDataDto");
 
         String[] result = new String[1];
         RestAPITask task = new RestAPITask(jwtToken);
@@ -88,7 +88,10 @@ public class MyPageActivity extends AppCompatActivity implements NavigationView.
                         startActivity(intent);
                         return true;
                     case R.id.tab2:
-                        //팀 액티비티
+                        Intent intent2 = new Intent(getApplicationContext(), TeamActivity.class);
+                        intent2.putExtra("jwtToken", jwtToken);
+                        intent2.putExtra("navDataDto", navDataDto);
+                        startActivity(intent2);
                         return true;
                     case R.id.tab3:
                         //선수 액티비티
@@ -120,11 +123,11 @@ public class MyPageActivity extends AppCompatActivity implements NavigationView.
         });
         //네비뷰 헤더의 사용자 정보
         //이미지
-        if(mainDataDto.getImage() != null) {
+        if(navDataDto.getImage() != null) {
             ImageView navImage = header.findViewById(R.id.navHeader_iv_image);
             ImageTask imgTask = new ImageTask();
             try {
-                bitImg = imgTask.execute(mainDataDto.getImage()).get();
+                bitImg = imgTask.execute(navDataDto.getImage()).get();
             } catch (ExecutionException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {
@@ -134,9 +137,11 @@ public class MyPageActivity extends AppCompatActivity implements NavigationView.
         }
         //텍스트
         TextView navName = header.findViewById(R.id.navHeader_tv_username);
-        TextView navtName = header.findViewById(R.id.navHeader_tv_tName);
-        navName.setText(mainDataDto.getUsername()+"("+mainDataDto.getNickname()+")");
-        navtName.setText(mainDataDto.getT_name());
+        TextView navTName = header.findViewById(R.id.navHeader_tv_tName);
+        navName.setText(navDataDto.getUsername()+"("+ navDataDto.getNickname()+")");
+        if(navDataDto.getT_name() != null){
+            navTName.setText(navDataDto.getT_name());
+        }
     }
 
     //앱바 메뉴의 아이템 선택시 -

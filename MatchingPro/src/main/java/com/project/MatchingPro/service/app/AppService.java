@@ -8,14 +8,11 @@ import java.util.UUID;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.project.MatchingPro.domain.team.Team;
-import com.project.MatchingPro.domain.team.TeamRepository;
 import com.project.MatchingPro.domain.user.User;
 import com.project.MatchingPro.domain.user.UserRepository;
-import com.project.MatchingPro.dto.app.MainDataDto;
+import com.project.MatchingPro.dto.app.NavDataDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,18 +22,18 @@ public class AppService {
 
 	private final UserRepository userRepository;
 	
-	public MainDataDto mainData(int userid) {
+	public NavDataDto navData(int userid) {
 		
 		User user = userRepository.findById(userid).orElseThrow(()-> new IllegalArgumentException(userid+"는 존재하지 않습니다."));
 		
 		if(user.getTeams() == null) {
-			return MainDataDto.builder().
+			return NavDataDto.builder().
 					username(user.getUsername()).
 					nickname(user.getNickname()).
 					phone(user.getPhone()).
 					image(user.getImage()).build();
 		}else {
-			return MainDataDto.builder().
+			return NavDataDto.builder().
 					username(user.getUsername()).
 					nickname(user.getNickname()).
 					phone(user.getPhone()).

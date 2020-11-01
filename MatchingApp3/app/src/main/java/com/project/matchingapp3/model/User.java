@@ -15,8 +15,16 @@ public class User {
     private String image;
     private String role; // 권한
     private Timestamp joindate;
-    //private Team teams;
+    private Team teams;
     //private List<Party> partys;
+
+    public Team getTeams() {
+        return teams;
+    }
+
+    public void setTeams(Team teams) {
+        this.teams = teams;
+    }
 
     public int getId() {
         return id;

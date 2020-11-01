@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.project.MatchingPro.domain.user.User;
 import com.project.MatchingPro.domain.user.UserRepository;
-import com.project.MatchingPro.dto.app.MainDataDto;
+import com.project.MatchingPro.dto.app.NavDataDto;
 import com.project.MatchingPro.service.app.AppService;
 
 import lombok.RequiredArgsConstructor;
@@ -28,10 +28,10 @@ public class AppController {
 	private final UserRepository userRepository;
 	private final HttpSession session;
 
-	@PostMapping("user/mainData")
-	public ResponseEntity<?> mainData(){
+	@PostMapping("user/navData")
+	public ResponseEntity<?> navData(){
 		User user = (User)session.getAttribute("principal");
-		return new ResponseEntity<MainDataDto>(appService.mainData(user.getId()),HttpStatus.OK);
+		return new ResponseEntity<NavDataDto>(appService.navData(user.getId()),HttpStatus.OK);
 	}
 	
 	@PostMapping("user/myPage")

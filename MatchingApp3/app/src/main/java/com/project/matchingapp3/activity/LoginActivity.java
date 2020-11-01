@@ -60,7 +60,9 @@ public class LoginActivity extends AppCompatActivity {
 
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             intent.putExtra("jwtToken",result[1]);
+            Toast.makeText(getApplicationContext(), "자동 로그인 되었습니다.",Toast.LENGTH_SHORT).show();
             startActivity(intent);
+
         }
 
         tvResult = findViewById(R.id.login_tv_result);

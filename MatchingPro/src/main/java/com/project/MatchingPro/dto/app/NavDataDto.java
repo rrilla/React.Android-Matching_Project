@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class MainDataDto {
+public class NavDataDto {
 	private String username;
 	private String nickname;
 	private String phone;

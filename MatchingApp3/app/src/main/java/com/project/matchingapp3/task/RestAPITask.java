@@ -43,7 +43,7 @@ public class RestAPITask extends AsyncTask<String, Object, String[]> {
             serverUrl += reqUrl;
             method = "POST";
             reqData = json[1];
-        }else if(json[0].equals("user/mainData")){
+        }else if(json[0].equals("user/navData")){
             reqUrl = json[0];
             serverUrl += reqUrl;
             method = "POST";
@@ -51,6 +51,11 @@ public class RestAPITask extends AsyncTask<String, Object, String[]> {
             reqUrl = json[0];
             serverUrl += reqUrl;
             method = "POST";
+        }else if(json[0].equals("user/create")){
+            reqUrl = json[0];
+            serverUrl += reqUrl;
+            method = "POST";
+            reqData = json[1];
         }
 
         try {
