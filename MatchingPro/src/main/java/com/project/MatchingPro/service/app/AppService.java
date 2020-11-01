@@ -1,8 +1,15 @@
 package com.project.MatchingPro.service.app;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
+import java.util.UUID;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.project.MatchingPro.domain.team.Team;
 import com.project.MatchingPro.domain.team.TeamRepository;
@@ -39,6 +46,24 @@ public class AppService {
 					t_explaintation(user.getTeams().getExplaintation()).build();
 		}
     
+	}
+
+	public String imgUpload(MultipartFile multipartFile) {
+		//String fileRoot = "C:/Users/admin/Desktop/test/";	//학원,저장될 외부 파일 경로
+		String fileRoot = "C:/Users/user/Desktop/test/";	//집,저장될 외부 파일 경로
+		String originalFileName = multipartFile.getOriginalFilename();	//오리지날 파일명
+		String extension = originalFileName.substring(originalFileName.lastIndexOf("."));	//파일 확장자
+		String savedFileName = UUID.randomUUID() + extension;	//저장될 파일 명
+		File targetFile = new File(fileRoot + savedFileName);	
+		try {
+			InputStream fileStream = multipartFile.getInputStream();
+			FileUtils.copyInputStreamToFile(fileStream, targetFile);	//파일 저장
+		} catch (IOException e) {
+			FileUtils.deleteQuietly(targetFile);	//저장된 파일 삭제
+			e.printStackTrace();
+		}
+		System.out.println(savedFileName);
+		return savedFileName;
 	}
   
 }

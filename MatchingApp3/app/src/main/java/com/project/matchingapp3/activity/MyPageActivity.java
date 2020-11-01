@@ -9,12 +9,14 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,8 +25,10 @@ import com.google.android.material.navigation.NavigationView;
 import com.project.matchingapp3.MainActivity;
 import com.project.matchingapp3.R;
 import com.project.matchingapp3.model.dto.MainDataDto;
+import com.project.matchingapp3.task.ImageTask;
 import com.project.matchingapp3.task.RestAPITask;
 
+import java.net.URI;
 import java.util.concurrent.ExecutionException;
 
 public class MyPageActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -35,6 +39,7 @@ public class MyPageActivity extends AppCompatActivity implements NavigationView.
 
     MainDataDto mainDataDto;
     String jwtToken;
+    Bitmap bitImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,8 +120,18 @@ public class MyPageActivity extends AppCompatActivity implements NavigationView.
         });
         //네비뷰 헤더의 사용자 정보
         //이미지
-//        ImageView navImage = header.findViewById(R.id.navHeader_iv_image);
-//        navImage.setImageURI(URI.);
+        if(mainDataDto.getImage() != null) {
+            ImageView navImage = header.findViewById(R.id.navHeader_iv_image);
+            ImageTask imgTask = new ImageTask();
+            try {
+                bitImg = imgTask.execute(mainDataDto.getImage()).get();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            navImage.setImageBitmap(bitImg);
+        }
         //텍스트
         TextView navName = header.findViewById(R.id.navHeader_tv_username);
         TextView navtName = header.findViewById(R.id.navHeader_tv_tName);

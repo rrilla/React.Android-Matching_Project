@@ -1,5 +1,7 @@
 package com.project.matchingapp3.model.dto;
 
+import android.graphics.Bitmap;
+
 import java.io.Serializable;
 
 public class MainDataDto implements Serializable {

@@ -11,12 +11,14 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,8 +33,10 @@ import com.project.matchingapp3.fragment.Fragment1;
 import com.project.matchingapp3.fragment.Fragment2;
 import com.project.matchingapp3.fragment.Fragment3;
 import com.project.matchingapp3.model.dto.MainDataDto;
+import com.project.matchingapp3.task.ImageTask;
 import com.project.matchingapp3.task.RestAPITask;
 
+import java.net.URI;
 import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -41,8 +45,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ViewPager pager;
     Toolbar toolbar;
     DrawerLayout drawer;
+
     MainDataDto mainDataDto;
     String jwtToken;
+    Bitmap bitImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +72,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Log.d("test-데이터받음",result[0]);
         Gson gson = new Gson();
         mainDataDto = gson.fromJson(result[0],MainDataDto.class);
-        Log.d("test",mainDataDto.getNickname());
-        Log.d("test",mainDataDto.getPhone());
 
 
         //툴바
@@ -104,13 +108,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
         //네비뷰 헤더의 사용자 정보
         //이미지
-//        ImageView navImage = header.findViewById(R.id.navHeader_iv_image);
-//        navImage.setImageURI(URI.);
+        if(mainDataDto.getImage() != null) {
+            ImageView navImage = header.findViewById(R.id.navHeader_iv_image);
+            ImageTask imgTask = new ImageTask();
+            try {
+                bitImg = imgTask.execute(mainDataDto.getImage()).get();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            navImage.setImageBitmap(bitImg);
+        }
         //텍스트
         TextView navName = header.findViewById(R.id.navHeader_tv_username);
-        TextView navtName = header.findViewById(R.id.navHeader_tv_tName);
+        TextView navTName = header.findViewById(R.id.navHeader_tv_tName);
         navName.setText(mainDataDto.getUsername()+"("+mainDataDto.getNickname()+")");
-        navtName.setText(mainDataDto.getT_name());
+        if(mainDataDto.getT_name() != null){
+            navTName.setText(mainDataDto.getT_name());
+        }
 
 
         //뷰 페이저
