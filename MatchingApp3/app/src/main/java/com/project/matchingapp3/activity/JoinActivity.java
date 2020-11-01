@@ -189,7 +189,8 @@ public class JoinActivity extends AppCompatActivity {
 
         //이미지의 이름 값
         String imgName = imgPath.substring(imgPath.lastIndexOf("/") + 1);
-        Toast.makeText(getApplicationContext(), "이미지 이름 : " + imgName, Toast.LENGTH_SHORT).show();
+        Log.d("test - 이미지 이름", imgName);
+
 
         this.imageName = imgName;
 
@@ -198,12 +199,13 @@ public class JoinActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Toast.makeText(getBaseContext(), "resultCode : " + data, Toast.LENGTH_SHORT).show();
+        Log.d("test - ", "인텐트로부터 받은 이미지 URI :" + data);
+        //Toast.makeText(getBaseContext(), "resultCode : " + data, Toast.LENGTH_SHORT).show();
         if (requestCode == REQ_CODE_SELECT_IMAGE) {
             if (resultCode == Activity.RESULT_OK) {
                 try {
                     img_path = getImagePathToUri(data.getData()); //이미지의 URI를 얻어 경로값으로 반환.
-                    Toast.makeText(getBaseContext(), "img_path : " + img_path, Toast.LENGTH_SHORT).show();
+                    Log.d("test - 이미지 경로", img_path);
                     //이미지를 비트맵형식으로 반환
                     image_bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
 

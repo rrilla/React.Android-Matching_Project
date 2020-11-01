@@ -11,8 +11,8 @@ import java.net.URL;
 
 public class ImageUpload extends AsyncTask<String, Integer, String> {
 
-    final static String ip ="172.30.1.42"; // IP - 집
-    //final static String ip ="10.100.102.15"; // IP - 학원
+    //final static String ip ="172.30.1.42"; // IP - 집
+    final static String ip ="10.100.102.15"; // IP - 학원
 
     String lineEnd = "\r\n";
     String twoHyphens = "--";
@@ -30,7 +30,6 @@ public class ImageUpload extends AsyncTask<String, Integer, String> {
             FileInputStream mFileInputStream = new FileInputStream(fileName);
             Log.d("Test-오나이까지","ㅇㅇ");
             URL connectUrl = new URL(urlString);
-            Log.d("Test", "mFileInputStream  is " + mFileInputStream);
 
             // HttpURLConnection 통신
             HttpURLConnection conn = (HttpURLConnection) connectUrl.openConnection();

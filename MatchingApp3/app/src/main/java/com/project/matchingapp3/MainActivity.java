@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     NavDataDto navDataDto;
     String jwtToken;
-    Bitmap bitImg;
+    Bitmap bitImgUser, bitImgTeam;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +71,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Log.d("test-데이터받음",result[0]);
         Gson gson = new Gson();
         navDataDto = gson.fromJson(result[0], NavDataDto.class);
-
+        if(navDataDto.getT_image() != null){
+            ImageTask imgTask = new ImageTask();
+            try {
+                bitImgTeam = imgTask.execute(navDataDto.getT_image()).get();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
 
         //툴바
         toolbar = findViewById(R.id.toolbar);
@@ -111,13 +120,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             ImageView navImage = header.findViewById(R.id.navHeader_iv_image);
             ImageTask imgTask = new ImageTask();
             try {
-                bitImg = imgTask.execute(navDataDto.getImage()).get();
+                bitImgUser = imgTask.execute(navDataDto.getImage()).get();
             } catch (ExecutionException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            navImage.setImageBitmap(bitImg);
+            navImage.setImageBitmap(bitImgUser);
         }
         //텍스트
         TextView navName = header.findViewById(R.id.navHeader_tv_username);
@@ -140,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         HomeFragment2 fragment2 = new HomeFragment2();
         adapter.addItem(fragment2);
 
-        HomeFragment3 fragment3 = new HomeFragment3(navDataDto, bitImg);
+        HomeFragment3 fragment3 = new HomeFragment3(navDataDto, bitImgTeam);
         adapter.addItem(fragment3);
 
         pager.setAdapter(adapter);
