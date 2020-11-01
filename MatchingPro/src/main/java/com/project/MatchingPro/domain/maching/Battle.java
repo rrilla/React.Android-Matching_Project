@@ -1,20 +1,14 @@
 package com.project.MatchingPro.domain.maching;
 
-import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
-import com.project.MatchingPro.domain.team.Team;
 import com.project.MatchingPro.domain.teamInfo.TeamInfo;
-import com.project.MatchingPro.domain.user.User;
 
 import lombok.Data;
 

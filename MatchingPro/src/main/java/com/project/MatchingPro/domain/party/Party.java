@@ -1,6 +1,6 @@
 package com.project.MatchingPro.domain.party;
 
-import java.sql.Timestamp;
+import java.sql.Timestamp;	
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,7 +11,6 @@ import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.project.MatchingPro.domain.team.Team;
 import com.project.MatchingPro.domain.user.User;
 

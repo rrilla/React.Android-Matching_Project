@@ -1,12 +1,10 @@
 package com.project.MatchingPro.controller;
-
-import java.util.ArrayList;		
+			
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.MatchingPro.domain.party.Party;
 import com.project.MatchingPro.domain.team.Team;
 import com.project.MatchingPro.domain.team.TeamRepository;
 import com.project.MatchingPro.domain.user.User;
@@ -43,7 +40,7 @@ public class TeamController {
 	}
 	
 
-	//팀 이름 체크
+	//팀 이름 중복체크
 	@GetMapping("/check/{teamname}")
 	public ResponseEntity<?> nameCheck(@PathVariable String teamname){
 		return teamService.nameCheck(teamname);

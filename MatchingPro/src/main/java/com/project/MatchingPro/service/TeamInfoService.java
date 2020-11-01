@@ -1,11 +1,9 @@
 package com.project.MatchingPro.service;
 
-import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatus;	
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.project.MatchingPro.domain.maching.Battle;
-import com.project.MatchingPro.domain.maching.BattleRepository;
 import com.project.MatchingPro.domain.team.TeamRepository;
 import com.project.MatchingPro.domain.teamInfo.TeamInfo;
 import com.project.MatchingPro.domain.teamInfo.TeamInfoRepository;
@@ -23,10 +21,6 @@ public class TeamInfoService {
 	
 	
 	public ResponseEntity<?> register(TeamInfo teamInfo){
-		
-		System.out.println("controller 들어옴");
-		System.out.println(teamInfo.getTeam().getId());
-
 		
 		int teamId = teamInfo.getTeam().getId();
 		int userid = teamInfo.getUser1().getId();
