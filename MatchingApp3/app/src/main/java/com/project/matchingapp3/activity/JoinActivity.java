@@ -7,7 +7,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -20,7 +19,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.project.matchingapp3.MainActivity;
 import com.project.matchingapp3.R;
 import com.project.matchingapp3.model.User;
 import com.project.matchingapp3.task.ImageUpload;
@@ -39,6 +37,8 @@ public class JoinActivity extends AppCompatActivity {
     private Bitmap image_bitmap_copy = null;
     private Bitmap image_bitmap = null;
     private String imageName = null;
+
+    private String pathUserImg = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,18 +78,30 @@ public class JoinActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 ImageUpload imgUpload = new ImageUpload();
-                imgUpload.execute("imgUpload", img_path);
-                Toast.makeText(getApplicationContext(), "이미지 전송 성공", Toast.LENGTH_SHORT).show();
-                Log.d("test-이미지업로드", "Success");
+                try {
+                    pathUserImg = imgUpload.execute("imgUpload", img_path).get();
+                    Toast.makeText(getApplicationContext(), "이미지 전송 성공", Toast.LENGTH_SHORT).show();
+                    Log.d("test-이미지업로드", "Success");
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
         btnJoin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //빈칸있는지 비밀번호같은지 아디,닉넴중복검사 등 해야함.
+                if(pathUserImg == null){
+                    Toast.makeText(getBaseContext(), "이미지를 먼저 등록해주세요.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 Gson gson = new Gson();
                 String[] result = new String[1];
-                RestAPITask task = new RestAPITask("join");
+                RestAPITask task = new RestAPITask();
                 User user = new User();
 
                 user.setLoginid(etId.getText().toString());
@@ -99,15 +111,22 @@ public class JoinActivity extends AppCompatActivity {
                 user.setPhone(etPhone.getText().toString());
                 user.setEmail(etEmail.getText().toString());
                 user.setLocation(etLocation.getText().toString());
+                user.setImage(pathUserImg);
 
                 try {
-                    result = task.execute(gson.toJson(user)).get();
+                    result = task.execute("join", gson.toJson(user)).get();
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
                 Log.d("test",result[0]);
+                if(result[0].equals("ok")){
+                    Toast.makeText(getBaseContext(), "회원가입 성공.", Toast.LENGTH_SHORT).show();
+                    finish();
+                }else{
+                    Toast.makeText(getBaseContext(), "회원가입 실패.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

@@ -25,6 +25,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.project.matchingapp3.MainActivity;
 import com.project.matchingapp3.R;
 import com.project.matchingapp3.model.dto.MainDataDto;
+import com.project.matchingapp3.task.ImageTask;
 import com.project.matchingapp3.task.RestAPITask;
 
 import java.net.URI;
@@ -118,9 +119,17 @@ public class MyPageActivity extends AppCompatActivity implements NavigationView.
             }
         });
         //네비뷰 헤더의 사용자 정보
+        //이미지
         if(mainDataDto.getImage() != null) {
-            //이미지
             ImageView navImage = header.findViewById(R.id.navHeader_iv_image);
+            ImageTask imgTask = new ImageTask();
+            try {
+                bitImg = imgTask.execute(mainDataDto.getImage()).get();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             navImage.setImageBitmap(bitImg);
         }
         //텍스트

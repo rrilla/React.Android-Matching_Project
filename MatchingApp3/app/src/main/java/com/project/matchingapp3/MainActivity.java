@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             ImageView navImage = header.findViewById(R.id.navHeader_iv_image);
             ImageTask imgTask = new ImageTask();
             try {
-                bitImg = imgTask.execute("0df08699-9cde-450b-96b1-09409f9e2c67.jpg").get();
+                bitImg = imgTask.execute(mainDataDto.getImage()).get();
             } catch (ExecutionException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {

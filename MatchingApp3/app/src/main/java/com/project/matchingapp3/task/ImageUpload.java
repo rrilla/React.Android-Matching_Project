@@ -1,6 +1,5 @@
 package com.project.matchingapp3.task;
 
-import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -22,12 +21,15 @@ public class ImageUpload extends AsyncTask<String, Integer, String> {
     String urlString = "http://"+ip+":8000/app/";
     String fileName;
 
+    private String resData;
+
     @Override
     protected String doInBackground(String... strings) {
         urlString += strings[0];
         fileName = strings[1];
         try {
             FileInputStream mFileInputStream = new FileInputStream(fileName);
+            Log.d("Test-오나이까지","ㅇㅇ");
             URL connectUrl = new URL(urlString);
             Log.d("Test", "mFileInputStream  is " + mFileInputStream);
 
@@ -80,6 +82,7 @@ public class ImageUpload extends AsyncTask<String, Integer, String> {
                 b.append((char) ch);
             }
             is.close();
+            resData = b.toString();
             Log.e("Test", b.toString());
 
 
@@ -87,6 +90,6 @@ public class ImageUpload extends AsyncTask<String, Integer, String> {
             Log.d("Test", "exception " + e.getMessage());
             // TODO: handle exception
         }
-        return "ok";
+        return resData;
     }
 }
