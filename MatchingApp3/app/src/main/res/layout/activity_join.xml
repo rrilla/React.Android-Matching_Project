@@ -150,17 +150,36 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textEmailAddress"
+                android:inputType="text"
                 android:gravity="right"/>
 
             <TextView
-                android:id="@+id/join_tv_picture"
+                android:id="@+id/join_tv_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:textSize="25dp"
                 android:textStyle="bold"
-                android:text="사진도 해야함" />
+                android:text="이미지" />
+
+            <ImageView
+                android:id="@+id/join_iv_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@android:drawable/ic_menu_crop" />
+
+            <Button
+                android:id="@+id/join_btn_imageSelect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="이미지 선택하기" />
+
+            <Button
+                android:id="@+id/join_btn_imageUpload"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="이미지 전송" />
 
         </LinearLayout>
     </ScrollView>

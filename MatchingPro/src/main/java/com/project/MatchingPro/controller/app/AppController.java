@@ -39,4 +39,7 @@ public class AppController {
 				userRepository.findById(user.getId()).orElseThrow(()-> new IllegalArgumentException("db select결과없음.")),
 				HttpStatus.OK);
 	}
+	
+//	@PostMapping("app/imgUpload")
+//	public 
 }
