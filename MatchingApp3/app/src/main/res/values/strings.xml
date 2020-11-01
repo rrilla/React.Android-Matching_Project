@@ -12,7 +12,6 @@
 
     <string name="appbar_menu_1">앱바 메뉴1</string>
     <string name="appbar_menu_2">앱바 메뉴2</string>
-    <string name="appbar_menu_3">앱바 메뉴3</string>
 
     <string name="fragment_team1">팀 목록</string>
     <string name="fragment_team2">팀 랭킹</string>

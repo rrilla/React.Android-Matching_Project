@@ -14,6 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".activity.TeamCreateActivity"></activity>
         <activity
             android:name=".TeamActivity"
             android:theme="@style/AppTheme.NoActionBar" />
