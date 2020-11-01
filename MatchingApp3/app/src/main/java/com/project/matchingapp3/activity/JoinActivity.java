@@ -1,13 +1,19 @@
 package com.project.matchingapp3.activity;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.provider.MediaStore;
@@ -24,6 +30,7 @@ import com.project.matchingapp3.model.User;
 import com.project.matchingapp3.task.ImageUpload;
 import com.project.matchingapp3.task.RestAPITask;
 
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 public class JoinActivity extends AppCompatActivity {
@@ -31,6 +38,11 @@ public class JoinActivity extends AppCompatActivity {
     EditText etId, etPw, etPw2, etName, etNickname, etPhone, etEmail, etLocation;
     Button btnUploadImg, btnSelectImg, btnJoin;
     ImageView ivSelectImg;
+
+    String[] permission_list = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
 
     private final int REQ_CODE_SELECT_IMAGE = 100;
     private String img_path = new String();
@@ -45,10 +57,8 @@ public class JoinActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join);
 
-        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
-                .permitDiskReads()
-                .permitDiskWrites()
-                .permitNetwork().build());
+        //권한 확인
+        checkPermission();
 
         etId = findViewById(R.id.join_et_id);
         etPw = findViewById(R.id.join_et_pw);
@@ -131,11 +141,64 @@ public class JoinActivity extends AppCompatActivity {
         });
     }
 
+    //권한 확인
+    private void checkPermission() {
+        //현재 안드로이드 버전이 6.0미만이면 메서드를 종료한다.
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
+            return;
+
+        for(String permission : permission_list){
+            //권한 허용 여부를 확인한다.
+            int chk = checkCallingOrSelfPermission(permission);
+
+            if(chk == PackageManager.PERMISSION_DENIED){
+                //권한 허용을여부를 확인하는 창을 띄운다
+                requestPermissions(permission_list,0);
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode==0)
+        {
+            for(int i=0; i<grantResults.length; i++)
+            {
+                //허용됬다면
+                if(grantResults[i]==PackageManager.PERMISSION_GRANTED){
+                }
+                else {
+                    Toast.makeText(getApplicationContext(),"앱권한을 설정 해주세요.",Toast.LENGTH_LONG).show();
+                    finish();
+                }
+            }
+        }
+    }
+
+    //사용자가 선택한 이미지의 정보를 받아옴
+    public String getImagePathToUri(Uri data) {
+        String[] proj = {MediaStore.Images.Media.DATA};
+        Cursor cursor = managedQuery(data, proj, null, null, null);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+
+        //이미지의 경로 값
+        String imgPath = cursor.getString(column_index);
+        Log.d("test", imgPath);
+
+        //이미지의 이름 값
+        String imgName = imgPath.substring(imgPath.lastIndexOf("/") + 1);
+        Toast.makeText(getApplicationContext(), "이미지 이름 : " + imgName, Toast.LENGTH_SHORT).show();
+
+        this.imageName = imgName;
+
+        return imgPath;
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         Toast.makeText(getBaseContext(), "resultCode : " + data, Toast.LENGTH_SHORT).show();
-
         if (requestCode == REQ_CODE_SELECT_IMAGE) {
             if (resultCode == Activity.RESULT_OK) {
                 try {
@@ -159,26 +222,5 @@ public class JoinActivity extends AppCompatActivity {
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
-
-    public String getImagePathToUri(Uri data) {
-        //사용자가 선택한 이미지의 정보를 받아옴
-        String[] proj = {MediaStore.Images.Media.DATA};
-        Cursor cursor = managedQuery(data, proj, null, null, null);
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-
-        //이미지의 경로 값
-        String imgPath = cursor.getString(column_index);
-        Log.d("test", imgPath);
-
-        //이미지의 이름 값
-        String imgName = imgPath.substring(imgPath.lastIndexOf("/") + 1);
-        Toast.makeText(getApplicationContext(), "이미지 이름 : " + imgName, Toast.LENGTH_SHORT).show();
-
-        this.imageName = imgName;
-
-        return imgPath;
-    }//end of getImagePathToUri()
-
 
 }
