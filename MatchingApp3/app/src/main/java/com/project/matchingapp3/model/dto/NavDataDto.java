@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 
 import java.io.Serializable;
 
-public class MainDataDto implements Serializable {
+public class NavDataDto implements Serializable {
     private String username;
     private String nickname;
     private String phone;

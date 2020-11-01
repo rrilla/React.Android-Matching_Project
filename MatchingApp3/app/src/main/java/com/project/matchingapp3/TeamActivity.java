@@ -12,7 +12,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,20 +23,20 @@ import android.widget.Toast;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
-import com.google.gson.Gson;
 import com.project.matchingapp3.activity.LoginActivity;
 import com.project.matchingapp3.activity.MyPageActivity;
 import com.project.matchingapp3.adapter.ViewPagerAdapter;
 import com.project.matchingapp3.fragment.HomeFragment1;
 import com.project.matchingapp3.fragment.HomeFragment2;
 import com.project.matchingapp3.fragment.HomeFragment3;
+import com.project.matchingapp3.fragment.TeamFragment1;
+import com.project.matchingapp3.fragment.TeamFragment2;
 import com.project.matchingapp3.model.dto.NavDataDto;
 import com.project.matchingapp3.task.ImageTask;
-import com.project.matchingapp3.task.RestAPITask;
 
 import java.util.concurrent.ExecutionException;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class TeamActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     BottomNavigationView bottomNavigationView;
     ViewPager pager;
@@ -51,25 +50,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_team);
 
         Intent intent = getIntent();
         jwtToken = intent.getStringExtra("jwtToken");
-
-        String[] result = new String[1];
-        RestAPITask task = new RestAPITask(jwtToken);
-
-        try {
-            result = task.execute("user/navData").get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        Log.d("test-데이터받음",result[0]);
-        Gson gson = new Gson();
-        navDataDto = gson.fromJson(result[0], NavDataDto.class);
+        navDataDto = (NavDataDto)intent.getSerializableExtra("navDataDto");
 
 
         //툴바
@@ -133,23 +118,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        final HomeFragment1 fragment1 = new HomeFragment1();
+        final TeamFragment1 fragment1 = new TeamFragment1();
         adapter.addItem(fragment1);
 
-        final HomeFragment2 fragment2 = new HomeFragment2();
+        final TeamFragment2 fragment2 = new TeamFragment2();
         adapter.addItem(fragment2);
-
-        final HomeFragment3 fragment3 = new HomeFragment3();
-        adapter.addItem(fragment3);
 
         pager.setAdapter(adapter);
 
 
         //상단 탭 네비
         TabLayout tabs = findViewById(R.id.tab_layout);
-        tabs.addTab(tabs.newTab().setText("내 경기"));
-        tabs.addTab(tabs.newTab().setText("내 점수"));
-        tabs.addTab(tabs.newTab().setText("내 팀"));
+        tabs.addTab(tabs.newTab().setText("팀 목록"));
+        tabs.addTab(tabs.newTab().setText("팀 랭킹"));
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -158,13 +139,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 String title = "";
                 if(position == 0){
                     text = "상단탭 1 선택";
-                    title = "내 경기";
+                    title = "팀 목록";
                 }else if(position == 1){
                     text = "상단탭 2 선택";
-                    title = "내 점수";
-                }else if(position == 2){
-                    text = "상단탭 3 선택";
-                    title = "내 팀";
+                    title = "팀 랭킹";
                 }
                 Toast.makeText(getApplicationContext(), text,Toast.LENGTH_SHORT).show();
                 pager.setCurrentItem(position,true);   // true = 페이지 전환시 스무스
@@ -191,7 +169,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     case R.id.tab2:
                         Intent intent2 = new Intent(getApplicationContext(), TeamActivity.class);
                         intent2.putExtra("jwtToken", jwtToken);
-                        intent2.putExtra("navDataDto", navDataDto);
                         startActivity(intent2);
                         return true;
                     case R.id.tab3:
@@ -245,18 +222,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.appbar_menu, menu);
-        toolbar.setTitle("홈");
+        toolbar.setTitle("팀");
         return true;
-    }
-
-    //뒤로가기 때 호출 - 네비창 닫기
-    @Override
-    public void onBackPressed() {
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
     }
 
 }

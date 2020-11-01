@@ -30,7 +30,7 @@ public class SplashActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             }
-        },3000);
+        },3500);
     }
 
     @Override

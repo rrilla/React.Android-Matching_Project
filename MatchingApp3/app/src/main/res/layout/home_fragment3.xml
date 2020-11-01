@@ -3,13 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_orange_light"
+    android:background="@android:color/holo_purple"
     android:orientation="vertical"
-    tools:context="fragment.Fragment1">
+    tools:context=".fragment.HomeFragment1">
 
     <Button
         android:id="@+id/button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="두 번째" />
+        android:text="세 번째" />
 </LinearLayout>

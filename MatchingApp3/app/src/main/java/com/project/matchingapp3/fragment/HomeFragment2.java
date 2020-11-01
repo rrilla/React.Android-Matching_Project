@@ -9,11 +9,11 @@ import androidx.fragment.app.Fragment;
 
 import com.project.matchingapp3.R;
 
-public class Fragment3 extends Fragment {
+public class HomeFragment2 extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment3, container, false);
+        return inflater.inflate(R.layout.home_fragment2, container, false);
     }
 
 }
