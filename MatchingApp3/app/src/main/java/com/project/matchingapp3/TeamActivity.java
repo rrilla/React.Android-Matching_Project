@@ -118,10 +118,10 @@ public class TeamActivity extends AppCompatActivity implements NavigationView.On
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        final TeamFragment1 fragment1 = new TeamFragment1();
+        TeamFragment1 fragment1 = new TeamFragment1();
         adapter.addItem(fragment1);
 
-        final TeamFragment2 fragment2 = new TeamFragment2();
+        TeamFragment2 fragment2 = new TeamFragment2();
         adapter.addItem(fragment2);
 
         pager.setAdapter(adapter);

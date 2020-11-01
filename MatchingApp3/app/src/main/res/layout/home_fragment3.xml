@@ -3,13 +3,55 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_purple"
     android:orientation="vertical"
     tools:context=".fragment.HomeFragment1">
 
-    <Button
-        android:id="@+id/button"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="세 번째" />
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="팀이름"
+                android:textSize="40dp" />
+
+            <TextView
+                android:id="@+id/FHome3_tv_tName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="50dp"
+                android:gravity="right"
+                android:text="없음"
+                android:textSize="40dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="팀설명"
+                android:textSize="40dp" />
+
+            <TextView
+                android:id="@+id/FHome3_tv_tExplin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="50dp"
+                android:gravity="right"
+                android:text="없음"
+                android:textSize="30dp" />
+
+            <ImageView
+                android:id="@+id/FHome3_iv_tImage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:src="@tools:sample/avatars" />
+
+        </LinearLayout>
+    </ScrollView>
+
 </LinearLayout>

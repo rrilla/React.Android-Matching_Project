@@ -134,13 +134,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        final HomeFragment1 fragment1 = new HomeFragment1();
+        HomeFragment1 fragment1 = new HomeFragment1();
         adapter.addItem(fragment1);
 
-        final HomeFragment2 fragment2 = new HomeFragment2();
+        HomeFragment2 fragment2 = new HomeFragment2();
         adapter.addItem(fragment2);
 
-        final HomeFragment3 fragment3 = new HomeFragment3();
+        HomeFragment3 fragment3 = new HomeFragment3(navDataDto, bitImg);
         adapter.addItem(fragment3);
 
         pager.setAdapter(adapter);
@@ -164,7 +164,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     text = "상단탭 2 선택";
                     title = "내 점수";
                 }else if(position == 2){
-                    text = "상단탭 3 선택";
                     title = "내 팀";
                 }
                 Toast.makeText(getApplicationContext(), text,Toast.LENGTH_SHORT).show();
