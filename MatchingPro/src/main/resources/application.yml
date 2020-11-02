@@ -14,7 +14,7 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/Matching?serverTimezone=Asia/Seoul
+    url: jdbc:mysql://localhost:3306/matching?serverTimezone=Asia/Seoul
     username: match
     password: 1029
 # database connect / jsp에서 context.xml에 적던 것

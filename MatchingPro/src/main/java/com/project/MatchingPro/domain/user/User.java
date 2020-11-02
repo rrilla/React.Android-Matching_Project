@@ -52,21 +52,15 @@ public class User {
 	@CreationTimestamp // default 현재시간 자동 적용
 	private Timestamp joindate;
 
-	//@JsonIgnoreProperties({"users","partys"})
+	@JsonIgnoreProperties({"users","partys"})
 	@JoinColumn(name = "teams_id")
 	@ManyToOne	
 	private Team teams;
 	
-	//party에 fk키 있음
+	//party에 fk키 있음 
 	@JsonIgnoreProperties({"user","team"})
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)//LAZY
 	private List<Party> partys;
-	
-	/////////////////////////////////////////////////
-	
-//	@JoinColumn(name = "teaminfo")
-//	@ManyToOne
-//	private TeamInfo teaminfo;
 	
 	
 	public String getDate() {
@@ -76,23 +70,3 @@ public class User {
 		return format.format(time);
 	}
 }
-
-////Fk키            //ref : user테이블
-//@JoinColumn(name = "users_team1")
-//@ManyToOne	
-//private Battle users_team1;
-//
-////Fk키            //ref : user테이블
-//@JoinColumn(name = "users_team2")
-//@ManyToOne	
-//private Battle users_team2;
-
-////joindate 출력양식
-//public String getJoindate() {
-//	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-//	//SimpleDateFormat sdf2 = new SimpleDateFormat("hh:mm:ss");	//hh12,HH24
-//	//String time[] = {sdf.format(createDate), sdf2.format(createDate)};
-//	
-//	//return createDate.toString().substring(0,10);
-//	return sdf.format(joindate);
-//}
