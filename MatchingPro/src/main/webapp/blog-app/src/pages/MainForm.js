@@ -4,24 +4,15 @@ import styled from 'styled-components';
 import { Container, Row, Col, Carousel, Jumbotron, Button, Breadcrumb, Card, ListGroup, ListGroupItem, ResponsiveEmbed, Form, FormControl, Modal } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import TeamCard from '../components/TeamCard';
+import Background from '../components/Background';
+import Slide from '../components/Slide';
 
 const MainCardStyle = styled.div`
   width: 100%;
   margin: auto;
 `;
 
-const Background_videoStlye = styled.video`
- min-weight: 100%
- min-height: 100%
- left:0;
- right:0;
- top:0;
-  float: left;
-  
-  padding: none;
-  position: fixed; /* optional depending on what you want to do in your app */
-  z-index: -1;
-`;
+
 
 const LinkStyle = styled.span`
   color : black;
@@ -34,12 +25,12 @@ const MainForm = () => {
     fetch("http://localhost:8000/teamList", {
       method: "get",
     }).then((res) => {
-        console.log("mainForm:: teamList rsponse", res);
-        return res.json();
-      }).then((res) => {
-        console.log("mainForm:: teamList -> json data", res);
-        setTeams(res);
-      });
+      console.log("mainForm:: teamList rsponse", res);
+      return res.json();
+    }).then((res) => {
+      console.log("mainForm:: teamList -> json data", res);
+      setTeams(res);
+    });
   }, []);
 
   const [teams, setTeams] = useState([]);
@@ -47,66 +38,8 @@ const MainForm = () => {
   return (
 
     <Container>
-      {/* <Row>
-      <video className='videoTag' autoPlay loop muted>
-    <source src={soccerstadium.mp4} type='video/mp4' />
-</video>
-</Row> */}
-      <div>
-              <Background_videoStlye id="background-video" loop autoPlay>
-
-        <source src="soccerstadium.mp4" type="video/ogg" />
-        Your browser does not support the video tag.
-        
-      </Background_videoStlye>
-
-      </div>
-
-      
-      <Row>
-        <Col md={11}>
-          <Carousel>
-
-            <Carousel.Item>
-              <img
-                className="d-block w-100"
-                src="1slideepic.png"
-                alt="First slide"
-              />
-              <Carousel.Caption>
-                <h3>First slide label</h3>
-                <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-              </Carousel.Caption>
-            </Carousel.Item>
-
-            <Carousel.Item>
-              <img
-                className="d-block w-100"
-                src="2slidecool.jpg"
-                alt="Third slide"
-              />
-              <Carousel.Caption>
-                <h3>Second slide label</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-              </Carousel.Caption>
-            </Carousel.Item>
-
-            <Carousel.Item>
-              <img
-                className="d-block w-100"
-                src="3slideground.jpg"
-                alt="Third slide"
-              />
-              <Carousel.Caption>
-                <h3>Third slide label</h3>
-                <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
-              </Carousel.Caption>
-            </Carousel.Item>
-
-          </Carousel>
-        </Col>
-      </Row>
-      <br />
+      <Background/>
+      <Slide/>
       <Row>
         <MainCardStyle>
           <Jumbotron>

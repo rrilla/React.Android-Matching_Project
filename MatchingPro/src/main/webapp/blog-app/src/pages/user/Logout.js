@@ -22,6 +22,8 @@ const Logout = (props) => {
 	}
 	return (
 		<div>
+			
+			<br/><br/><br/><br/><br/><br/>
 			<button onClick={logout}>로그아웃</button>
 		</div>
 	);
