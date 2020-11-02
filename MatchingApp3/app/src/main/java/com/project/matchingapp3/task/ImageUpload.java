@@ -11,8 +11,8 @@ import java.net.URL;
 
 public class ImageUpload extends AsyncTask<String, Integer, String> {
 
-    //final static String ip ="172.30.1.42"; // IP - 집
-    final static String ip ="10.100.102.15"; // IP - 학원
+    final static String ip ="172.30.1.42"; // IP - 집
+    //final static String ip ="10.100.102.15"; // IP - 학원
 
     String lineEnd = "\r\n";
     String twoHyphens = "--";
