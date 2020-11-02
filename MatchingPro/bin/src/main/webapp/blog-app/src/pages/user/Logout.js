@@ -1,6 +1,9 @@
 import React from 'react';
 
-const Logout = () => {
+const Logout = (props) => {
+
+	const setToken = props.setToken;
+
 	const logout = () => {
 		localStorage.removeItem("Authorization");
 		fetch(`http://localhost:8000/logout`, {
@@ -9,8 +12,8 @@ const Logout = () => {
 			}
 		}).then(res => res.text())
 			.then(res => {
-				if (res == "ok") {
-					
+				if (res === "ok") {
+					setToken();
 					alert("로그아웃에 성공하였습니다");
 				} else {
 					alert("로그아웃 실패");
@@ -19,6 +22,8 @@ const Logout = () => {
 	}
 	return (
 		<div>
+			
+			<br/><br/><br/><br/><br/><br/>
 			<button onClick={logout}>로그아웃</button>
 		</div>
 	);

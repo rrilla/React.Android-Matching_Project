@@ -8,6 +8,7 @@ import Team_create from './pages/team/Team_create';
 import Logout from './pages/user/Logout';
 import Team_detail from './pages/team/Team_detail';
 import MyTeam from './pages/team/MyTeam';
+import Background from './components/Background';
 
 const App = () => {
 
@@ -31,6 +32,7 @@ const App = () => {
   return (
     <div>
       <Header isToken={isToken} setIsToken={setIsToken}></Header>
+      <Background></Background>
       {/* 아래는 Router */}
       <Route path="/" exact={true} component={MainForm}></Route>
       <Route path="/Join" exact={true} component={JoinForm}></Route>

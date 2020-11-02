@@ -20,8 +20,19 @@ const SlideStyle = styled.div`
 `;
 
 const MyTeam = () => {
-	const joinTeamReq = () => {
+
+	// 새로 고침없이 바로 수정되게 하려면 state 등록해야함 / 귀찮으니까 나중에
+	const joinTeamReq = (partyid) => {
 		alert("ddd");
+
+		fetch(`http://localhost:8000//Acknowledgment/${partyid}`, {
+			method: "put",
+		}).then((res) => {
+			console.log("zzz1", res);
+			return res.text();
+		}).then((res) => {
+			console.log("zzz2", res);
+		});
 	};
 
 	const [team, setTeam] = useState([]);
@@ -31,38 +42,43 @@ const MyTeam = () => {
 	const [users, setUsers] = useState([]);
 
 	useEffect(() => {
-		// 해당 페이지에 진입했을 때 한 번만 실행
 		fetch("http://localhost:8000/user/myTeam", {
 			method: "get",
 			headers: {
 				'Authorization': localStorage.getItem("Authorization")
-			}// 어th오라이제이션
+			}
 		}).then((res) => {
-			console.log("asdasdsadsad");
-			console.log(res);
+			console.log("MyTeamForm:: login한 ID의 Team Id display res", res);
 			return res.text();
-		}) // id가 받아와져야 정상
-			.then((res) => {
-				console.log("현재 로그인 되어있는 id의 pk : ");
-				console.log(res);	// res : id
-				fetch(`http://localhost:8000/teamDetail/${res}`, {
-					method: "get",
-				}) // 위 주소에서 데이터를 받아와서
-					.then((res) => {
-						return res.json();
-					}) // 받아온 데이터를 json type으로 바꿔서
-					.then((res) => {
-						console.log("MyTeam::  fetch res: ", res);
-						setTeam(res);
-						setOwner(res.owner);
-						setUsers(res.users)
-						setPartys(res.partys);
-						/* 						(res.partys.id).map((res) =>{
-													console.log("MyTeam:: first fetch-party", res);
-												}) */
-						console.log("MyTeam:: first fetch-party", res.partys.id);
-					}); // state 변수에 넣어준다
-			}); // state 변수에 넣어준다
+		}).then((res) => {
+			console.log("MyTeamForm:: login한 ID의 Team Id display", res);
+
+			fetch(`http://localhost:8000/teamDetail/${res}`, {
+				// 여기 들어가는 res는 현재 로그인 한 ID의 TeamID // 팀 정보 가져와서 소속 선수, 팀장 display
+				method: "get",
+			}).then((res) => {
+				return res.json();
+			}).then((res) => {
+				console.log("MyTeam:: Team info fetch display res: ", res);
+				setTeam(res);
+				setOwner(res.owner);
+				setUsers(res.users);
+			});
+
+			fetch(`http://localhost:8000//user/teamParty/${res}`, {
+				// 여기 들어가는 res는 현재 로그인 한 ID의 TeamID // 팀 가입 요청 가져와서 display
+				method: "get",
+				headers: {
+					'Authorization': localStorage.getItem("Authorization")
+				}
+			}).then((res) => {
+				return res.json();
+			}).then((res) => {
+				console.log("MyTeam:: party list(from team) info fetch display res: ", res);
+				setPartys(res);
+			});
+
+		});
 	}, []);
 
 
@@ -72,34 +88,34 @@ const MyTeam = () => {
 				<MainCardStyle>
 					<Jumbotron>
 						<Row>
-							<Col md={4}><h1>⚽ {name}</h1></Col>
-							<Col md={8}></Col>
+							<Col md={12}><h1>⚽ {name}</h1></Col>
 							<Col md={12}><hr /></Col>
-							<Col md={4}><h5>👑 {owner.nickname}</h5></Col>
+							<Col md={3}><h5>👑 {owner.nickname}</h5></Col>
 							<Col md={8}><h5>📄 {explaintation}</h5></Col>
 							<Col md={12}><hr /></Col>
-							<Col md={4}><h3>🏃‍♀️ Member</h3></Col>
+							<Col md={3}><h3>🏃‍♀️ Member</h3></Col>
 							<Col md={8}></Col>
 							<Col md={12}><br /></Col>
 							{users.map((res) => (//이 팀에 들어온 파티 번호 : {res.id}
 								<Col md={3}>🏃 {res.nickname}</Col>
 							))}
 							<Col md={12}><hr /></Col>
-							<Col md={4}><h3>🙌 Apply</h3></Col>
+							<Col md={3}><h3>🙌 가입신청</h3></Col>
 							<Col md={8}><h3>{partys.length}건</h3></Col>
 							{/* <Col md={6}><Button onClick={joinTeamReq}>전체수락</Button></Col> */}
 							<Col md={12}><br /></Col>
 							{partys.map((res) => (//이 팀에 들어온 파티 번호 : {res.id}
-								<Col md={4}>
-									🏃 {res.id}&nbsp;&nbsp;&nbsp;
-									<Button onClick={joinTeamReq}>수락</Button>
+								<Col md={3}>
+									🏃 {res.user.nickname}&nbsp;&nbsp;&nbsp;
+									<Button onClick={() => joinTeamReq(res.id)}>수락</Button>
 								</Col>
 							))}
 							<Col md={12}><hr /></Col>
-							<Col md={4}><h3>⚔ Battle</h3></Col>
+							<Col md={3}><h3>⚔ 대전신청</h3></Col>
 							<Col md={8}><h3>{partys.length}건</h3></Col>
+							<Col md={12}><br /></Col>
 							{partys.map((res) => (//이 팀에 들어온 파티 번호 : {res.id}
-								<Col md={4}>
+								<Col md={3}>
 									💥 {res.id}&nbsp;&nbsp;&nbsp;
 									<Button onClick={joinTeamReq}>수락</Button>
 								</Col>
@@ -108,7 +124,6 @@ const MyTeam = () => {
 					</Jumbotron>
 				</MainCardStyle>
 			</SlideStyle>
-			<Background></Background>
 		</Container>
 	);
 };
