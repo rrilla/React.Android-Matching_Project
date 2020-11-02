@@ -32,7 +32,7 @@ public class Battle {
 
 	private String matchDate;
 	
-	private String info;
+	private String info; 
 	private String role; //0 일때 신청 1일때 수락 2일때 거절
 	
 	//Fk키            //ref : team테이블
