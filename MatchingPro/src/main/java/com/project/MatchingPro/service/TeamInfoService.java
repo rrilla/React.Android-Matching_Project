@@ -1,12 +1,14 @@
 package com.project.MatchingPro.service;
 
-import org.springframework.http.HttpStatus;	
+import org.springframework.http.HttpStatus;		
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.project.MatchingPro.domain.team.TeamRepository;
 import com.project.MatchingPro.domain.teamInfo.TeamInfo;
 import com.project.MatchingPro.domain.teamInfo.TeamInfoRepository;
+import com.project.MatchingPro.domain.user.User;
 import com.project.MatchingPro.domain.user.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -15,15 +17,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TeamInfoService {
 	
-	private final TeamRepository teamRepository;
 	private final TeamInfoRepository teamInfoRepository;
 	private final UserRepository userRepository;
 	
 	
-	public ResponseEntity<?> register(TeamInfo teamInfo){
-		
-		int teamId = teamInfo.getTeam().getId();
-		int userid = teamInfo.getUser1().getId();
+	public ResponseEntity<?> teamInfoRegister(TeamInfo teamInfo, User user){
+	try {
 		int userid2 = teamInfo.getUser2().getId();
 		int userid3 = teamInfo.getUser3().getId();
 		int userid4 = teamInfo.getUser4().getId();
@@ -36,8 +35,8 @@ public class TeamInfoService {
 		int userid11 = teamInfo.getUser11().getId();
 		
 		TeamInfo teamInfoEntity = new TeamInfo();
-		teamInfoEntity.setTeam(teamRepository.findById(teamId).orElseThrow(()-> new IllegalArgumentException(teamId+"는 존재하지 않습니다.")));
-		teamInfoEntity.setUser1(userRepository.findById(userid).orElseThrow(()-> new IllegalArgumentException(userid+"는 존재하지 않습니다.")));
+		teamInfoEntity.setTeam(user.getTeams());
+		teamInfoEntity.setUser1(user);
 		teamInfoEntity.setUser2(userRepository.findById(userid2).orElseThrow(()-> new IllegalArgumentException(userid2+"는 존재하지 않습니다.")));
 		teamInfoEntity.setUser3(userRepository.findById(userid3).orElseThrow(()-> new IllegalArgumentException(userid3+"는 존재하지 않습니다.")));
 		teamInfoEntity.setUser4(userRepository.findById(userid4).orElseThrow(()-> new IllegalArgumentException(userid4+"는 존재하지 않습니다.")));
@@ -49,10 +48,13 @@ public class TeamInfoService {
 		teamInfoEntity.setUser10(userRepository.findById(userid10).orElseThrow(()-> new IllegalArgumentException(userid10+"는 존재하지 않습니다.")));
 		teamInfoEntity.setUser11(userRepository.findById(userid11).orElseThrow(()-> new IllegalArgumentException(userid11+"는 존재하지 않습니다.")));
 		
+		System.out.println("성공");		
 		teamInfoRepository.save(teamInfoEntity);
-
+		return new ResponseEntity<String>("ok",HttpStatus.OK);
+	}catch(Exception e) {
+		System.out.println("실패");
 		return new ResponseEntity<String>("ok",HttpStatus.OK);
 	}
-	
+	}
 	
 }

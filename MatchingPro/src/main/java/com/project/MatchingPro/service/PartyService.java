@@ -61,4 +61,5 @@ public class PartyService {
 		Party partyEntity = partyRepository.findById(partyid).orElseThrow(()-> new IllegalArgumentException(partyid+"는 존재하지 않습니다."));
 		return new ResponseEntity<Party>(partyEntity,HttpStatus.OK);
 	}
+	
 }

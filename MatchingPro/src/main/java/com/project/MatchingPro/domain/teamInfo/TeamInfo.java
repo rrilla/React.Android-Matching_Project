@@ -13,7 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.project.MatchingPro.domain.maching.Battle;
+import com.project.MatchingPro.domain.battle.Battle;
 import com.project.MatchingPro.domain.team.Team;
 import com.project.MatchingPro.domain.user.User;
 
@@ -55,6 +55,11 @@ public class TeamInfo {
 	@OneToOne
 	private User user11;
 	
+//	@JsonIgnoreProperties({"teaminfo"})
+//	@OneToMany(mappedBy = "teaminfo", fetch = FetchType.LAZY)//LAZY
+//	private List<User> users;
+	
+	/////////////////////////////////
 	@JsonIgnoreProperties({"teamInfo1"})
 	@OneToMany(mappedBy = "teamInfo1", fetch = FetchType.LAZY)//LAZY
 	private List<Battle> teamInfo1; 

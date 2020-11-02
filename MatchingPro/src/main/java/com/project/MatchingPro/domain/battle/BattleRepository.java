@@ -1,4 +1,4 @@
-package com.project.MatchingPro.domain.maching;
+package com.project.MatchingPro.domain.battle;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

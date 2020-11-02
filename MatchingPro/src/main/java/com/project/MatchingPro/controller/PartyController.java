@@ -40,7 +40,7 @@ public class PartyController {
 	}
 	
 	//팀 리스트
-	@GetMapping("/party")
+	@GetMapping("/partyList")
 	public List<Party> party(){
 		return partyRepository.findAll();
 	}
@@ -49,5 +49,11 @@ public class PartyController {
 	@GetMapping("/user/partyInfo/{partyid}")
 	public ResponseEntity<?> partyInfo(@PathVariable int partyid){
 		return partyService.partyInfo(partyid);
+	}
+	
+	//팀 아이디 받아와서 해당 팀에 대한 파티 리스트 뿌리기
+	@GetMapping("/user/teamParty/{teamid}")
+	public List<Party> teamPartyinfo(@PathVariable int teamid){
+		return partyRepository.mFindByTeamid(teamid);
 	}
 }

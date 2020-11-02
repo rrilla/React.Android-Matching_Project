@@ -20,11 +20,12 @@ import org.hibernate.annotations.CreationTimestamp;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.project.MatchingPro.domain.maching.Battle;
+import com.project.MatchingPro.domain.battle.Battle;
 import com.project.MatchingPro.domain.party.Party;
 
 import com.project.MatchingPro.domain.position.Position;
 import com.project.MatchingPro.domain.team.Team;
+import com.project.MatchingPro.domain.teamInfo.TeamInfo;
 
 import lombok.Data;
 import lombok.ToString;
@@ -61,32 +62,37 @@ public class User {
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)//LAZY
 	private List<Party> partys;
 	
-//	//Fk키            //ref : user테이블
-//	@JoinColumn(name = "users_team1")
-//	@ManyToOne	
-//	private Battle users_team1;
-//	
-//	//Fk키            //ref : user테이블
-//	@JoinColumn(name = "users_team2")
-//	@ManyToOne	
-//	private Battle users_team2;
-
+	/////////////////////////////////////////////////
+	
+//	@JoinColumn(name = "teaminfo")
+//	@ManyToOne
+//	private TeamInfo teaminfo;
+	
 	
 	public String getDate() {
 
 		Timestamp time = this.getJoindate();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		return format.format(time);
-
-//	//joindate 출력양식
-//	public String getJoindate() {
-//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-//		//SimpleDateFormat sdf2 = new SimpleDateFormat("hh:mm:ss");	//hh12,HH24
-//		//String time[] = {sdf.format(createDate), sdf2.format(createDate)};
-//		
-//		//return createDate.toString().substring(0,10);
-//		return sdf.format(joindate);
-//	}
-
 	}
 }
+
+////Fk키            //ref : user테이블
+//@JoinColumn(name = "users_team1")
+//@ManyToOne	
+//private Battle users_team1;
+//
+////Fk키            //ref : user테이블
+//@JoinColumn(name = "users_team2")
+//@ManyToOne	
+//private Battle users_team2;
+
+////joindate 출력양식
+//public String getJoindate() {
+//	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//	//SimpleDateFormat sdf2 = new SimpleDateFormat("hh:mm:ss");	//hh12,HH24
+//	//String time[] = {sdf.format(createDate), sdf2.format(createDate)};
+//	
+//	//return createDate.toString().substring(0,10);
+//	return sdf.format(joindate);
+//}
