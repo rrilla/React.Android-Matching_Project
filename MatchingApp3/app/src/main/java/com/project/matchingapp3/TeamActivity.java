@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,8 +32,10 @@ import com.project.matchingapp3.fragment.HomeFragment2;
 import com.project.matchingapp3.fragment.HomeFragment3;
 import com.project.matchingapp3.fragment.TeamFragment1;
 import com.project.matchingapp3.fragment.TeamFragment2;
+import com.project.matchingapp3.model.Team;
 import com.project.matchingapp3.model.dto.NavDataDto;
 import com.project.matchingapp3.task.ImageTask;
+import com.project.matchingapp3.task.RestAPITask;
 
 import java.util.concurrent.ExecutionException;
 
@@ -46,6 +49,7 @@ public class TeamActivity extends AppCompatActivity implements NavigationView.On
     NavDataDto navDataDto;
     String jwtToken;
     Bitmap bitImg;
+    Team team;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +60,17 @@ public class TeamActivity extends AppCompatActivity implements NavigationView.On
         jwtToken = intent.getStringExtra("jwtToken");
         navDataDto = (NavDataDto)intent.getSerializableExtra("navDataDto");
 
+        String[] result = new String[1];
+        RestAPITask task = new RestAPITask(jwtToken);
+
+        try {
+            result = task.execute("app/teamList").get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Log.e("test-팀리스트받기",result[0]);
 
         //툴바
         toolbar = findViewById(R.id.toolbar);
@@ -118,7 +133,7 @@ public class TeamActivity extends AppCompatActivity implements NavigationView.On
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        TeamFragment1 fragment1 = new TeamFragment1();
+        TeamFragment1 fragment1 = new TeamFragment1(team);
         adapter.addItem(fragment1);
 
         TeamFragment2 fragment2 = new TeamFragment2();
