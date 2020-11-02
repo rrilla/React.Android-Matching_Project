@@ -1,5 +1,5 @@
 import React from 'react';
-import { ListGroup, Card, ListGroupItem } from 'react-bootstrap';
+import { ListGroup, Card, ListGroupItem, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -8,7 +8,9 @@ const LinkStyle = styled.span`
   `;
 
 const TeamCard = (props) => {
+	console.log("TeamCard:: props data: ", props);
 
+	const memberCount = props.team.users.length;
 	const { id, explaintation, name, owner} = props.team;
 	const nickname = owner.nickname;
 	const url = "/Team_detail/"+id;
@@ -24,13 +26,14 @@ const TeamCard = (props) => {
 				</Card.Text>
 			</Card.Body>
 			<ListGroup className="list-group-flush">
-				<ListGroupItem>팀장: {nickname}</ListGroupItem>
-				<ListGroupItem>승점 10전 10승</ListGroupItem>
-				<ListGroupItem>최근경기 : 10/5</ListGroupItem>
+				<ListGroupItem><Row><Col md={2}>👑</Col>{nickname}</Row></ListGroupItem>
+				<ListGroupItem><Row><Col md={2}>👭</Col>{props.team.users.length}/20</Row></ListGroupItem>
+				<ListGroupItem><Link to={url}><LinkStyle><Row><Col md={2}>🗓</Col>경기일정</Row></LinkStyle></Link></ListGroupItem>
+				<ListGroupItem><Link to={url}><LinkStyle><Row><Col md={2}>✔</Col>상세보기</Row></LinkStyle></Link></ListGroupItem>
 			</ListGroup>
-			<Card.Body>
-				<Link to={url}><LinkStyle>TeamDetail</LinkStyle></Link>
-			</Card.Body>
+			{/* <Card.Body>
+				<Link to={url}><LinkStyle>✔상세보기</LinkStyle></Link>
+			</Card.Body> */}
 		</Card>
 		<br/>
 		</div>
