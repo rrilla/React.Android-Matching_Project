@@ -33,7 +33,7 @@ import java.util.concurrent.ExecutionException;
 
 public class TeamCreateActivity extends AppCompatActivity {
 
-    EditText etName, etExplain;
+    EditText etName, etLocation, etExplain;
     Button btnUploadImg, btnSelectImg, btnCreate;
     ImageView ivSelectImg;
 
@@ -65,6 +65,7 @@ public class TeamCreateActivity extends AppCompatActivity {
         navDataDto = (NavDataDto)intent.getSerializableExtra("navDataDto");
 
         etName = findViewById(R.id.tCreate_et_name);
+        etLocation = findViewById(R.id.tCreate_et_location);
         etExplain = findViewById(R.id.tCreate_et_explain);
         ivSelectImg = findViewById(R.id.tCreate_iv_image);
         btnSelectImg = findViewById(R.id.tCreate_btn_imageSelect);
@@ -116,6 +117,7 @@ public class TeamCreateActivity extends AppCompatActivity {
                 Team team = new Team();
 
                 team.setName(etName.getText().toString());
+                team.setLocation(etLocation.getText().toString());
                 team.setExplaintation(etExplain.getText().toString());
                 team.setImage(pathUserImg);
 

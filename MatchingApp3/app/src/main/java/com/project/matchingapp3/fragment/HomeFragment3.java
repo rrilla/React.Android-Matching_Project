@@ -30,13 +30,15 @@ public class HomeFragment3 extends Fragment {
 
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.home_fragment3, container, false);
 
-        TextView f1TvName = rootView.findViewById(R.id.FHome3_tv_tName);
-        TextView f1TvExplain = rootView.findViewById(R.id.FHome3_tv_tExplin);
-        ImageView f1IvImage = rootView.findViewById(R.id.FHome3_iv_tImage);
+        TextView f3TvName = rootView.findViewById(R.id.FHome3_tv_tName);
+        TextView f3TvLocation = rootView.findViewById(R.id.FHome3_tv_tLocation);
+        TextView f3TvExplain = rootView.findViewById(R.id.FHome3_tv_tExplin);
+        ImageView f3IvImage = rootView.findViewById(R.id.FHome3_iv_tImage);
 
-        f1TvName.setText(navDataDto.getT_name());
-        f1TvExplain.setText(navDataDto.getT_explaintation());
-        f1IvImage.setImageBitmap(bitImg);
+        f3TvName.setText(navDataDto.getT_name());
+        f3TvLocation.setText(navDataDto.getT_location());
+        f3TvExplain.setText(navDataDto.getT_explaintation());
+        f3IvImage.setImageBitmap(bitImg);
 
 //        Button button = rootView.findViewById(R.id.button);
 //        button.setOnClickListener(new View.OnClickListener() {

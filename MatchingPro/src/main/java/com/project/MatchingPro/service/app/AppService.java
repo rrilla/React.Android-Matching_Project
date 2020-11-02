@@ -39,6 +39,7 @@ public class AppService {
 					phone(user.getPhone()).
 					image(user.getImage()).
 					t_name(user.getTeams().getName()).
+					t_location(user.getTeams().getLocation()).
 					t_image(user.getTeams().getImage()).
 					t_explaintation(user.getTeams().getExplaintation()).build();
 		}

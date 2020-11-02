@@ -35,6 +35,23 @@
                 android:gravity="right"/>
 
             <TextView
+                android:id="@+id/tCreate_tv_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:textSize="25dp"
+                android:textStyle="bold"
+                android:text="팀 활동지역" />
+
+            <EditText
+                android:id="@+id/tCreate_et_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:gravity="right"/>
+
+            <TextView
                 android:id="@+id/tCreate_tv_explain"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
