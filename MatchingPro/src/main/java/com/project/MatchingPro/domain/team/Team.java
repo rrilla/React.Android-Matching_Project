@@ -53,12 +53,12 @@ public class Team {
 	
 //	////////////////////////////////////////////////////
 	
-	@JsonIgnoreProperties({"team1"})
+	@JsonIgnoreProperties({"team1","team2","teamInfo1","teamInfo2"})
 	@OneToMany(mappedBy = "team1", fetch = FetchType.LAZY)//LAZY
 	private List<Battle> battle1;
 	
-	
-	 @JsonIgnoreProperties({"team2"})
+		
+	 @JsonIgnoreProperties({"team1","team2","teamInfo1","teamInfo2"})
 	 @OneToMany(mappedBy = "team2", fetch = FetchType.LAZY)//LAZY private
 	  List<Battle> battle2;
 	 
