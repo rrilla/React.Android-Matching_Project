@@ -11,8 +11,17 @@ public class NavDataDto implements Serializable {
     private String image;
 
     private String t_name;
+    private String t_location;
     private String t_image;
     private String t_explaintation;
+
+    public String getT_location() {
+        return t_location;
+    }
+
+    public void setT_location(String t_location) {
+        this.t_location = t_location;
+    }
 
     public String getUsername() {
         return username;

@@ -12,6 +12,7 @@ public class NavDataDto {
 	private String image;
 	
 	private String t_name;
+	private String t_location;
 	private String t_image;
 	private String t_explaintation;
 }

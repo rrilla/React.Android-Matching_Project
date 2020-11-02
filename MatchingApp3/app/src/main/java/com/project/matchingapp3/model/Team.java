@@ -5,6 +5,7 @@ import java.util.List;
 public class Team {
     private int id;
     private String name;
+    private String location;
     private String explaintation; // 팀설명
     private String image;
     private User owner;
@@ -20,6 +21,14 @@ public class Team {
                 ", owner=" + owner +
                 ", users=" + users +
                 '}';
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public int getId() {

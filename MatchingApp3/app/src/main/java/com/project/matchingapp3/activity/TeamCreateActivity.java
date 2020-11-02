@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.project.matchingapp3.MainActivity;
 import com.project.matchingapp3.R;
 import com.project.matchingapp3.model.Team;
 import com.project.matchingapp3.model.User;
@@ -32,7 +33,7 @@ import java.util.concurrent.ExecutionException;
 
 public class TeamCreateActivity extends AppCompatActivity {
 
-    EditText etName, etExplain;
+    EditText etName, etLocation, etExplain;
     Button btnUploadImg, btnSelectImg, btnCreate;
     ImageView ivSelectImg;
 
@@ -64,6 +65,7 @@ public class TeamCreateActivity extends AppCompatActivity {
         navDataDto = (NavDataDto)intent.getSerializableExtra("navDataDto");
 
         etName = findViewById(R.id.tCreate_et_name);
+        etLocation = findViewById(R.id.tCreate_et_location);
         etExplain = findViewById(R.id.tCreate_et_explain);
         ivSelectImg = findViewById(R.id.tCreate_iv_image);
         btnSelectImg = findViewById(R.id.tCreate_btn_imageSelect);
@@ -115,6 +117,7 @@ public class TeamCreateActivity extends AppCompatActivity {
                 Team team = new Team();
 
                 team.setName(etName.getText().toString());
+                team.setLocation(etLocation.getText().toString());
                 team.setExplaintation(etExplain.getText().toString());
                 team.setImage(pathUserImg);
 
@@ -127,8 +130,10 @@ public class TeamCreateActivity extends AppCompatActivity {
                 }
                 Log.d("test",result[0]);
                 if(result[0].equals("ok")){
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    intent.putExtra("jwtToken", jwtToken);
                     Toast.makeText(getBaseContext(), "팀 생성 성공.", Toast.LENGTH_SHORT).show();
-                    finish();
+                    startActivity(intent);
                 }else{
                     Toast.makeText(getBaseContext(), "팀 생성 실패.", Toast.LENGTH_SHORT).show();
                 }
@@ -184,7 +189,7 @@ public class TeamCreateActivity extends AppCompatActivity {
 
         //이미지의 이름 값
         String imgName = imgPath.substring(imgPath.lastIndexOf("/") + 1);
-        Toast.makeText(getApplicationContext(), "이미지 이름 : " + imgName, Toast.LENGTH_SHORT).show();
+        Log.d("test-이미지 이름  ", imgName);
 
         this.imageName = imgName;
 
@@ -193,12 +198,13 @@ public class TeamCreateActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Toast.makeText(getBaseContext(), "resultCode : " + data, Toast.LENGTH_SHORT).show();
+        Log.d("test - ", "인텐트로부터 받은 이미지 URI :" + data);
+        //Toast.makeText(getBaseContext(), "resultCode : " + data, Toast.LENGTH_SHORT).show();
         if (requestCode == REQ_CODE_SELECT_IMAGE) {
             if (resultCode == Activity.RESULT_OK) {
                 try {
                     img_path = getImagePathToUri(data.getData()); //이미지의 URI를 얻어 경로값으로 반환.
-                    Toast.makeText(getBaseContext(), "img_path : " + img_path, Toast.LENGTH_SHORT).show();
+                    Log.d("test-이미지 경로  ", img_path);
                     //이미지를 비트맵형식으로 반환
                     image_bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
 
