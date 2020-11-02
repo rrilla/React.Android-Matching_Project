@@ -144,6 +144,7 @@ const JoinForm = () => {
 
 	return (
 		<Container>
+			<br/><br/><br/><br/><br/>
 			<Form>
 				<Form.Group as={Col} controlId="formGridEmail">
 					<Form.Label>아이디</Form.Label>
