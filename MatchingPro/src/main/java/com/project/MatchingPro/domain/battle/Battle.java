@@ -1,4 +1,4 @@
-package com.project.MatchingPro.domain.maching;
+package com.project.MatchingPro.domain.battle;
 
 
 import javax.persistence.Entity;
@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.project.MatchingPro.domain.team.Team;
 import com.project.MatchingPro.domain.teamInfo.TeamInfo;
 
 import lombok.Data;
@@ -19,11 +20,11 @@ public class Battle {
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // 해당 데이터베이스 번호증가 전략을 따라가기
 	private int id;
 	
-	@JoinColumn(name = "1team")
+	@JoinColumn(name = "users")
 	@ManyToOne
 	private TeamInfo teamInfo1;
 	
-	@JoinColumn(name = "2team")
+	@JoinColumn(name = "users2")
 	@ManyToOne
 	private TeamInfo teamInfo2;
 	
@@ -34,21 +35,14 @@ public class Battle {
 	private String info;
 	private String role; //0 일때 신청 1일때 수락 2일때 거절
 	
-//	//Fk키            //ref : team테이블
-//	@JoinColumn(name = "1team")
-//	 @ManyToOne
-//	private Team team1;
+	//Fk키            //ref : team테이블
+	@JoinColumn(name = "team1")
+	 @ManyToOne
+	private Team team1;
 	 
-//	//Fk키            //ref : team테이블
-//	@JoinColumn(name = "2team")
-//	 @ManyToOne
-//	 private Team team2;
-	
-//	//user에 fk키 있음
-//	@OneToMany(mappedBy = "users_team1", fetch = FetchType.LAZY)
-//	private List<User> users_1team;
-	
-//	//user에 fk키 있음
-//	@OneToMany(mappedBy = "users_team2", fetch = FetchType.LAZY)
-//	private List<User> users_2team;
+	//Fk키            //ref : team테이블
+	@JoinColumn(name = "team2")
+	 @ManyToOne
+	 private Team team2;
+
 }
