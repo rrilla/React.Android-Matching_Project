@@ -39,7 +39,7 @@ public class PartyController {
 		return partyService.teamsave(user, userid);
 	}
 	
-	//팀 리스트
+	//파티신청 리스트
 	@GetMapping("/partyList")
 	public List<Party> party(){
 		return partyRepository.findAll();
