@@ -72,7 +72,8 @@ const MainForm = () => {
       </Row>
 
       <Row>
-        {users.map((res) => (<Col md={4}><UserCard team={res} key={res.id}></UserCard></Col>))}
+        {/* {users.map((res) => (<Col md={4}><UserCard team={res} key={res.id}></UserCard></Col>))} */}
+
       </Row>
 
     </Container>
