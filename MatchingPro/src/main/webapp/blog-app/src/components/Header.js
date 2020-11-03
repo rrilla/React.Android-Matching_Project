@@ -46,17 +46,13 @@ const Header = (props) => {
 
   return (
     <HeaderStyle>
-      <Navbar bg="success" expand="lg">
+      <Navbar bg="light" expand="lg">
         <Navbar.Brand ><Nav.Link><Link to="/"><LinkStyle>main lofo</LinkStyle></Link></Nav.Link></Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
             {isLogin(isToken)}
           </Nav>
-          <Form inline>
-            <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-            <Button variant="outline-success"><LinkStyle>Search</LinkStyle></Button>
-          </Form>
         </Navbar.Collapse>
       </Navbar>
     </HeaderStyle>
