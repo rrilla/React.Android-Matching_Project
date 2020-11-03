@@ -11,6 +11,14 @@ public class Team {
     private User owner;
     private List<User> users;
 
+    public Team(){}
+
+    public Team(String name, String location, String image) {
+        this.name = name;
+        this.location = location;
+        this.image = image;
+    }
+
     @Override
     public String toString() {
         return "Team{" +
@@ -56,8 +64,9 @@ public class Team {
     }
 
     public String getImage() {
-        return "http://172.30.1.42:8000/image/"+image;  //집
-        //return "http://10.100.102.15:8000/image/"+image;//학원
+        //return "http://172.30.1.42:8000/image/"+image;  //집
+        return "http://10.100.102.15:8000/image/"+image;//학원
+        //return image;
     }
 
     public void setImage(String image) {

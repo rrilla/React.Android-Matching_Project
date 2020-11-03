@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
@@ -47,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     NavDataDto navDataDto;
     String jwtToken;
-    Bitmap bitImgUser, bitImgTeam;
+    Bitmap bitImgTeam;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,15 +119,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //이미지
         if(navDataDto.getImage() != null) {
             ImageView navImage = header.findViewById(R.id.navHeader_iv_image);
-            ImageTask imgTask = new ImageTask();
-            try {
-                bitImgUser = imgTask.execute(navDataDto.getImage()).get();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            navImage.setImageBitmap(bitImgUser);
+            Glide.with(this).load("http://10.100.102.15:8000/image/"+navDataDto.getImage()).into(navImage);
         }
         //텍스트
         TextView navName = header.findViewById(R.id.navHeader_tv_username);
