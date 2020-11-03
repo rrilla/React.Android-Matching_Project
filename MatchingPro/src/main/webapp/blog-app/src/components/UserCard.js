@@ -11,7 +11,7 @@ const UserCard = (props) => {
 	console.log("TeamCard:: props data: ", props);
 
 	const memberCount = props.team.users.length;
-	const { nickname} = props.team;
+	const { id, explaintation, name, owner} = props.team;
 	const nickname = owner.nickname;
 	const url = "/Team_detail/"+id;
 
