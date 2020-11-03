@@ -1,6 +1,9 @@
 package com.project.MatchingPro.domain.user;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 public interface UserRepository extends JpaRepository<User, Integer>{
 
@@ -10,5 +13,7 @@ public interface UserRepository extends JpaRepository<User, Integer>{
 
 	int countByNickname(String nickname);
 	
-	// 유저 테이블의 팀 칼럼 수정하는 쿼리 만들어서
+	@Query(value = "select * from user where teams_id is null", nativeQuery = true)
+	List<User>  mfindAll();
+
 }

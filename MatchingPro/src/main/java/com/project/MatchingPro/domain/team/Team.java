@@ -8,12 +8,15 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.project.MatchingPro.domain.battle.Battle;
 import com.project.MatchingPro.domain.party.Party;
+import com.project.MatchingPro.domain.score.Score;
 import com.project.MatchingPro.domain.teamInfo.TeamInfo;
 import com.project.MatchingPro.domain.user.User;
 
@@ -61,5 +64,10 @@ public class Team {
 	 @JsonIgnoreProperties({"team1","team2","teamInfo1","teamInfo2"})
 	 @OneToMany(mappedBy = "team2", fetch = FetchType.LAZY)//LAZY private
 	  List<Battle> battle2;
+////////////////////////////////////////
 	 
+	@JsonIgnoreProperties({"score"})
+	@JoinColumn(name = "score_id")
+	@ManyToOne	
+	private Score score;
 }

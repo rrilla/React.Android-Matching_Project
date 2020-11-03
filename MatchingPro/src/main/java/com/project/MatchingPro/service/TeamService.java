@@ -7,6 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.project.MatchingPro.domain.party.Party;
 import com.project.MatchingPro.domain.party.PartyRepository;
+import com.project.MatchingPro.domain.score.Score;
+import com.project.MatchingPro.domain.score.ScoreRepository;
 import com.project.MatchingPro.domain.team.Team;
 import com.project.MatchingPro.domain.team.TeamRepository;
 import com.project.MatchingPro.domain.user.User;
@@ -21,10 +23,18 @@ public class TeamService {
 	private final TeamRepository teamRepository;
 	private final UserRepository userRepository;
 	private final PartyRepository partyRepository;
+	private final ScoreRepository scoreRepository;
 	
 	// 팀 생성
 		public ResponseEntity<?> save(User user, Team team) {
 			try {
+				//팀 생성하면서 장동으로 스코어 0승0무0패 설정
+				Score score = new Score();
+				score.setWin(0);
+				score.setDraw(0);
+				score.setLose(0);
+				scoreRepository.save(score);
+				team.setScore(score);
 				team.setOwner(user);
 				teamRepository.save(team);
 				// 여기서 그 쿼리 써서 팀에 teamId를 넣으면
