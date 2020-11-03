@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,6 +24,8 @@ import android.widget.Toast;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.project.matchingapp3.activity.LoginActivity;
 import com.project.matchingapp3.activity.MyPageActivity;
 import com.project.matchingapp3.adapter.ViewPagerAdapter;
@@ -31,9 +34,12 @@ import com.project.matchingapp3.fragment.HomeFragment2;
 import com.project.matchingapp3.fragment.HomeFragment3;
 import com.project.matchingapp3.fragment.TeamFragment1;
 import com.project.matchingapp3.fragment.TeamFragment2;
+import com.project.matchingapp3.model.Team;
 import com.project.matchingapp3.model.dto.NavDataDto;
 import com.project.matchingapp3.task.ImageTask;
+import com.project.matchingapp3.task.RestAPITask;
 
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class TeamActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -56,6 +62,20 @@ public class TeamActivity extends AppCompatActivity implements NavigationView.On
         jwtToken = intent.getStringExtra("jwtToken");
         navDataDto = (NavDataDto)intent.getSerializableExtra("navDataDto");
 
+        String[] result = new String[1];
+        RestAPITask task = new RestAPITask(jwtToken);
+
+        try {
+            result = task.execute("app/teamList").get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Log.e("test-팀리스트받기",result[0]);
+        Gson gson = new Gson();
+        List<Team> tList = gson.fromJson(result[0], new TypeToken<List<Team>>(){}.getType());
+        Log.e("test-팀리스트", tList.toString());
 
         //툴바
         toolbar = findViewById(R.id.toolbar);
@@ -118,7 +138,7 @@ public class TeamActivity extends AppCompatActivity implements NavigationView.On
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        TeamFragment1 fragment1 = new TeamFragment1();
+        TeamFragment1 fragment1 = new TeamFragment1(tList);
         adapter.addItem(fragment1);
 
         TeamFragment2 fragment2 = new TeamFragment2();

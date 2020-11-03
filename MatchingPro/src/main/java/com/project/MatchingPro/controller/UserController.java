@@ -70,4 +70,10 @@ public class UserController {	//app,web 둘다적용
 	public List<User> list(){
 		return userRepository.findAll();
 	}
+	
+	//팀없는 유저리스트
+	@GetMapping("/notTeamUserList")
+	public List<User> notlist(){
+		return userRepository.mfindAll();
+	}
 }

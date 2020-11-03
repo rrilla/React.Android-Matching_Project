@@ -45,6 +45,7 @@ public class User {
 	private String nickname;
 	private String email;
 	private String phone;
+	private String position;
 	private String location;	
 	@Column(length = 1000000000)
 	private String image;

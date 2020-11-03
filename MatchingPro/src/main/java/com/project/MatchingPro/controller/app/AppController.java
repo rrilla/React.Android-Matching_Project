@@ -1,6 +1,8 @@
 package com.project.MatchingPro.controller.app;
 
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.project.MatchingPro.domain.team.Team;
+import com.project.MatchingPro.domain.team.TeamRepository;
 import com.project.MatchingPro.domain.user.User;
 import com.project.MatchingPro.domain.user.UserRepository;
 import com.project.MatchingPro.dto.app.NavDataDto;
@@ -26,6 +30,7 @@ public class AppController {
 	
 	private final AppService appService;
 	private final UserRepository userRepository;
+	private final TeamRepository teamRepository;
 	private final HttpSession session;
 
 	@PostMapping("user/navData")
@@ -47,5 +52,11 @@ public class AppController {
 		return new ResponseEntity<String>(
 				appService.imgUpload(multipartFile),
 				HttpStatus.OK);
+	}
+	
+	//팀 리스트
+	@PostMapping("app/teamList")
+	public List<Team> teamList(){
+		return teamRepository.findAll();
 	}
 }
