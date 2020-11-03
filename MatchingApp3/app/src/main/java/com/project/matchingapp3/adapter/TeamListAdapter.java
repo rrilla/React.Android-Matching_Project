@@ -9,7 +9,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.project.matchingapp3.R;
+import com.project.matchingapp3.fragment.TeamFragment1;
 import com.project.matchingapp3.model.Team;
 
 import java.util.ArrayList;
@@ -19,12 +21,6 @@ public class TeamListAdapter extends RecyclerView.Adapter<TeamListAdapter.ViewHo
     ArrayList<Team> items = new ArrayList<Team>();
 
     OnTeamItemClickListener listener;
-
-    public TeamListAdapter(){}
-
-    public TeamListAdapter(ArrayList<Team> items) {
-        this.items = items;
-    }
 
     @NonNull
     @Override
@@ -73,12 +69,14 @@ public class TeamListAdapter extends RecyclerView.Adapter<TeamListAdapter.ViewHo
         }
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvName, tvLocation, tvCount;
         ImageView ivImage;
+        View view;
 
         public ViewHolder(View itemView, final OnTeamItemClickListener listener) {
             super(itemView);
+            this.view = itemView;
 
             tvName = itemView.findViewById(R.id.iTeam_tv_tName);
             tvLocation = itemView.findViewById(R.id.iTeam_tv_tLocation);
@@ -99,7 +97,9 @@ public class TeamListAdapter extends RecyclerView.Adapter<TeamListAdapter.ViewHo
         public void setItem(Team item) {
             tvName.setText(item.getName());
             tvLocation.setText(item.getLocation());
-            tvCount.setText(item.getUsers().size());
+            tvCount.setText("1");
+            //Glide.with(view).load("http://10.100.102.15:8000/image/"+item.getImage()).into(ivImage);
+            Glide.with(view).load(item.getImage()).into(ivImage);
         }
 
     }

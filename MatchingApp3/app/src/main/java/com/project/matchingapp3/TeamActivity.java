@@ -24,6 +24,8 @@ import android.widget.Toast;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.project.matchingapp3.activity.LoginActivity;
 import com.project.matchingapp3.activity.MyPageActivity;
 import com.project.matchingapp3.adapter.ViewPagerAdapter;
@@ -37,6 +39,7 @@ import com.project.matchingapp3.model.dto.NavDataDto;
 import com.project.matchingapp3.task.ImageTask;
 import com.project.matchingapp3.task.RestAPITask;
 
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class TeamActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -49,7 +52,6 @@ public class TeamActivity extends AppCompatActivity implements NavigationView.On
     NavDataDto navDataDto;
     String jwtToken;
     Bitmap bitImg;
-    Team team;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +73,9 @@ public class TeamActivity extends AppCompatActivity implements NavigationView.On
             e.printStackTrace();
         }
         Log.e("test-팀리스트받기",result[0]);
+        Gson gson = new Gson();
+        List<Team> tList = gson.fromJson(result[0], new TypeToken<List<Team>>(){}.getType());
+        Log.e("test-팀리스트", tList.toString());
 
         //툴바
         toolbar = findViewById(R.id.toolbar);
@@ -133,7 +138,7 @@ public class TeamActivity extends AppCompatActivity implements NavigationView.On
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        TeamFragment1 fragment1 = new TeamFragment1(team);
+        TeamFragment1 fragment1 = new TeamFragment1(tList);
         adapter.addItem(fragment1);
 
         TeamFragment2 fragment2 = new TeamFragment2();

@@ -2,6 +2,7 @@ package com.project.matchingapp3.fragment;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.project.matchingapp3.MainActivity;
 import com.project.matchingapp3.R;
 import com.project.matchingapp3.model.dto.NavDataDto;
@@ -18,11 +20,11 @@ import com.project.matchingapp3.model.dto.NavDataDto;
 public class HomeFragment3 extends Fragment {
 
     private NavDataDto navDataDto;
-    private Bitmap bitImg;
+    private Bitmap bitImgTeam;
 
-    public HomeFragment3(NavDataDto navDataDto, Bitmap bitImg){
+    public HomeFragment3(NavDataDto navDataDto, Bitmap bitImgTeam){
         this.navDataDto = navDataDto;
-        this.bitImg = bitImg;
+        this.bitImgTeam = bitImgTeam;
     }
 
     @Override
@@ -38,7 +40,7 @@ public class HomeFragment3 extends Fragment {
         f3TvName.setText(navDataDto.getT_name());
         f3TvLocation.setText(navDataDto.getT_location());
         f3TvExplain.setText(navDataDto.getT_explaintation());
-        f3IvImage.setImageBitmap(bitImg);
+        f3IvImage.setImageBitmap(bitImgTeam);
 
 //        Button button = rootView.findViewById(R.id.button);
 //        button.setOnClickListener(new View.OnClickListener() {

@@ -64,7 +64,7 @@ public class NavDataDto implements Serializable {
     }
 
     public String getT_image() {
-        return t_image;
+        return "http://10.100.102.15:8000/image/"+t_image;
     }
 
     public void setT_image(String t_image) {
