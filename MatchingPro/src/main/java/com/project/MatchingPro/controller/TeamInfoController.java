@@ -25,6 +25,8 @@ public class TeamInfoController {
 	@PostMapping("/user/teamInfo")
 	public ResponseEntity<?> teamInfoRegister(@RequestBody TeamInfo teamInfo) {
 		User user = (User)session.getAttribute("principal");
+		System.out.println("controller 들어옴");
+		System.out.println(teamInfo.getUser1());
 		return teamInfoService.teamInfoRegister(teamInfo, user);
 	}
 }

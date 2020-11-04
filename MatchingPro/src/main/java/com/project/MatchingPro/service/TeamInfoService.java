@@ -52,6 +52,7 @@ public class TeamInfoService {
 		teamInfoRepository.save(teamInfoEntity);
 		return new ResponseEntity<String>("ok",HttpStatus.OK);
 	}catch(Exception e) {
+		e.printStackTrace();
 		System.out.println("실패");
 		return new ResponseEntity<String>("ok",HttpStatus.OK);
 	}

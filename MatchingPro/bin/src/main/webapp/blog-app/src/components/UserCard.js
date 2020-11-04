@@ -7,14 +7,17 @@ const LinkStyle = styled.span`
     color : black;
   `;
 
-const TeamCard = (props) => {
+const UserCard = (props) => {
 	console.log("TeamCard:: props data: ", props);
 
-	const memberCount = props.team.users.length;
-	const { id, explaintation, name, owner, image} = props.team;
+
+	//const memberCount = props.team.users.length;
+
+
+	const { id, explaintation, name, owner} = props.team;
 	const nickname = owner.nickname;
 	const url = "/Team_detail/"+id;
-//http://ip:8000/image/ imageValue
+
 	return (
 		<div>
 		<Card style={{ width: '18rem' }}>
@@ -40,4 +43,4 @@ const TeamCard = (props) => {
 	);
 };
 
-export default TeamCard;
+export default UserCard;

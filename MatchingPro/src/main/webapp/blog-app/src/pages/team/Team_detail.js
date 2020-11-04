@@ -47,18 +47,56 @@ const Team_detail = (props) => {
 	};
 
 	const sss = () => {
-		alert("대전신청 완료");
-		/* fetch(`http://localhost:8000/user/apply1/${teamId}`, {
+		let teamInfo = {
+			/* loginid: user.loginid,
+			password: user.password */
+			//user1: {id: 1},
+			user2: { id: 1 },
+			user3: { id: 1 },
+			user4: { id: 1 },
+			user5: { id: 1 },
+			user6: { id: 1 },
+			user7: { id: 1 },
+			user8: { id: 1 },
+			user9: { id: 1 },
+			user10: { id: 1 },
+			user11: { id: 1 },
+
+		}
+
+		fetch(`http://localhost:8000/user/teamInfo`, {
 			method: "post",
+			body: JSON.stringify(teamInfo),
 			headers: {
 				'Content-Type': "application/json; charset=utf-8",
 				'Authorization': localStorage.getItem("Authorization")
 			}
 		}).then((res) => res.text())
 			.then(res => {
+				if (res === "ok") alert("tema info create");
+				else alert("팀가입 요청 실패");
+			});
+	};
+
+	const aaa = () => {
+		let battle = {
+
+		}
+		fetch(`http://localhost:8000/user/matchApply/${teamId}`, {
+			method: "post",
+			body: JSON.stringify(battle),
+			headers: {
+				'Content-Type': "application/json; charset=utf-8",
+				'Authorization': localStorage.getItem("Authorization")
+			}
+		}).then((res) => {
+			console.log("battle 신청 res : ", res);
+			return res.text()
+		})
+			.then(res => {
 				if (res === "ok") alert("팀가입 요청 완료");
 				else alert("팀가입 요청 실패");
-			}); */
+			});
 	};
 
 	return (
@@ -83,7 +121,11 @@ const Team_detail = (props) => {
 								<Button onClick={joinTeamReq} variant="outline-success">가입신청</Button>
 							</Col>
 							<Col md={3}>
-								<Button onClick={sss} variant="outline-success">대전신청</Button>
+								<Button onClick={sss} variant="outline-success">teaminfo</Button>
+							</Col>
+
+							<Col md={3}>
+								<Button onClick={aaa} variant="outline-success">대전신청</Button>
 							</Col>
 						</Row>
 					</Jumbotron>
