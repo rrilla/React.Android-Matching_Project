@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { Container, Row, Col, Carousel, Jumbotron, Button, Breadcrumb, Card, ListGroup, ListGroupItem, ResponsiveEmbed, Form, FormControl, Modal } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import TeamCard from '../components/TeamCard';
+import UserCard from '../components/UserCard';
 import Background from '../components/Background';
 import Slide from '../components/Slide';
 
@@ -31,15 +32,26 @@ const MainForm = () => {
       console.log("mainForm:: teamList -> json data", res);
       setTeams(res);
     });
+
+
+    fetch("http://localhost:8000//userList", {
+      method: "get",
+    }).then((res) => {
+      console.log("mainForm:: userList rsponse", res);
+      return res.json();
+    }).then((res) => {
+      console.log("mainForm:: userList -> json data", res);
+      setTusers(res);
+    });
   }, []);
 
   const [teams, setTeams] = useState([]);
+  const [users, setTusers] = useState([]);
 
   return (
 
     <Container>
-      <Background/>
-      <Slide/>
+      <Slide />
       <Row>
         <MainCardStyle>
           <Jumbotron>
@@ -58,6 +70,12 @@ const MainForm = () => {
       <Row>
         {teams.map((res) => (<Col md={4}><TeamCard team={res} key={res.id}></TeamCard></Col>))}
       </Row>
+
+      <Row>
+        {/* {users.map((res) => (<Col md={4}><UserCard team={res} key={res.id}></UserCard></Col>))} */}
+
+      </Row>
+
     </Container>
   );
 };

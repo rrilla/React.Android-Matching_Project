@@ -54,6 +54,8 @@ public class BattleController {
 	@GetMapping("/user/loginBattleList")
 	public List<Battle> loginBattleList (){
 		User user = (User) session.getAttribute("principal");
+
+
 		System.out.println(user.getTeams().getId());
 		return battleRepository.mfindAll(user.getTeams().getId());
 	}

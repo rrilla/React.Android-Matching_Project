@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Container, Form, Button, Col, Row } from 'react-bootstrap';
+import { Container, Row, Col, Carousel, Jumbotron, Button, Breadcrumb, Card, ListGroup, ListGroupItem, ResponsiveEmbed, Form, FormControl, Modal } from 'react-bootstrap';
 import styled from "styled-components";
+import { Link } from 'react-router-dom';
 
 /*const Input_style = styled.input`
 			width: 30%;
@@ -11,7 +12,9 @@ import styled from "styled-components";
 			background: #f1f1f1;
 			align : center;
 		`;*/
-
+const LinkStyle = styled.span`
+  color : black;
+`;
 const SpanStyle = styled.span`
 	line-height:100%
 `;
@@ -144,90 +147,104 @@ const JoinForm = () => {
 
 	return (
 		<Container>
-			<br/><br/><br/><br/><br/>
-			<Form>
-				<Form.Group as={Col} controlId="formGridEmail">
-					<Form.Label>아이디</Form.Label>
-					<Form.Control
-						type="text"
-						name="loginid"
-						placeholder="아이디"
-						onChange={inputHandle}
-						value={user.loginid} />
-					<SpanStyle><br /></SpanStyle>
-					<Button variant="success" onClick={idDuplicateCheck}>아이디 중복검사</Button>{' '}
-				</Form.Group>
+			<br /><br /><br /><br /><br />
 
-				<Form.Group as={Col} controlId="formGridPassword">
-					<Form.Label>비밀번호</Form.Label>
-					<Form.Control
-						type="password"
-						name="password"
-						placeholder="비밀번호"
-						onChange={inputHandle}
-						value={user.password} />
-				</Form.Group>
+			<Jumbotron>
+				<Form>
+					<Form.Group as={Col} controlId="formGridEmail">
+						<Form.Label>아이디</Form.Label>
+						<Row>
+							<Col md={10}>
+								<Form.Control
+									type="text"
+									name="loginid"
+									placeholder="아이디"
+									onChange={inputHandle}
+									value={user.loginid} /></Col>
+							<Col md={2}><Button variant="dark" onClick={idDuplicateCheck}>아이디 중복검사</Button>{' '}
+							</Col>
+						</Row>
+					</Form.Group>
 
-				<Form.Group as={Col} controlId="formGridEmail">
-					<Form.Label>이름</Form.Label>
-					<Form.Control
-						type="text"
-						name="username"
-						placeholder="이름"
-						onChange={inputHandle}
-						value={user.username} />
-				</Form.Group>
+					<Form.Group as={Col} controlId="formGridPassword">
+						<Form.Label>비밀번호</Form.Label>
+						<Form.Control
+							type="password"
+							name="password"
+							placeholder="비밀번호"
+							onChange={inputHandle}
+							value={user.password} />
+					</Form.Group>
 
-				<Form.Group as={Col} controlId="formGridEmail">
-					<Form.Label>닉네임</Form.Label>
-					<Form.Control
-						type="text"
-						name="nickname"
-						placeholder="닉네임"
-						onChange={inputHandle}
-						value={user.nickname} />
-					<SpanStyle><br /></SpanStyle>
-					<Button variant="success" onClick={nicknameDuplicateCheck}>닉네임 중복검사</Button>{' '}
-				</Form.Group>
+					<Form.Group as={Col} controlId="formGridEmail">
+						<Form.Label>이름</Form.Label>
+						<Form.Control
+							type="text"
+							name="username"
+							placeholder="이름"
+							onChange={inputHandle}
+							value={user.username} />
+					</Form.Group>
 
-				<Form.Group as={Col} controlId="formGridEmail">
-					<Form.Label>이메일</Form.Label>
-					<Form.Control
-						type="email"
-						name="email"
-						placeholder="이메일"
-						onChange={inputHandle}
-						value={user.email} />
-				</Form.Group>
+					<Form.Group as={Col} controlId="formGridEmail">
+						<Form.Label>닉네임</Form.Label>
+						<Row>
+							<Col md={10}>
+								<Form.Control
+									type="text"
+									name="loginid"
+									placeholder="아이디"
+									onChange={inputHandle}
+									value={user.loginid} />
+							</Col>
+							<Col md={2}>
+								<Button variant="dark" onClick={nicknameDuplicateCheck}>닉네임 중복검사</Button>{' '}
+							</Col>
+						</Row>
+					</Form.Group>
 
-				<Form.Group as={Col} controlId="formGridEmail">
-					<Form.Label>휴대폰 번호 </Form.Label>
-					<Form.Control
-						type="tel"
-						name="phone"
-						placeholder="휴대폰번호"
-						onChange={inputHandle}
-						value={user.tel} />
-				</Form.Group>
+					<Form.Group as={Col} controlId="formGridEmail">
+						<Form.Label>이메일</Form.Label>
+						<Form.Control
+							type="email"
+							name="email"
+							placeholder="이메일"
+							onChange={inputHandle}
+							value={user.email} />
+					</Form.Group>
 
-				<Form.Group as={Col} controlId="formGridEmail">
-					<Form.Label>지역 </Form.Label>
-					<Form.Control
-						type="text"
-						name="location"
-						placeholder="지역을 입력하세요"
-						onChange={inputHandle}
-						value={user.location} />
-				</Form.Group>
+					<Form.Group as={Col} controlId="formGridEmail">
+						<Form.Label>휴대폰 번호 </Form.Label>
+						<Form.Control
+							type="tel"
+							name="phone"
+							placeholder="휴대폰번호"
+							onChange={inputHandle}
+							value={user.tel} />
+					</Form.Group>
 
-				<Form.Group id="formGridCheckbox">
-					<Form.Check type="checkbox" label="이메일 수신에 동의하십니까?" />
-				</Form.Group>
+					<Form.Group as={Col} controlId="formGridEmail">
+						<Form.Label>지역 </Form.Label>
+						<Form.Control
+							type="text"
+							name="location"
+							placeholder="지역을 입력하세요"
+							onChange={inputHandle}
+							value={user.location} />
+					</Form.Group>
+					<Form.Group as={Col} controlId="formGridEmail">
+						<Button variant="dark" onClick={openTextFile}>Select Image</Button>{' '}
+					</Form.Group>
 
-				<Button onClick={openTextFile}>Select Image</Button><br/><br/>
+					<Form.Group as={Col} controlId="formGridEmail">
+						<hr/>
+						<Button variant="info" onClick={joinRequest}>회원가입</Button>{' '}
+					</Form.Group>
 
-				<Button variant="success" onClick={joinRequest}>회원가입</Button>{' '}
-			</Form>
+				</Form>
+			</Jumbotron>
+
+
 		</Container>
 	);
 };
