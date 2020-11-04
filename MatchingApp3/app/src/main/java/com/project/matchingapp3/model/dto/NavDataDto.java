@@ -64,7 +64,8 @@ public class NavDataDto implements Serializable {
     }
 
     public String getT_image() {
-        return "http://10.100.102.15:8000/image/"+t_image;
+        //return "http://10.100.102.15:8000/image/"+t_image;
+        return t_image;
     }
 
     public void setT_image(String t_image) {
@@ -77,5 +78,15 @@ public class NavDataDto implements Serializable {
 
     public void setT_explaintation(String t_explaintation) {
         this.t_explaintation = t_explaintation;
+    }
+
+    public String getUrlImage(){
+        //return "http://172.30.1.42:8000/image/" + image;  //집
+        return "http://10.100.102.15:8000/image/" + image;//학원
+    }
+
+    public String getUrlTImage(){
+        //return "http://172.30.1.42:8000/image/" + t_image;  //집
+        return "http://10.100.102.15:8000/image/" + t_image;//학원
     }
 }

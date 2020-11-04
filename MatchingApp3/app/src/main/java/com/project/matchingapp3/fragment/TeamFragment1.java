@@ -1,5 +1,6 @@
 package com.project.matchingapp3.fragment;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 
@@ -16,7 +17,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.project.matchingapp3.MainActivity;
 import com.project.matchingapp3.R;
+import com.project.matchingapp3.activity.TeamDetailActivity;
 import com.project.matchingapp3.adapter.OnTeamItemClickListener;
 import com.project.matchingapp3.adapter.TeamListAdapter;
 import com.project.matchingapp3.model.Team;
@@ -59,6 +62,11 @@ public class TeamFragment1 extends Fragment {
                 Team item = adapter.getItem(position);
 
                 Toast.makeText(getContext(), "아이템 선택됨 : " + item.getName(), Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getContext(), TeamDetailActivity.class);
+                //intent.putExtra("jwtToken", jwtToken);
+                //intent.putExtra("navDataDto", navDataDto);
+                intent.putExtra("selectTeamId", item.getId());
+                startActivity(intent);
             }
         });
 

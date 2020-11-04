@@ -19,7 +19,7 @@ public class ImageTask extends AsyncTask<String, Integer, Bitmap>{
     @Override
     protected Bitmap doInBackground(String... strings) {
         try{
-            URL myFileUrl = new URL(strings[0]);
+            URL myFileUrl = new URL(serverUrl + strings[0]);
             HttpURLConnection conn = (HttpURLConnection)myFileUrl.openConnection();
             conn.setDoInput(true);
             conn.connect();

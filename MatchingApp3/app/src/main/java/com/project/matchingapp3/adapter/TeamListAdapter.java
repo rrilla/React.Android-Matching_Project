@@ -1,5 +1,6 @@
 package com.project.matchingapp3.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.project.matchingapp3.R;
 import com.project.matchingapp3.fragment.TeamFragment1;
 import com.project.matchingapp3.model.Team;
+import com.project.matchingapp3.model.User;
 
 import java.util.ArrayList;
 
@@ -24,15 +26,15 @@ public class TeamListAdapter extends RecyclerView.Adapter<TeamListAdapter.ViewHo
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+    public TeamListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
         View itemView = inflater.inflate(R.layout.teamlist_item, viewGroup, false);
 
-        return new ViewHolder(itemView, this);
+        return new TeamListAdapter.ViewHolder(itemView, this);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull TeamListAdapter.ViewHolder viewHolder, int position) {
         Team item = items.get(position);
         viewHolder.setItem(item);
     }
@@ -63,7 +65,7 @@ public class TeamListAdapter extends RecyclerView.Adapter<TeamListAdapter.ViewHo
     }
 
     @Override
-    public void onItemClick(ViewHolder holder, View view, int position) {
+    public void onItemClick(TeamListAdapter.ViewHolder holder, View view, int position) {
         if (listener != null) {
             listener.onItemClick(holder, view, position);
         }
@@ -97,9 +99,9 @@ public class TeamListAdapter extends RecyclerView.Adapter<TeamListAdapter.ViewHo
         public void setItem(Team item) {
             tvName.setText(item.getName());
             tvLocation.setText(item.getLocation());
-            tvCount.setText("1");
-            //Glide.with(view).load("http://10.100.102.15:8000/image/"+item.getImage()).into(ivImage);
-            Glide.with(view).load(item.getImage()).into(ivImage);
+            tvCount.setText(item.getUsers().size()+" / 20");
+            Glide.with(view).load(item.getUrlImage()).into(ivImage);
+            //Glide.with(view).load(item.getImage()).into(ivImage);
         }
 
     }

@@ -60,6 +60,14 @@ public class RestAPITask extends AsyncTask<String, Object, String[]> {
             reqUrl = json[0];
             serverUrl += reqUrl;
             method = "POST";
+        }else if(json[0].equals("app/userList")){
+            reqUrl = json[0];
+            serverUrl += reqUrl;
+            method = "POST";
+        }else if(json[0].equals("app/teamDetail/")){
+            reqUrl = json[0];
+            serverUrl += reqUrl + json[1];
+            method = "POST";
         }
 
         try {
