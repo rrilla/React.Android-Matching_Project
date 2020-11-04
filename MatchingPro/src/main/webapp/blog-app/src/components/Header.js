@@ -47,7 +47,15 @@ const Header = (props) => {
   return (
     <HeaderStyle>
       <Navbar bg="light" expand="lg">
-        <Navbar.Brand ><Nav.Link><Link to="/"><LinkStyle>main lofo</LinkStyle></Link></Nav.Link></Navbar.Brand>
+        
+      <Nav.Link><Link to="/"><LinkStyle><Navbar.Brand ><img
+        src="/soccer_logo-removebg-preview.png"
+        width="30"
+        height="30"
+        // className="d-inline-block align-top"
+        alt="React Bootstrap logo"
+      />{''}
+      </Navbar.Brand></LinkStyle></Link></Nav.Link>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
