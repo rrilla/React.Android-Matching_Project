@@ -52,12 +52,7 @@ function LoginForm(props) {
 
 	return (
 		<div>
-			<br />
-			<br />
-			<br />
-			<br />
-			<>
-				<Button variant="primary" onClick={handleShow}>
+				<Button variant="dark" onClick={handleShow}>
 					로그인
 				</Button>
 
@@ -122,8 +117,7 @@ function LoginForm(props) {
 						
 					</Modal.Footer>
 				</Modal>
-			</>
-
+			
 		</div>
 	);
 }

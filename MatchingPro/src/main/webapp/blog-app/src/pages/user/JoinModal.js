@@ -155,7 +155,7 @@ const JoinModal = () => {
 
 
 		<>
-			<Button variant="primary" onClick={handleShow}>
+			<Button variant="dark" onClick={handleShow}>
 				회원가입
 		</Button>
 
