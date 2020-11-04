@@ -11,30 +11,29 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.project.matchingapp3.R;
-import com.project.matchingapp3.fragment.TeamFragment1;
 import com.project.matchingapp3.model.Team;
 import com.project.matchingapp3.model.User;
 
 import java.util.ArrayList;
 
-public class TeamListAdapter extends RecyclerView.Adapter<TeamListAdapter.ViewHolder>
-        implements OnTeamItemClickListener  {
-    ArrayList<Team> items = new ArrayList<Team>();
+public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHolder>
+        implements OnUserItemClickListener  {
+    ArrayList<User> items = new ArrayList<User>();
 
-    OnTeamItemClickListener listener;
+    OnUserItemClickListener listener;
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+    public UserListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-        View itemView = inflater.inflate(R.layout.teamlist_item, viewGroup, false);
+        View itemView = inflater.inflate(R.layout.userlist_item, viewGroup, false);
 
-        return new ViewHolder(itemView, this);
+        return new UserListAdapter.ViewHolder(itemView, this);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
-        Team item = items.get(position);
+    public void onBindViewHolder(@NonNull UserListAdapter.ViewHolder viewHolder, int position) {
+        User item = items.get(position);
         viewHolder.setItem(item);
     }
 
@@ -43,64 +42,63 @@ public class TeamListAdapter extends RecyclerView.Adapter<TeamListAdapter.ViewHo
         return items.size();
     }
 
-    public void addItem(Team item) {
+    public void addItem(User item) {
         items.add(item);
     }
 
-    public void setItems(ArrayList<Team> items) {
+    public void setItems(ArrayList<User> items) {
         this.items = items;
     }
 
-    public Team getItem(int position) {
+    public User getItem(int position) {
         return items.get(position);
     }
 
-    public void setItem(int position, Team item) {
+    public void setItem(int position, User item) {
         items.set(position, item);
     }
 
-    public void setOnItemClickListener(OnTeamItemClickListener listener) {
+    public void setOnItemClickListener(OnUserItemClickListener listener) {
         this.listener = listener;
     }
 
     @Override
-    public void onItemClick(ViewHolder holder, View view, int position) {
+    public void onItemClick(UserListAdapter.ViewHolder holder, View view, int position) {
         if (listener != null) {
             listener.onItemClick(holder, view, position);
         }
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvName, tvLocation, tvCount;
+        TextView tvName, tvLocation, tvPosition;
         ImageView ivImage;
         View view;
 
-        public ViewHolder(View itemView, final OnTeamItemClickListener listener) {
+        public ViewHolder(View itemView, final OnUserItemClickListener listener) {
             super(itemView);
             this.view = itemView;
 
-            tvName = itemView.findViewById(R.id.iTeam_tv_tName);
-            tvLocation = itemView.findViewById(R.id.iTeam_tv_tLocation);
-            tvCount = itemView.findViewById(R.id.iTeam_tv_tCount);
-            ivImage = itemView.findViewById(R.id.iTeam_iv_tImage);
+            tvName = itemView.findViewById(R.id.iUser_tv_Name);
+            tvLocation = itemView.findViewById(R.id.iUser_tv_location);
+            tvPosition = itemView.findViewById(R.id.iUser_tv_position);
+            ivImage = itemView.findViewById(R.id.iUser_tv_image);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     int position = getAdapterPosition();
                     if (listener != null) {
-                        listener.onItemClick(ViewHolder.this, view, position);
+                        listener.onItemClick(UserListAdapter.ViewHolder.this, view, position);
                     }
                 }
             });
         }
 
-        public void setItem(Team item) {
-            tvName.setText(item.getName());
+        public void setItem(User item) {
+            tvName.setText(item.getNickname());
             tvLocation.setText(item.getLocation());
-            tvCount.setText("1");
+            //tvPosition.setText(item.getPosition);
             Glide.with(view).load(item.getUrlImage()).into(ivImage);
-            //Glide.with(view).load(item.getImage()).into(ivImage);
         }
 
     }

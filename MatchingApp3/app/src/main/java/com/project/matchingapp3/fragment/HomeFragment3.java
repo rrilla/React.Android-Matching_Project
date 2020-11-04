@@ -20,11 +20,9 @@ import com.project.matchingapp3.model.dto.NavDataDto;
 public class HomeFragment3 extends Fragment {
 
     private NavDataDto navDataDto;
-    private Bitmap bitImgTeam;
 
-    public HomeFragment3(NavDataDto navDataDto, Bitmap bitImgTeam){
+    public HomeFragment3(NavDataDto navDataDto){
         this.navDataDto = navDataDto;
-        this.bitImgTeam = bitImgTeam;
     }
 
     @Override
@@ -40,7 +38,7 @@ public class HomeFragment3 extends Fragment {
         f3TvName.setText(navDataDto.getT_name());
         f3TvLocation.setText(navDataDto.getT_location());
         f3TvExplain.setText(navDataDto.getT_explaintation());
-        f3IvImage.setImageBitmap(bitImgTeam);
+        Glide.with(this).load(navDataDto.getUrlImage()).into(f3IvImage);
 
 //        Button button = rootView.findViewById(R.id.button);
 //        button.setOnClickListener(new View.OnClickListener() {

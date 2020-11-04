@@ -59,4 +59,10 @@ public class AppController {
 	public List<Team> teamList(){
 		return teamRepository.findAll();
 	}
+	
+	//유저 리스트
+		@PostMapping("app/userList")
+		public List<User> userList(){
+			return userRepository.findAll();
+		}
 }
