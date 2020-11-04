@@ -35,7 +35,6 @@ import com.project.matchingapp3.fragment.TeamFragment1;
 import com.project.matchingapp3.fragment.TeamFragment2;
 import com.project.matchingapp3.model.Team;
 import com.project.matchingapp3.model.dto.NavDataDto;
-import com.project.matchingapp3.task.ImageTask;
 import com.project.matchingapp3.task.RestAPITask;
 
 import java.util.List;

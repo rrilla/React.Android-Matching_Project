@@ -47,8 +47,9 @@ public class AppService {
 	}
 
 	public String imgUpload(MultipartFile multipartFile) {
-		String fileRoot = "C:/Users/admin/Desktop/test/";	//학원,저장될 외부 파일 경로
+		//String fileRoot = "C:/Users/admin/Desktop/test/";	//학원,저장될 외부 파일 경로
 		//String fileRoot = "C:/Users/user/Desktop/test/";	//집,저장될 외부 파일 경로
+		String fileRoot = System.getProperty("user.dir") + "/images/";
 		String originalFileName = multipartFile.getOriginalFilename();	//오리지날 파일명
 		String extension = originalFileName.substring(originalFileName.lastIndexOf("."));	//파일 확장자
 		String savedFileName = UUID.randomUUID() + extension;	//저장될 파일 명
@@ -63,5 +64,5 @@ public class AppService {
 		System.out.println(savedFileName);
 		return savedFileName;
 	}
-  
+	
 }

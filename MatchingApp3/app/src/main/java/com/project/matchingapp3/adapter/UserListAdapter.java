@@ -70,7 +70,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvName, tvLocation, tvPosition;
+        TextView tvName, tvLocation, tvPosition, tvTeamName;
         ImageView ivImage;
         View view;
 
@@ -81,6 +81,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
             tvName = itemView.findViewById(R.id.iUser_tv_Name);
             tvLocation = itemView.findViewById(R.id.iUser_tv_location);
             tvPosition = itemView.findViewById(R.id.iUser_tv_position);
+            tvTeamName = itemView.findViewById(R.id.iUser_tv_team);
             ivImage = itemView.findViewById(R.id.iUser_tv_image);
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -97,6 +98,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
         public void setItem(User item) {
             tvName.setText(item.getNickname());
             tvLocation.setText(item.getLocation());
+            tvTeamName.setText(item.getTeams().getName());
             //tvPosition.setText(item.getPosition);
             Glide.with(view).load(item.getUrlImage()).into(ivImage);
         }
