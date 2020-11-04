@@ -41,7 +41,7 @@ const Header = (props) => {
     }
     else {
       return <Row>
-        <Nav.Link><Link to="/Login"><LoginModal></LoginModal></Link></Nav.Link>
+        <Nav.Link><Link to="/Login"><LoginModal setToken={props.setToken}></LoginModal></Link></Nav.Link>
         <Nav.Link><Link to="/Join"><JoinModal></JoinModal></Link></Nav.Link>
         </Row>
     }

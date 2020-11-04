@@ -159,7 +159,7 @@ const JoinModal = () => {
 				회원가입
 		</Button>
 
-			<Modal show={show} onHide={handleClose}>
+			<Modal show={show} size={"lg"} onHide={handleClose}>
 				<Modal.Header closeButton>
 					<Modal.Title>회원가입</Modal.Title>
 				</Modal.Header>
@@ -181,7 +181,7 @@ const JoinModal = () => {
 											placeholder="아이디"
 											onChange={inputHandle}
 											value={user.loginid} /></Col>
-									<Col md={2}><Button variant="dark" onClick={idDuplicateCheck}>아이디 중복검사</Button>{' '}
+									<Col md={2}><Button variant="dark" onClick={idDuplicateCheck}>중복검사</Button>{' '}
 									</Col>
 								</Row>
 							</Form.Group>
@@ -218,7 +218,7 @@ const JoinModal = () => {
 											value={user.loginid} />
 									</Col>
 									<Col md={2}>
-										<Button variant="dark" onClick={nicknameDuplicateCheck}>닉네임 중복검사</Button>{' '}
+										<Button variant="dark" onClick={nicknameDuplicateCheck}>중복검사</Button>{' '}
 									</Col>
 								</Row>
 							</Form.Group>

@@ -101,8 +101,8 @@ function LoginForm(props) {
 						</Form.Row>
 						<br />
 						<Form.Row>
-							<Col md={4}></Col>
-							<Button variant="success" onClick={loginRequest}>로그인</Button>{' '}
+							<Col md={2}></Col>
+							<Button variant="info" onClick={loginRequest}>로그인</Button>{' '}
 
 
 						</Form.Row>
