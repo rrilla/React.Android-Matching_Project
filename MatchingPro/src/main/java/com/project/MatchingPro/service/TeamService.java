@@ -29,19 +29,21 @@ public class TeamService {
 		public ResponseEntity<?> save(User user, Team team) {
 			try {
 				//팀 생성하면서 장동으로 스코어 0승0무0패 설정
-				Score score = new Score();
-				score.setWin(0);
-				score.setDraw(0);
-				score.setLose(0);
-				scoreRepository.save(score);
-				team.setScore(score);
-				team.setOwner(user);
-				teamRepository.save(team);
-				// 여기서 그 쿼리 써서 팀에 teamId를 넣으면
-				//  유저의 팀에 team id가 들어가니까 
+					Score score = new Score();
+					score.setWin(0);
+					score.setDraw(0);
+					score.setLose(0);
+					scoreRepository.save(score);
+					team.setScore(score);
+					team.setOwner(user);
+					teamRepository.save(team);
+					// 여기서 그 쿼리 써서 팀에 teamId를 넣으면
+					//  유저의 팀에 team id가 들어가니까 
 
-				System.out.println("팀 생성 성공");
-				return new ResponseEntity<String>("ok", HttpStatus.OK);
+					System.out.println("팀 생성 성공");
+					
+					return new ResponseEntity<String>("팀생성", HttpStatus.OK);
+
 			} catch (Exception e) {
 				System.out.println("팀생성 실패");
 				return new ResponseEntity<String>("no",HttpStatus.OK);
@@ -93,5 +95,32 @@ public class TeamService {
 		return new ResponseEntity<Integer>(user.getTeams().getId(),HttpStatus.OK);
 		
 	}
+	
+
+	
+	//팀장위임
+	@Transactional
+	public ResponseEntity<?> 위임(User user, int userid){
+		Team teamEntity=teamRepository.findById(user.getTeams().getId()).get();
+		teamEntity.setOwner(userRepository.findById(userid).get());
+		//user.getTeams().setOwner(userRepository.findById(userid).get());
+		return new ResponseEntity<String>("위임완료",HttpStatus.OK);
+	}
   
 }
+
+////팀 삭제
+//@Transactional
+//public ResponseEntity<?> delete(User user){
+//	if(user.getTeams() != null) {
+//		scoreRepository.deleteById(user.getTeams().getScore().getId());
+//		teamRepository.deleteById(user.getTeams().getId());
+//	return new ResponseEntity<String>("팀을 탈퇴",HttpStatus.OK);
+//	} else {
+//	user.getTeams().setOwner(null);
+//	//user.setTeams(null);
+//	scoreRepository.deleteById(user.getTeams().getScore().getId());
+//	teamRepository.deleteById(user.getTeams().getId());
+//	return new ResponseEntity<String>("팀있음",HttpStatus.OK);
+//	}
+//}

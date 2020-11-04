@@ -2,6 +2,7 @@ package com.project.MatchingPro.domain.score;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,6 +23,6 @@ public class Score {
 	private int draw;
 	private int lose;
 	
-	@OneToMany
+	@OneToMany//(cascade = CascadeType.ALL)
 	private List<Team> score; 
 }

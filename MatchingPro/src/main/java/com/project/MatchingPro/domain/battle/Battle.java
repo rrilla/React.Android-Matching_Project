@@ -9,6 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.project.MatchingPro.domain.team.Team;
 import com.project.MatchingPro.domain.teamInfo.TeamInfo;
 import com.project.MatchingPro.domain.user.User;
@@ -44,8 +45,11 @@ public class Battle {
 	 
 	//Fk키            //ref : team테이블
 	@JoinColumn(name = "responseTeam")
-	 @ManyToOne
+	@ManyToOne
 	 private Team responseTeam;
+	
+	
+	//@JsonIgnoreProperties({"score","owner"})
 	
 	@OneToOne
 	private Team winerTeam;
