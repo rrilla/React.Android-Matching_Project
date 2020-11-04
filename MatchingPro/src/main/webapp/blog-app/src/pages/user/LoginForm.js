@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Form, Col, Button, Row, ListGroup, Badge } from 'react-bootstrap';
+import { Container, Form, Col, Button, Row, ListGroup, Badge, Modal } from 'react-bootstrap';
 import styled from 'styled-components';
 
 /*const Form_Style = styled.input`
@@ -11,6 +11,7 @@ import styled from 'styled-components';
         background: #f1f1f1;
         align : center;
       `;*/
+
 
 function LoginForm(props) {
 

@@ -33,17 +33,18 @@ const App = () => {
     <div>
       <Header isToken={isToken} setIsToken={setIsToken}></Header>
       <Background></Background>
+      
       {/* 아래는 Router */}
       <Route path="/" exact={true} component={MainForm}></Route>
       <Route path="/Join" exact={true} component={JoinForm}></Route>
-      <Route path="/Login" exact={true} component={LoginForm}><LoginForm setToken={setToken}></LoginForm></Route>
+      {/* <Route path="/Login" exact={true} component={LoginForm}><LoginForm setToken={setToken}></LoginForm></Route> */}
       <Route path="/Logout" exact={true} component={Logout}><Logout setToken={setToken}></Logout></Route>
 
       <Route path="/Team_detail/:id" exact={true} component={Team_detail}></Route>
       <Route path="/Team_create" exact={true} component={Team_create}></Route>
       <Route path="/MyTeam" exact={true} component={MyTeam}></Route>
-
-      {/* path에 적은 주소로 요청이 들어오면 component를 return해준다 */}
+      
+      {/* path에 적은 주소로 요 이 들어오면 component를 return해준다 */}
       {/* link to - /MyTeam -> component={MyTeam} */}
     </div>
   );

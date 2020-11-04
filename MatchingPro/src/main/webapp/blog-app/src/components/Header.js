@@ -1,7 +1,10 @@
-import React, { } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { Form, Button, Navbar, Nav, NavDropdown, FormControl, Row } from 'react-bootstrap';
+import { Form, Button, Navbar, Nav, NavDropdown, FormControl, Row, Modal } from 'react-bootstrap';
 import styled from "styled-components";
+import LoginModal from "./LoginModal";
+import JoinModal from "../pages/user/JoinModal";
+
 
 const LinkStyle = styled.span`
     color : black;
@@ -38,8 +41,8 @@ const Header = (props) => {
     }
     else {
       return <Row>
-        <Nav.Link><Link to="/Login"><LinkStyle>로그인</LinkStyle></Link></Nav.Link>
-        <Nav.Link><Link to="/Join"><LinkStyle>회원가입</LinkStyle></Link></Nav.Link>
+        <Nav.Link><Link to="/Login"><LoginModal></LoginModal></Link></Nav.Link>
+        <Nav.Link><Link to="/Join"><JoinModal></JoinModal></Link></Nav.Link>
         </Row>
     }
   }
@@ -63,6 +66,7 @@ const Header = (props) => {
           </Nav>
         </Navbar.Collapse>
       </Navbar>
+   
     </HeaderStyle>
   )
 };
