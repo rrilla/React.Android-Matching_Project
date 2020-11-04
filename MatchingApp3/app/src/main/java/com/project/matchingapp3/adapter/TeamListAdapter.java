@@ -1,5 +1,6 @@
 package com.project.matchingapp3.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -98,7 +99,7 @@ public class TeamListAdapter extends RecyclerView.Adapter<TeamListAdapter.ViewHo
         public void setItem(Team item) {
             tvName.setText(item.getName());
             tvLocation.setText(item.getLocation());
-            tvCount.setText("1");
+            tvCount.setText(item.getUsers().size()+" / 20");
             Glide.with(view).load(item.getUrlImage()).into(ivImage);
             //Glide.with(view).load(item.getImage()).into(ivImage);
         }
