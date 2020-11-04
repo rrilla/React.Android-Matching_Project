@@ -15,11 +15,18 @@
             android:layout_height="match_parent"
             android:orientation="vertical" >
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="팀 마크"
+                android:textSize="40dp" />
+
             <ImageView
                 android:id="@+id/FHome3_iv_tImage"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:src="@tools:sample/avatars" />
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:src="@drawable/icon_team" />
 
             <TextView
                 android:layout_width="match_parent"

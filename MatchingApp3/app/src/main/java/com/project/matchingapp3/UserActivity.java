@@ -10,7 +10,6 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -33,15 +32,17 @@ import com.project.matchingapp3.activity.TeamCreateActivity;
 import com.project.matchingapp3.adapter.ViewPagerAdapter;
 import com.project.matchingapp3.fragment.TeamFragment1;
 import com.project.matchingapp3.fragment.TeamFragment2;
+import com.project.matchingapp3.fragment.UserFragment1;
+import com.project.matchingapp3.fragment.UserFragment2;
 import com.project.matchingapp3.model.Team;
+import com.project.matchingapp3.model.User;
 import com.project.matchingapp3.model.dto.NavDataDto;
-import com.project.matchingapp3.task.ImageTask;
 import com.project.matchingapp3.task.RestAPITask;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-public class TeamActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class UserActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     BottomNavigationView bottomNavigationView;
     ViewPager pager;
@@ -54,7 +55,7 @@ public class TeamActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_team);
+        setContentView(R.layout.activity_user);
 
         Intent intent = getIntent();
         jwtToken = intent.getStringExtra("jwtToken");
@@ -64,16 +65,16 @@ public class TeamActivity extends AppCompatActivity implements NavigationView.On
         RestAPITask task = new RestAPITask(jwtToken);
 
         try {
-            result = task.execute("app/teamList").get();
+            result = task.execute("app/userList").get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        Log.e("test-팀리스트받기",result[0]);
+        Log.e("test-유저리스트받기",result[0]);
         Gson gson = new Gson();
-        List<Team> tList = gson.fromJson(result[0], new TypeToken<List<Team>>(){}.getType());
-        Log.e("test-팀리스트", tList.toString());
+        List<User> uList = gson.fromJson(result[0], new TypeToken<List<User>>(){}.getType());
+        Log.e("test-유저리스트", uList.toString());
 
         //툴바
         toolbar = findViewById(R.id.toolbar);
@@ -128,10 +129,10 @@ public class TeamActivity extends AppCompatActivity implements NavigationView.On
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        TeamFragment1 fragment1 = new TeamFragment1(tList);
+        UserFragment1 fragment1 = new UserFragment1(uList);
         adapter.addItem(fragment1);
 
-        TeamFragment2 fragment2 = new TeamFragment2();
+        UserFragment2 fragment2 = new UserFragment2();
         adapter.addItem(fragment2);
 
         pager.setAdapter(adapter);
@@ -139,8 +140,8 @@ public class TeamActivity extends AppCompatActivity implements NavigationView.On
 
         //상단 탭 네비
         TabLayout tabs = findViewById(R.id.tab_layout);
-        tabs.addTab(tabs.newTab().setText("팀 목록"));
-        tabs.addTab(tabs.newTab().setText("팀 랭킹"));
+        tabs.addTab(tabs.newTab().setText("유저 목록"));
+        tabs.addTab(tabs.newTab().setText("유저 랭킹"));
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -149,12 +150,12 @@ public class TeamActivity extends AppCompatActivity implements NavigationView.On
                 String title = "";
                 if(position == 0){
                     text = "상단탭 1 선택";
-                    title = "팀 목록";
+                    title = "유저 목록";
                 }else if(position == 1){
                     text = "상단탭 2 선택";
-                    title = "팀 랭킹";
+                    title = "유저 랭킹";
                 }
-                Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), text,Toast.LENGTH_SHORT).show();
                 pager.setCurrentItem(position,true);   // true = 페이지 전환시 스무스
                 toolbar.setTitle(title);
             }
@@ -239,7 +240,7 @@ public class TeamActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.appbar_menu, menu);
-        toolbar.setTitle("팀");
+        toolbar.setTitle("선수");
         return true;
     }
 

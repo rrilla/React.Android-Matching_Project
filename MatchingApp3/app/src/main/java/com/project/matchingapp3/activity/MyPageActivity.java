@@ -17,18 +17,26 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.project.matchingapp3.MainActivity;
 import com.project.matchingapp3.R;
 import com.project.matchingapp3.TeamActivity;
+import com.project.matchingapp3.UserActivity;
+import com.project.matchingapp3.model.Team;
+import com.project.matchingapp3.model.User;
 import com.project.matchingapp3.model.dto.NavDataDto;
 import com.project.matchingapp3.task.ImageTask;
 import com.project.matchingapp3.task.RestAPITask;
 
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class MyPageActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -39,7 +47,6 @@ public class MyPageActivity extends AppCompatActivity implements NavigationView.
 
     NavDataDto navDataDto;
     String jwtToken;
-    Bitmap bitImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,9 +71,25 @@ public class MyPageActivity extends AppCompatActivity implements NavigationView.
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        Gson gson = new Gson();
+        User user = gson.fromJson(result[0], new TypeToken<User>(){}.getType());
+        Log.d("test-유저정보 data",result[0]);
+        Log.d("test-유저정보 obj", user.toString());
 
-        Log.d("test-info 데이터받음",result[0]);
+        //user데이터 view출력
+        TextView tvName = findViewById(R.id.mypage_et_nickname);
+        TextView tvLocation = findViewById(R.id.mypage_et_location);
+        TextView tvPosition = findViewById(R.id.mypage_et_position);
+        TextView tvEmail = findViewById(R.id.mypage_et_email);
+        TextView tvPhone = findViewById(R.id.mypage_et_phone);
+        ImageView ivImage = findViewById(R.id.mypage_iv_image);
 
+        tvName.setText(user.getNickname());
+        tvLocation.setText(user.getLocation());
+        //tvPosition.setText(user.getPosition());
+        tvEmail.setText(user.getEmail());
+        tvPhone.setText(user.getPhone());
+        Glide.with(this).load(user.getUrlImage()).into(ivImage);
 
         //드로어 레이아웃
         drawer = findViewById(R.id.drawer_layout);
@@ -94,7 +117,10 @@ public class MyPageActivity extends AppCompatActivity implements NavigationView.
                         startActivity(intent2);
                         return true;
                     case R.id.tab3:
-                        //선수 액티비티
+                        Intent intent3 = new Intent(getApplicationContext(), UserActivity.class);
+                        intent3.putExtra("jwtToken", jwtToken);
+                        intent3.putExtra("navDataDto", navDataDto);
+                        startActivity(intent3);
                         return true;
                 }
                 return false;
@@ -125,15 +151,7 @@ public class MyPageActivity extends AppCompatActivity implements NavigationView.
         //이미지
         if(navDataDto.getImage() != null) {
             ImageView navImage = header.findViewById(R.id.navHeader_iv_image);
-            ImageTask imgTask = new ImageTask();
-            try {
-                bitImg = imgTask.execute(navDataDto.getImage()).get();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            navImage.setImageBitmap(bitImg);
+            Glide.with(this).load(navDataDto.getUrlImage()).into(navImage);
         }
         //텍스트
         TextView navName = header.findViewById(R.id.navHeader_tv_username);
@@ -175,7 +193,10 @@ public class MyPageActivity extends AppCompatActivity implements NavigationView.
             intent.putExtra("jwtToken", jwtToken);
             startActivity(intent);
         } else if (id == R.id.nav_menu2) {
-            Toast.makeText(this, "네비-메뉴2 선택", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(getApplicationContext(), TeamCreateActivity.class);
+            intent.putExtra("jwtToken", jwtToken);
+            intent.putExtra("navDataDto", navDataDto);
+            startActivity(intent);
         } else if (id == R.id.nav_menu3) {
             Toast.makeText(this, "네비-메뉴3 선택", Toast.LENGTH_LONG).show();
         }

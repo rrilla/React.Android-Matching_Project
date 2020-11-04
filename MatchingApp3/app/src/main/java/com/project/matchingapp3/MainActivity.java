@@ -48,7 +48,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     NavDataDto navDataDto;
     String jwtToken;
-    Bitmap bitImgTeam;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,16 +71,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Log.d("test-데이터받음",result[0]);
         Gson gson = new Gson();
         navDataDto = gson.fromJson(result[0], NavDataDto.class);
-        if(navDataDto.getT_image() != null){
-            ImageTask imgTask = new ImageTask();
-            try {
-                bitImgTeam = imgTask.execute(navDataDto.getT_image()).get();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+
 
         //툴바
         toolbar = findViewById(R.id.toolbar);
@@ -119,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //이미지
         if(navDataDto.getImage() != null) {
             ImageView navImage = header.findViewById(R.id.navHeader_iv_image);
-            Glide.with(this).load("http://10.100.102.15:8000/image/"+navDataDto.getImage()).into(navImage);
+            Glide.with(this).load(navDataDto.getUrlImage()).into(navImage);
         }
         //텍스트
         TextView navName = header.findViewById(R.id.navHeader_tv_username);
@@ -142,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         HomeFragment2 fragment2 = new HomeFragment2();
         adapter.addItem(fragment2);
 
-        HomeFragment3 fragment3 = new HomeFragment3(navDataDto, bitImgTeam);
+        HomeFragment3 fragment3 = new HomeFragment3(navDataDto);
         adapter.addItem(fragment3);
 
         pager.setAdapter(adapter);
@@ -197,7 +187,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         startActivity(intent2);
                         return true;
                     case R.id.tab3:
-                        //선수 액티비티
+                        Intent intent3 = new Intent(getApplicationContext(), UserActivity.class);
+                        intent3.putExtra("jwtToken", jwtToken);
+                        intent3.putExtra("navDataDto", navDataDto);
+                        startActivity(intent3);
                         return true;
                 }
                 return false;
