@@ -53,10 +53,6 @@ public class MyPageActivity extends AppCompatActivity implements NavigationView.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mypage);
 
-        //툴바
-        toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
         Intent intent = getIntent();
         jwtToken = intent.getStringExtra("jwtToken");
         navDataDto = (NavDataDto)intent.getSerializableExtra("navDataDto");
@@ -75,6 +71,10 @@ public class MyPageActivity extends AppCompatActivity implements NavigationView.
         User user = gson.fromJson(result[0], new TypeToken<User>(){}.getType());
         Log.d("test-유저정보 data",result[0]);
         Log.d("test-유저정보 obj", user.toString());
+
+        //툴바
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         //user데이터 view출력
         TextView tvName = findViewById(R.id.mypage_et_nickname);

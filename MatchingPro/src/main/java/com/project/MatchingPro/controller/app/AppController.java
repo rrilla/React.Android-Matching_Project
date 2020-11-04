@@ -62,15 +62,22 @@ public class AppController {
 	}
 	
 	//유저 리스트
-		@PostMapping("app/userList")
-		public List<User> userList(){
-			return userRepository.findAll();
-		}
+	@PostMapping("app/userList")
+	public List<User> userList(){
+		return userRepository.findAll();
+	}
 		
-	//팀상세보기
-		@PostMapping("app/teamDetail/{teamId}")
-		public Team teamDetail(@PathVariable int teamId) {
-			return teamRepository.findById(teamId).get();
-		}
+	//팀 상세보기
+	@PostMapping("app/teamDetail/{teamId}")
+	public Team teamDetail(@PathVariable int teamId) {
+		return teamRepository.findById(teamId).get();
+	}
+		
+	//유저 상세보기
+	@PostMapping("app/userDetail/{userId}")
+	public User userDetail(@PathVariable int userId) {
+		return userRepository.findById(userId).get();
+	}
+		
 		
 }

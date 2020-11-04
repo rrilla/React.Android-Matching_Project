@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -31,15 +30,13 @@ import com.project.matchingapp3.R;
 import com.project.matchingapp3.TeamActivity;
 import com.project.matchingapp3.UserActivity;
 import com.project.matchingapp3.model.Team;
+import com.project.matchingapp3.model.User;
 import com.project.matchingapp3.model.dto.NavDataDto;
 import com.project.matchingapp3.task.RestAPITask;
 
-import org.w3c.dom.Text;
-
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-public class TeamDetailActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class UserDetailActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     BottomNavigationView bottomNavigationView;
     Toolbar toolbar;
@@ -47,15 +44,20 @@ public class TeamDetailActivity extends AppCompatActivity implements NavigationV
 
     private NavDataDto navDataDto;
     private String jwtToken;
-    private int selectTeamId;
+    private int selectUserId;
+    private String selectUserTeam;
+    private String selectUserRole;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_team_detail);
+        setContentView(R.layout.activity_user_detail);
 
         Intent intent = getIntent();
-        selectTeamId = intent.getIntExtra("selectTeamId",0);
+        selectUserId = intent.getIntExtra("selectUserId",0);
+        selectUserTeam = intent.getStringExtra("selectUserTeam");
+        selectUserRole = intent.getStringExtra("selectUserRole");
+
         jwtToken = intent.getStringExtra("jwtToken");
         navDataDto = (NavDataDto)intent.getSerializableExtra("navDataDto");
 
@@ -63,37 +65,35 @@ public class TeamDetailActivity extends AppCompatActivity implements NavigationV
         RestAPITask task = new RestAPITask();
 
         try {
-            result = task.execute("app/teamDetail/", Integer.toString(selectTeamId)).get();
+            result = task.execute("app/userDetail/", Integer.toString(selectUserId)).get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        Log.e("test-팀받기",result[0]);
+        Log.e("test-유저받기",result[0]);
         Gson gson = new Gson();
-        Team team = gson.fromJson(result[0], new TypeToken<Team>(){}.getType());
-        Log.e("test-팀", team.toString());
+        User user = gson.fromJson(result[0], new TypeToken<User>(){}.getType());
+        Log.e("test-유저", user.toString());
 
         //툴바
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //TextView 데이터 삽입
-        TextView tvName = findViewById(R.id.tDetail_tv_tName);
-        TextView tvLocation = findViewById(R.id.tDetail_tv_tLocation);
-        TextView tvExplain = findViewById(R.id.tDetail_tv_tExplin);
-        TextView tvCount = findViewById(R.id.tDetail_tv_tCount);
-        TextView tvOwner = findViewById(R.id.tDetail_tv_tOwner);
-        ImageView ivImage = findViewById(R.id.tDetail_iv_tImage);
-        Button btnJoin = findViewById(R.id.tDetail_btn_join);
+        //user데이터 view출력
+        TextView tvName = findViewById(R.id.uDetail_tv_nickname);
+        TextView tvLocation = findViewById(R.id.uDetail_tv_location);
+        TextView tvPosition = findViewById(R.id.uDetail_tv_position);
+        TextView tvEmail = findViewById(R.id.uDetail_tv_email);
+        TextView tvPhone = findViewById(R.id.uDetail_tv_phone);
+        ImageView ivImage = findViewById(R.id.uDetail_iv_image);
 
-        tvName.setText(team.getName());
-        tvLocation.setText(team.getLocation());
-        tvExplain.setText(team.getExplaintation());
-        tvCount.setText(team.getUsers().size() + " / 20");
-        tvOwner.setText(team.getOwner().getNickname());
-        Glide.with(this).load(team.getUrlImage()).into(ivImage);
-
+        tvName.setText(user.getNickname());
+        tvLocation.setText(user.getLocation());
+        tvPosition.setText(user.getPosition());
+        tvEmail.setText(user.getEmail());
+        tvPhone.setText(user.getPhone());
+        Glide.with(this).load(user.getUrlImage()).into(ivImage);
 
         //드로어 레이아웃
         drawer = findViewById(R.id.drawer_layout);
@@ -164,27 +164,38 @@ public class TeamDetailActivity extends AppCompatActivity implements NavigationV
             navTName.setText(navDataDto.getT_name());
         }
 
-        btnJoin.setOnClickListener(new View.OnClickListener() {
+        Button btnScout = findViewById(R.id.uDetail_btn_scout);
+        btnScout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if(navDataDto.getT_name() != null){
-                    Snackbar.make(view, "가입신청 실패.  이미 가입한 팀이 있습니다.", Snackbar.LENGTH_SHORT).show();
+                //팀장아니면 못하게해야함.
+                if(navDataDto.getT_name() == null){
+                    Snackbar.make(view, "스카웃 신청 실패.  팀을 먼저 생성 해주세요.", Snackbar.LENGTH_SHORT).show();
                     return ;
-                }
-                String[] result = new String[1];
-                RestAPITask task = new RestAPITask(jwtToken);
+                } else if(selectUserRole != null){
+                    Snackbar.make(view, "스카웃 신청 실패.  구단주만 신청할 수 있습니다.", Snackbar.LENGTH_SHORT).show();
+                    return ;
+                } else if(selectUserTeam != null){
+                    Snackbar.make(view, "스카웃 신청 실패.  해당 유저는 가입된 팀이 있음.", Snackbar.LENGTH_SHORT).show();
+                    return ;
+                } else {
+                    String[] result = new String[1];
+                    RestAPITask task = new RestAPITask(jwtToken);
 
-                try {
-                    result = task.execute("user/apply1/", Integer.toString(selectTeamId)).get();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                    try {
+                        result = task.execute("user/apply2/", Integer.toString(selectUserId)).get();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
 
-                if(result[0].equals("ok")){
-                    Snackbar.make(view, "가입신청 완료.  구단주가 수락하면 가입됩니다.", Snackbar.LENGTH_SHORT).show();
+                    if (result[0].equals("ok")) {
+                        Snackbar.make(view, "스카웃 신청 완료.  유저가 수락하면 가입됩니다.", Snackbar.LENGTH_SHORT).show();
+                    }else{
+                        Snackbar.make(view, "스카웃 신청 실패.  " + result[0], Snackbar.LENGTH_SHORT).show();
+                    }
                 }
             }
         });

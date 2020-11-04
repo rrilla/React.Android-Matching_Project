@@ -127,7 +127,7 @@ public class TeamActivity extends AppCompatActivity implements NavigationView.On
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        TeamFragment1 fragment1 = new TeamFragment1(tList);
+        TeamFragment1 fragment1 = new TeamFragment1(tList, navDataDto, jwtToken);
         adapter.addItem(fragment1);
 
         TeamFragment2 fragment2 = new TeamFragment2();

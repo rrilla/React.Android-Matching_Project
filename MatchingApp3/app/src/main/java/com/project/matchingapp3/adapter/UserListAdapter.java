@@ -98,7 +98,9 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
         public void setItem(User item) {
             tvName.setText(item.getNickname());
             tvLocation.setText(item.getLocation());
-            tvTeamName.setText(item.getTeams().getName());
+            if(item.getTeams() != null){
+                tvTeamName.setText(item.getTeams().getName());
+            }
             //tvPosition.setText(item.getPosition);
             Glide.with(view).load(item.getUrlImage()).into(ivImage);
         }
