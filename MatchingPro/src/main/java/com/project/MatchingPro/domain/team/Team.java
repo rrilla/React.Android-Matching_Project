@@ -45,7 +45,7 @@ public class Team {
 	@OneToOne
 	private User owner;
 
-	@JsonIgnoreProperties({"teams","partys"})
+	@JsonIgnoreProperties({"teams"}) //partys
 	@OneToMany(mappedBy = "teams", fetch = FetchType.LAZY)//LAZY
 	private List<User> users;
 	
