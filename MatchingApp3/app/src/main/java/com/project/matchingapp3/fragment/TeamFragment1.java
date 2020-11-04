@@ -31,11 +31,17 @@ import java.util.List;
 public class TeamFragment1 extends Fragment {
 
     private ArrayList<Team> teams = new ArrayList<Team>();
+    private NavDataDto navDataDto;
+    private String jwtToken;
+
     private RecyclerView recyclerView;
     TeamListAdapter adapter;
 
-    public TeamFragment1(List<Team> teams){
+    public TeamFragment1(List<Team> teams, NavDataDto navDataDto, String jwtToken){
         this.teams = (ArrayList<Team>) teams;
+        this.navDataDto = navDataDto;
+        this.jwtToken = jwtToken;
+
         //this.teams.addAll(teams);
         Log.e("test-팀리스트프래그받음?", teams.toString());
     }
@@ -61,10 +67,9 @@ public class TeamFragment1 extends Fragment {
             public void onItemClick(TeamListAdapter.ViewHolder holder, View view, int position) {
                 Team item = adapter.getItem(position);
 
-                Toast.makeText(getContext(), "아이템 선택됨 : " + item.getName(), Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(getContext(), TeamDetailActivity.class);
-                //intent.putExtra("jwtToken", jwtToken);
-                //intent.putExtra("navDataDto", navDataDto);
+                intent.putExtra("jwtToken", jwtToken);
+                intent.putExtra("navDataDto", navDataDto);
                 intent.putExtra("selectTeamId", item.getId());
                 startActivity(intent);
             }

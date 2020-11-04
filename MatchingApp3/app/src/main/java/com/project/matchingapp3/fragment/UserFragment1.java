@@ -1,23 +1,22 @@
 package com.project.matchingapp3.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.matchingapp3.R;
-import com.project.matchingapp3.adapter.OnTeamItemClickListener;
+import com.project.matchingapp3.activity.UserDetailActivity;
 import com.project.matchingapp3.adapter.OnUserItemClickListener;
-import com.project.matchingapp3.adapter.TeamListAdapter;
 import com.project.matchingapp3.adapter.UserListAdapter;
-import com.project.matchingapp3.model.Team;
 import com.project.matchingapp3.model.User;
+import com.project.matchingapp3.model.dto.NavDataDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,11 +24,17 @@ import java.util.List;
 public class UserFragment1 extends Fragment {
 
     private ArrayList<User> users = new ArrayList<User>();
+    private NavDataDto navDataDto;
+    private String jwtToken;
+
     private RecyclerView recyclerView;
     UserListAdapter adapter;
 
-    public UserFragment1(List<User> users){
+    public UserFragment1(List<User> users, NavDataDto navDataDto, String jwtToken){
         this.users = (ArrayList<User>) users;
+        this.navDataDto = navDataDto;
+        this.jwtToken = jwtToken;
+
         //this.users.addAll(users);
         Log.e("test-유저리스트프래그받음?", users.toString());
     }
@@ -55,7 +60,19 @@ public class UserFragment1 extends Fragment {
             public void onItemClick(UserListAdapter.ViewHolder holder, View view, int position) {
                 User item = adapter.getItem(position);
 
-                Toast.makeText(getContext(), "아이템 선택됨 : " + item.getNickname(), Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getContext(), UserDetailActivity.class);
+                intent.putExtra("jwtToken", jwtToken);
+                intent.putExtra("navDataDto", navDataDto);
+                intent.putExtra("selectUserId", item.getId());
+
+                if(item.getTeams() != null){
+                    intent.putExtra("selectUserTeam", item.getTeams().getName());
+                    if(item.getId() == item.getTeams().getOwner().getId()){
+                        intent.putExtra("selectUserRole", "Owner");
+                    }
+                }
+
+                startActivity(intent);
             }
         });
 

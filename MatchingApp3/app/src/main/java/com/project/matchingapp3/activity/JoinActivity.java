@@ -22,6 +22,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -37,6 +39,7 @@ public class JoinActivity extends AppCompatActivity {
 
     EditText etId, etPw, etPw2, etName, etNickname, etPhone, etEmail, etLocation;
     Button btnUploadImg, btnSelectImg, btnJoin;
+    RadioGroup rgPosition;
     ImageView ivSelectImg;
 
     String[] permission_list = {
@@ -71,6 +74,7 @@ public class JoinActivity extends AppCompatActivity {
         btnUploadImg = findViewById(R.id.join_btn_imageUpload);
         btnSelectImg = findViewById(R.id.join_btn_imageSelect);
         btnJoin = findViewById(R.id.join_btn_join);
+        rgPosition = findViewById(R.id.join_rg_position);
         ivSelectImg = findViewById(R.id.join_iv_image);
 
         btnSelectImg.setOnClickListener(new View.OnClickListener() {
@@ -114,6 +118,7 @@ public class JoinActivity extends AppCompatActivity {
                 RestAPITask task = new RestAPITask();
                 User user = new User();
 
+                RadioButton rbPosition = findViewById(rgPosition.getCheckedRadioButtonId());
                 user.setLoginid(etId.getText().toString());
                 user.setPassword(etPw.getText().toString());
                 user.setUsername(etName.getText().toString());
@@ -122,6 +127,8 @@ public class JoinActivity extends AppCompatActivity {
                 user.setEmail(etEmail.getText().toString());
                 user.setLocation(etLocation.getText().toString());
                 user.setImage(pathUserImg);
+                user.setPosition(rbPosition.getText().toString());
+                Log.e("test-라디오값", user.getPosition());
 
                 try {
                     result = task.execute("join", gson.toJson(user)).get();

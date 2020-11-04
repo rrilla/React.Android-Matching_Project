@@ -35,7 +35,6 @@ import com.project.matchingapp3.fragment.TeamFragment1;
 import com.project.matchingapp3.fragment.TeamFragment2;
 import com.project.matchingapp3.model.Team;
 import com.project.matchingapp3.model.dto.NavDataDto;
-import com.project.matchingapp3.task.ImageTask;
 import com.project.matchingapp3.task.RestAPITask;
 
 import java.util.List;
@@ -128,7 +127,7 @@ public class TeamActivity extends AppCompatActivity implements NavigationView.On
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        TeamFragment1 fragment1 = new TeamFragment1(tList);
+        TeamFragment1 fragment1 = new TeamFragment1(tList, navDataDto, jwtToken);
         adapter.addItem(fragment1);
 
         TeamFragment2 fragment2 = new TeamFragment2();

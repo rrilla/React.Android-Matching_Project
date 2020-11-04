@@ -129,7 +129,7 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        UserFragment1 fragment1 = new UserFragment1(uList);
+        UserFragment1 fragment1 = new UserFragment1(uList, navDataDto, jwtToken);
         adapter.addItem(fragment1);
 
         UserFragment2 fragment2 = new UserFragment2();
