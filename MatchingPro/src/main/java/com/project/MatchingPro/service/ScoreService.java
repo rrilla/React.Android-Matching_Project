@@ -25,7 +25,7 @@ public class ScoreService {
 		battleEntity.getTeam1().getScore().setWin(user.getTeams().getScore().getWin()+1);
 		battleEntity.getTeam2().getScore().setLose(battleEntity.getTeam2().getScore().getLose()+1);
 		//승무패 변경하고 배틀테이블 삭제
-		battleRepository.deleteById(battleid);
+		//battleRepository.deleteById(battleid);
 		return new ResponseEntity<String>("ok",HttpStatus.OK);
 	}
 	
@@ -35,7 +35,7 @@ public class ScoreService {
 		battleEntity.getTeam1().getScore().setDraw(user.getTeams().getScore().getDraw()+1);
 		battleEntity.getTeam2().getScore().setDraw(battleEntity.getTeam2().getScore().getDraw()+1);
 		//승무패 변경하고 배틀테이블 삭제
-		battleRepository.deleteById(battleid);
+		//battleRepository.deleteById(battleid);
 		return new ResponseEntity<String>("ok",HttpStatus.OK);
 	}
 	
@@ -45,7 +45,7 @@ public class ScoreService {
 		battleEntity.getTeam1().getScore().setLose(user.getTeams().getScore().getLose()+1);
 		battleEntity.getTeam2().getScore().setWin(battleEntity.getTeam2().getScore().getWin()+1);
 		//승무패 변경하고 배틀테이블 삭제
-		battleRepository.deleteById(battleid);
+		//battleRepository.deleteById(battleid);
 		return new ResponseEntity<String>("ok",HttpStatus.OK);
 	}
 	
