@@ -33,7 +33,7 @@ public class BattleController {
 	//Teaminfo 아이디를 받아와서 베틀(매칭) 테이블에 등록하는 컨트롤러.
 	@PostMapping("/user/matchApply/{teamid}") 
 	public ResponseEntity<?> matchApply(@RequestBody Battle battle,@PathVariable int teamid){
-		User user = (User) session.getAttribute("principal");	
+		User user = (User) session.getAttribute("principal");
 		return battleService.matchApply(battle,teamid,user);
 	}
 	
