@@ -21,9 +21,9 @@ public class UserService {
 		user.setRole("USER");
 		try {
 			userRepository.save(user);
-			return new ResponseEntity<String>("ok",HttpStatus.OK);
+			return new ResponseEntity<String>("회원가입되었습니다",HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<String>("no",HttpStatus.EXPECTATION_FAILED);
+			return new ResponseEntity<String>("회원가입에 실패하였습니다",HttpStatus.EXPECTATION_FAILED);
 		}
 
 	}
@@ -32,9 +32,9 @@ public class UserService {
 	public ResponseEntity<?> idCheck(String loginid){
 		int n = userRepository.countByLoginid(loginid);
 		if(n == 0) {
-			return new ResponseEntity<String>("ok", HttpStatus.OK);
+			return new ResponseEntity<String>("사용가능아이디", HttpStatus.OK);
 		}else {
-			return new ResponseEntity<String>("no", HttpStatus.OK);
+			return new ResponseEntity<String>("사용불가아이디", HttpStatus.OK);
 		}
 	}
 	
@@ -42,9 +42,9 @@ public class UserService {
 	public ResponseEntity<?> nicknameCheck(String nickname){
 		int n = userRepository.countByNickname(nickname);
 		if(n == 0) {
-			return new ResponseEntity<String>("ok", HttpStatus.OK);
+			return new ResponseEntity<String>("사용가능", HttpStatus.OK);
 		}else {
-			return new ResponseEntity<String>("no", HttpStatus.OK);
+			return new ResponseEntity<String>("중복됨", HttpStatus.OK);
 		}
 	}
 	
@@ -55,4 +55,13 @@ public class UserService {
 		return new ResponseEntity<User>(user ,HttpStatus.OK);
 	}
 	
+	//유저 삭제
+	public ResponseEntity<?> delete(User user){
+		if(user.getTeams().getOwner()==user) {
+			return new ResponseEntity<String>("팀장을 위임하고 오세요",HttpStatus.OK);
+		}else {
+			userRepository.deleteById(user.getId());
+			return new ResponseEntity<String>("삭제되었습니다",HttpStatus.OK);
+		}
+	}
 }

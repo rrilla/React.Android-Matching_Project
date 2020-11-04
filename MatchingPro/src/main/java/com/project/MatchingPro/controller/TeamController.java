@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,9 +35,13 @@ public class TeamController {
 	@PostMapping("/user/create")
 	public ResponseEntity<?> create(@RequestBody Team team){
 		User user = (User)session.getAttribute("principal");
+		if(user.getTeams()!=null) {
+			return new ResponseEntity<String>("팀이 이미 있습니다", HttpStatus.OK);
+		}else {
 		teamService.save(user, team);
 		teamService.TeamsRegister(user, team.getId());
-		 return new ResponseEntity<String>("ok", HttpStatus.OK);
+		 return new ResponseEntity<String>("팀생성 성공", HttpStatus.OK);
+		}
 	}
 	
 
@@ -71,4 +76,19 @@ public class TeamController {
 	public List<Team> teamList(){
 		return teamRepository.findAll();
 	}
+
+	
+	//팀장 위임
+	@PutMapping("/user/team/{userid}")
+	public ResponseEntity<?> 위임(@PathVariable int userid){
+		User user = (User) session.getAttribute("principal");
+		return teamService.위임(user,userid);
+	}
 }
+
+////팀삭제
+//@DeleteMapping("/user/teamRemove")
+//public ResponseEntity<?> teamDelete(){
+//	User user = (User) session.getAttribute("principal");
+//	return teamService.delete(user);
+//}

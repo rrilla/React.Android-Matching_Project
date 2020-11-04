@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 public interface BattleRepository extends JpaRepository<Battle, Integer> {
 	
 
-	@Query(value = "select * from battle where team1 = :id or team2=:id", nativeQuery = true)
+	@Query(value = "select * from battle where requestTeam = :id or responseTeam=:id", nativeQuery = true)
 	List<Battle> mfindAll(int id);
 
 }

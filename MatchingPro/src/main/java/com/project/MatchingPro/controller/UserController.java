@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -75,5 +76,12 @@ public class UserController {	//app,web 둘다적용
 	@GetMapping("/notTeamUserList")
 	public List<User> notlist(){
 		return userRepository.mfindAll();
+	}
+	
+	//회원탈퇴
+	@DeleteMapping("/user/userRemove")
+	public ResponseEntity<?> userDelete(){
+		User user = (User) session.getAttribute("principal");
+		return userService.delete(user);
 	}
 }
