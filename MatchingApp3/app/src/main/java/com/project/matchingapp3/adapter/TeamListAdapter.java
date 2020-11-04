@@ -25,15 +25,15 @@ public class TeamListAdapter extends RecyclerView.Adapter<TeamListAdapter.ViewHo
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+    public TeamListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
         View itemView = inflater.inflate(R.layout.teamlist_item, viewGroup, false);
 
-        return new ViewHolder(itemView, this);
+        return new TeamListAdapter.ViewHolder(itemView, this);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull TeamListAdapter.ViewHolder viewHolder, int position) {
         Team item = items.get(position);
         viewHolder.setItem(item);
     }
@@ -64,7 +64,7 @@ public class TeamListAdapter extends RecyclerView.Adapter<TeamListAdapter.ViewHo
     }
 
     @Override
-    public void onItemClick(ViewHolder holder, View view, int position) {
+    public void onItemClick(TeamListAdapter.ViewHolder holder, View view, int position) {
         if (listener != null) {
             listener.onItemClick(holder, view, position);
         }

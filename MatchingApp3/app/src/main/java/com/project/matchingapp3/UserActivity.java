@@ -28,6 +28,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.project.matchingapp3.activity.LoginActivity;
 import com.project.matchingapp3.activity.MyPageActivity;
+import com.project.matchingapp3.activity.TeamCreateActivity;
 import com.project.matchingapp3.adapter.ViewPagerAdapter;
 import com.project.matchingapp3.fragment.TeamFragment1;
 import com.project.matchingapp3.fragment.TeamFragment2;
@@ -204,7 +205,10 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
             intent.putExtra("jwtToken", jwtToken);
             startActivity(intent);
         } else if (id == R.id.nav_menu2) {
-            Toast.makeText(this, "네비-메뉴2 선택", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(getApplicationContext(), TeamCreateActivity.class);
+            intent.putExtra("jwtToken", jwtToken);
+            intent.putExtra("navDataDto", navDataDto);
+            startActivity(intent);
         } else if (id == R.id.nav_menu3) {
             Toast.makeText(this, "네비-메뉴3 선택", Toast.LENGTH_LONG).show();
         }

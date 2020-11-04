@@ -29,6 +29,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.project.matchingapp3.activity.LoginActivity;
 import com.project.matchingapp3.activity.MyPageActivity;
+import com.project.matchingapp3.activity.TeamCreateActivity;
 import com.project.matchingapp3.adapter.ViewPagerAdapter;
 import com.project.matchingapp3.fragment.TeamFragment1;
 import com.project.matchingapp3.fragment.TeamFragment2;
@@ -153,7 +154,7 @@ public class TeamActivity extends AppCompatActivity implements NavigationView.On
                     text = "상단탭 2 선택";
                     title = "팀 랭킹";
                 }
-                Toast.makeText(getApplicationContext(), text,Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
                 pager.setCurrentItem(position,true);   // true = 페이지 전환시 스무스
                 toolbar.setTitle(title);
             }
@@ -203,7 +204,10 @@ public class TeamActivity extends AppCompatActivity implements NavigationView.On
             intent.putExtra("jwtToken", jwtToken);
             startActivity(intent);
         } else if (id == R.id.nav_menu2) {
-            Toast.makeText(this, "네비-메뉴2 선택", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(getApplicationContext(), TeamCreateActivity.class);
+            intent.putExtra("jwtToken", jwtToken);
+            intent.putExtra("navDataDto", navDataDto);
+            startActivity(intent);
         } else if (id == R.id.nav_menu3) {
             Toast.makeText(this, "네비-메뉴3 선택", Toast.LENGTH_LONG).show();
         }
