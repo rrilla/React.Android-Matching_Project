@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'react-bootstrap/Image'
 import styled from 'styled-components';
-import { Container, Row, Col, Carousel, Jumbotron, Button, Breadcrumb, Card, ListGroup, ListGroupItem, ResponsiveEmbed, Form, FormControl, Modal } from 'react-bootstrap';
+import { Container, Row, Col, Carousel, Jumbotron, Button, Breadcrumb, Card, ListGroup, ListGroupItem, ResponsiveEmbed, Form, FormControl, Modal, Tabs, Tab } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import TeamCard from '../components/TeamCard';
 import UserCard from '../components/UserCard';
@@ -11,15 +11,15 @@ import LoginForm from './user/LoginForm';
 import LoginModal from '../components/LoginModal';
 
 const MainCardStyle = styled.div`
-  width: 100%;
-  margin: auto;
-`;
- 
+    width: 100%;
+    margin: auto;
+  `;
+
 
 
 const LinkStyle = styled.span`
-  color : black;
-`;
+    color : black;
+  `;
 
 const MainForm = () => {
 
@@ -49,7 +49,7 @@ const MainForm = () => {
 
   const [teams, setTeams] = useState([]);
   const [users, setTusers] = useState([]);
-const [show, setShow] = useState(false);
+  const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -60,26 +60,44 @@ const [show, setShow] = useState(false);
       <Row>
         <MainCardStyle>
           <Jumbotron>
-            <h1>Hello, world!</h1>
-            <p>지역별로, 날짜별로 경기를 검색해 보세요!</p>
-            <p><Button variant="primary">전체 경기 목록 보기 </Button></p>
+            <h1>아마추어 축구 여기서 시작하세요!</h1>
+            <Button variant="info">
+            
             <Link to="/Team_create"><LinkStyle>팀 만들기</LinkStyle></Link>
-            <Form inline>
-              <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-              <Button variant="outline-success">Search</Button>
-            </Form>
+            </Button>
+              <br/>
+              <br/>
+
+            <h3> 팀 선수 목록을 검색해 보세요</h3>
+            <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example">
+              <Tab eventKey="home" title="팀목록보기">
+              
+<Row>
+        {teams.map((res) => (<Col md={4}><TeamCard team={res} key={res.id}></TeamCard></Col>))}
+      </Row>
+
+
+              </Tab>
+              <Tab eventKey="profile" title="선수목록보기">
+<Row>
+        {users.map((res) => (<Col md={4}><UserCard user={res} key={res.id}></UserCard></Col>))}
+      </Row>
+
+
+                
+              </Tab>
+            
+            </Tabs>
+            {/* <Form inline>
+                <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+                <Button variant="outline-success">Search</Button>
+              </Form> */}
           </Jumbotron>
         </MainCardStyle>
       </Row>
 
-      <Row>
-        {teams.map((res) => (<Col md={4}><TeamCard team={res} key={res.id}></TeamCard></Col>))}
-      </Row>
-
-      <Row>
-        {/* {users.map((res) => (<Col md={4}><UserCard team={res} key={res.id}></UserCard></Col>))} */}
-  <LoginModal></LoginModal>
-      </Row>
+     
+     
 
 
     </Container>

@@ -8,31 +8,33 @@ const LinkStyle = styled.span`
   `;
 
 const UserCard = (props) => {
-	console.log("TeamCard:: props data: ", props);
+	console.log("UserCard:: props data: ", props);
 
 
 	//const memberCount = props.team.users.length;
 
-
-	const { id, explaintation, name, owner} = props.team;
-	const nickname = owner.nickname;
-	const url = "/Team_detail/"+id;
+//포지션이랑 팀 정보 나중에 추가하기 
+	const { username, nickname, location, image} = props.user;
+	// const nickname = owner.nickname;
+	// const url = "/Team_detail/"+id;
 
 	return (
 		<div>
 		<Card style={{ width: '18rem' }}>
+			{/* 이미지 나중에 고치기  */}
 			<Card.Img variant="top" src="1slideepic.png" />
 			<Card.Body>
-				<Card.Title>{name}</Card.Title>
+				<Card.Title>🧑 닉네임 : {nickname} </Card.Title>
 				<Card.Text>
-					{explaintation}
+					📍 지역 : {location}
 				</Card.Text>
 			</Card.Body>
 			<ListGroup className="list-group-flush">
-				<ListGroupItem><Row><Col md={2}>👑</Col>{nickname}</Row></ListGroupItem>
-				<ListGroupItem><Row><Col md={2}>👭</Col>{props.team.users.length}/20</Row></ListGroupItem>
-				<ListGroupItem><Link to={url}><LinkStyle><Row><Col md={2}>🗓</Col>경기일정</Row></LinkStyle></Link></ListGroupItem>
-				<ListGroupItem><Link to={url}><LinkStyle><Row><Col md={2}>✔</Col>상세보기</Row></LinkStyle></Link></ListGroupItem>
+				<ListGroupItem><Row><Col md={2}>⚽</Col>포지션 임시</Row></ListGroupItem>
+				<ListGroupItem><Row><Col md={2}>🔖</Col>팀 임시 </Row></ListGroupItem>
+				{/* <ListGroupItem><Row><Col md={2}>🔖</Col>팀 임시 </Row></ListGroupItem> */}
+			
+				{/* <ListGroupItem><Link to={url}><LinkStyle><Row><Col md={2}>✔</Col>상세보기</Row></LinkStyle></Link></ListGroupItem> */} 
 			</ListGroup>
 			{/* <Card.Body>
 				<Link to={url}><LinkStyle>✔상세보기</LinkStyle></Link>
