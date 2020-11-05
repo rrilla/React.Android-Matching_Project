@@ -22,6 +22,7 @@ public class Score {
 	private int win;
 	private int draw;
 	private int lose;
+	private int total;
 	
 	@OneToMany//(cascade = CascadeType.ALL)
 	private List<Team> score; 

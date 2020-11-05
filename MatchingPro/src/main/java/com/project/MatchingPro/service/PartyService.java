@@ -52,7 +52,7 @@ public class PartyService {
 			party.setUser(userEntity);
 			party.setTeam(team);
 			partyRepository.save(party);
-			return new ResponseEntity<String>("초대완료",HttpStatus.OK);
+			return new ResponseEntity<String>("ok",HttpStatus.OK);
 			}else {
 				return new ResponseEntity<String>("이미 가입한 팀이있습니다",HttpStatus.OK);
 			}
