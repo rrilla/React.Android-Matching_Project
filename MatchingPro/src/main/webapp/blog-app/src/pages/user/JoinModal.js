@@ -212,10 +212,10 @@ const JoinModal = () => {
 									<Col md={10}>
 										<Form.Control
 											type="text"
-											name="loginid"
-											placeholder="아이디"
+											name="nickname"
+											placeholder="닉네임"
 											onChange={inputHandle}
-											value={user.loginid} />
+											value={user.nickname} />
 									</Col>
 									<Col md={2}>
 										<Button variant="dark" onClick={nicknameDuplicateCheck}>중복검사</Button>{' '}

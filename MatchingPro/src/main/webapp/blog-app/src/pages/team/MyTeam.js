@@ -136,6 +136,7 @@ const MyTeam = () => {
 				}
 			}).then((res) => {
 				console.log("MyTeam:: battle1 info fetch display res: ", res);
+				//const tmp = null;
 				return res.json();
 			}).then((res) => {
 				console.log("MyTeam:: battle2 info fetch display res: ", res);
@@ -182,7 +183,22 @@ const MyTeam = () => {
 							{battles.map((res) => (
 								<Col md={3}>
 									{/* 💥 이게 베틀 아이디{res.id}&nbsp;&nbsp;&nbsp; */}
-									💥 상대편 팀 이름 {res.team1.name}&nbsp;&nbsp;&nbsp;
+                         			💥 상대편 팀 이름 {res.requestTeam.name}&nbsp;&nbsp;&nbsp;
+									<Button onClick={sss} variant="outline-success">teaminfo</Button>
+									<Button onClick={() => zzz(res.id)}>수락</Button>
+									{/* <Button onClick={zzz}>참가명단보기</Button> */}
+								</Col>
+							))}
+							<Col md={12}><hr /></Col>
+
+							<Col md={3}><h3>⚔ 경기일정</h3></Col>
+							<Col md={8}><h3>{battles.length}건</h3></Col>
+							<Col md={12}><br /></Col>
+
+							{battles.map((res) => (
+								<Col md={3}>
+									{/* 💥 이게 베틀 아이디{res.id}&nbsp;&nbsp;&nbsp; */}
+                         			💥 상대편 팀 이름 {res.requestTeam.name}&nbsp;&nbsp;&nbsp;
 									<Button onClick={sss} variant="outline-success">teaminfo</Button>
 									<Button onClick={() => zzz(res.id)}>수락</Button>
 									{/* <Button onClick={zzz}>참가명단보기</Button> */}
