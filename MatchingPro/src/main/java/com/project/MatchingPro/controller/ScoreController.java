@@ -26,11 +26,20 @@ public class ScoreController {
 	private final HttpSession session;
 	
 	//로그인한 유저가 자기팀 승 등록 , 상대팀 패 등록
+//	@PutMapping("/user/scoreWiner/{battleid}")
+//	public ResponseEntity<?> scoreWiner(@PathVariable int battleid){
+//		User user = (User) session.getAttribute("principal");	
+//		return scoreService.scoreRegister(user,battleid);
+//	}
+	
 	@PutMapping("/user/scoreWiner/{battleid}")
 	public ResponseEntity<?> scoreWiner(@PathVariable int battleid){
-		User user = (User) session.getAttribute("principal");	
+		User user = (User) session.getAttribute("principal");
+		scoreService.scoreRegister(user,battleid);
+		//scoreService.scoretotal1(user,battleid);
 		return scoreService.scoreRegister(user,battleid);
 	}
+	
 	//로그인한 유저가 자기팀 무 등록 , 상대팀 무 등록
 	@PutMapping("/user/scoreDraw/{battleid}")
 	public ResponseEntity<?> scoreDraw(@PathVariable int battleid){

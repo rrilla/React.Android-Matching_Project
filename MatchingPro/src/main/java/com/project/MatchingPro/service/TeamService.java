@@ -33,6 +33,7 @@ public class TeamService {
 					score.setWin(0);
 					score.setDraw(0);
 					score.setLose(0);
+					score.setTotal(0);
 					scoreRepository.save(score);
 					team.setScore(score);
 					team.setOwner(user);
@@ -42,7 +43,7 @@ public class TeamService {
 
 					System.out.println("팀 생성 성공");
 					
-					return new ResponseEntity<String>("팀생성", HttpStatus.OK);
+					return new ResponseEntity<String>("ok", HttpStatus.OK);
 
 			} catch (Exception e) {
 				System.out.println("팀생성 실패");

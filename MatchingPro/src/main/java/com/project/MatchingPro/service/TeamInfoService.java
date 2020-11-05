@@ -54,7 +54,7 @@ public class TeamInfoService {
 	}catch(Exception e) {
 		e.printStackTrace();
 		System.out.println("실패");
-		return new ResponseEntity<String>("ok",HttpStatus.OK);
+		return new ResponseEntity<String>("no",HttpStatus.OK);
 	}
 	}
 	

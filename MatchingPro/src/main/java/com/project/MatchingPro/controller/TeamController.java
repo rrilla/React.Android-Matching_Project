@@ -40,7 +40,7 @@ public class TeamController {
 		}else {
 		teamService.save(user, team);
 		teamService.TeamsRegister(user, team.getId());
-		 return new ResponseEntity<String>("팀생성 성공", HttpStatus.OK);
+		 return new ResponseEntity<String>("ok", HttpStatus.OK);
 		}
 	}
 	

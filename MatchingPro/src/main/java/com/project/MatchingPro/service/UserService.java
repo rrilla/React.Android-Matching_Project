@@ -25,7 +25,7 @@ public class UserService {
 		} catch (Exception e) {
 			return new ResponseEntity<String>("회원가입에 실패하였습니다",HttpStatus.EXPECTATION_FAILED);
 		}
-
+		
 	}
 	
 	//아이디 체크
@@ -42,7 +42,7 @@ public class UserService {
 	public ResponseEntity<?> nicknameCheck(String nickname){
 		int n = userRepository.countByNickname(nickname);
 		if(n == 0) {
-			return new ResponseEntity<String>("사용가능", HttpStatus.OK);
+			return new ResponseEntity<String>("ok", HttpStatus.OK);
 		}else {
 			return new ResponseEntity<String>("중복됨", HttpStatus.OK);
 		}
@@ -61,7 +61,7 @@ public class UserService {
 			return new ResponseEntity<String>("팀장을 위임하고 오세요",HttpStatus.OK);
 		}else {
 			userRepository.deleteById(user.getId());
-			return new ResponseEntity<String>("삭제되었습니다",HttpStatus.OK);
+			return new ResponseEntity<String>("ok",HttpStatus.OK);
 		}
 	}
 }
