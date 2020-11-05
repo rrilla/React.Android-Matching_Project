@@ -84,4 +84,10 @@ public class UserController {	//app,web 둘다적용
 		User user = (User) session.getAttribute("principal");
 		return userService.delete(user);
 	}
+	
+	//닉네임으로 유저정보 검색
+	@GetMapping("/nicknameDetail/{nickname}")
+	public User userDetail(@PathVariable String nickname) {
+		return userRepository.findByNickname(nickname);
+	}
 }

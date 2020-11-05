@@ -15,5 +15,8 @@ public interface UserRepository extends JpaRepository<User, Integer>{
 	
 	@Query(value = "select * from user where teams_id is null", nativeQuery = true)
 	List<User>  mfindAll();
-
+	
+	
+	//@Query(value = "select * from user where teams_id is null", nativeQuery = true)
+	User  findByNickname(String name);
 }
