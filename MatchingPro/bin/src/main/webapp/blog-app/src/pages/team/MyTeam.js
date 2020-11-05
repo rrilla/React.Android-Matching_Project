@@ -20,13 +20,61 @@ const SlideStyle = styled.div`
 `;
 
 const MyTeam = () => {
+	// teaminfo create
+	const sss = () => {
+		let teamInfo = {
+			/* loginid: user.loginid,
+			password: user.password */
+			//user1: {id: 1},
+			user2: { id: 1 },
+			user3: { id: 1 },
+			user4: { id: 1 },
+			user5: { id: 1 },
+			user6: { id: 1 },
+			user7: { id: 1 },
+			user8: { id: 1 },
+			user9: { id: 1 },
+			user10: { id: 1 },
+			user11: { id: 1 },
+
+		}
+
+		fetch(`http://localhost:8000/user/teamInfo`, {
+			method: "post",
+			body: JSON.stringify(teamInfo),
+			headers: {
+				'Content-Type': "application/json; charset=utf-8",
+				'Authorization': localStorage.getItem("Authorization")
+			}
+		}).then((res) => res.text())
+			.then(res => {
+				if (res === "ok") alert("tema info create");
+				else alert("팀가입 요청 실패");
+			});
+	};
 
 	// 새로 고침없이 바로 수정되게 하려면 state 등록해야함 / 귀찮으니까 나중에
 	const joinTeamReq = (partyid) => {
 		alert("ddd");
 
-		fetch(`http://localhost:8000//Acknowledgment/${partyid}`, {
+		fetch(`http://localhost:8000/Acknowledgment/${partyid}`, {
 			method: "put",
+		}).then((res) => {
+			console.log("zzz1", res);
+			return res.text();
+		}).then((res) => {
+			console.log("zzz2", res);
+		});
+	};
+
+	const zzz = (battleid) => {
+		alert("ddd");
+		console.log(battles.id);
+		fetch(`http://localhost:8000/user/matchAccept/${battleid}`, {
+			method: "put",
+			headers: {
+				'Authorization': localStorage.getItem("Authorization")
+			}
 		}).then((res) => {
 			console.log("zzz1", res);
 			return res.text();
@@ -40,6 +88,7 @@ const MyTeam = () => {
 	const [owner, setOwner] = useState([]);
 	const [partys, setPartys] = useState([]);
 	const [users, setUsers] = useState([]);
+	const [battles, setBattles] = useState([]);
 
 	useEffect(() => {
 		fetch("http://localhost:8000/user/myTeam", {
@@ -65,7 +114,7 @@ const MyTeam = () => {
 				setUsers(res.users);
 			});
 
-			fetch(`http://localhost:8000//user/teamParty/${res}`, {
+			fetch(`http://localhost:8000/user/teamParty/${res}`, {
 				// 여기 들어가는 res는 현재 로그인 한 ID의 TeamID // 팀 가입 요청 가져와서 display
 				method: "get",
 				headers: {
@@ -76,6 +125,22 @@ const MyTeam = () => {
 			}).then((res) => {
 				console.log("MyTeam:: party list(from team) info fetch display res: ", res);
 				setPartys(res);
+			});
+
+			// team battle fetch
+			fetch(`http://localhost:8000/user/loginBattleList`, {
+				// 여기 들어가는 res는 현재 로그인 한 ID의 TeamID // 팀 가입 요청 가져와서 display
+				method: "get",
+				headers: {
+					'Authorization': localStorage.getItem("Authorization")
+				}
+			}).then((res) => {
+				console.log("MyTeam:: battle1 info fetch display res: ", res);
+				//const tmp = null;
+				return res.json();
+			}).then((res) => {
+				console.log("MyTeam:: battle2 info fetch display res: ", res);
+				setBattles(res);
 			});
 
 		});
@@ -112,14 +177,35 @@ const MyTeam = () => {
 							))}
 							<Col md={12}><hr /></Col>
 							<Col md={3}><h3>⚔ 대전신청</h3></Col>
-							<Col md={8}><h3>{partys.length}건</h3></Col>
+							<Col md={8}><h3>{battles.length}건</h3></Col>
 							<Col md={12}><br /></Col>
-							{partys.map((res) => (//이 팀에 들어온 파티 번호 : {res.id}
+
+							{battles.map((res) => (
 								<Col md={3}>
-									💥 {res.id}&nbsp;&nbsp;&nbsp;
-									<Button onClick={joinTeamReq}>수락</Button>
+									{/* 💥 이게 베틀 아이디{res.id}&nbsp;&nbsp;&nbsp; */}
+                         			💥 상대편 팀 이름 {res.requestTeam.name}&nbsp;&nbsp;&nbsp;
+									<Button onClick={sss} variant="outline-success">teaminfo</Button>
+									<Button onClick={() => zzz(res.id)}>수락</Button>
+									{/* <Button onClick={zzz}>참가명단보기</Button> */}
 								</Col>
 							))}
+							<Col md={12}><hr /></Col>
+
+							<Col md={3}><h3>⚔ 경기일정</h3></Col>
+							<Col md={8}><h3>{battles.length}건</h3></Col>
+							<Col md={12}><br /></Col>
+
+							{battles.map((res) => (
+								<Col md={3}>
+									{/* 💥 이게 베틀 아이디{res.id}&nbsp;&nbsp;&nbsp; */}
+                         			💥 상대편 팀 이름 {res.requestTeam.name}&nbsp;&nbsp;&nbsp;
+									<Button onClick={sss} variant="outline-success">teaminfo</Button>
+									<Button onClick={() => zzz(res.id)}>수락</Button>
+									{/* <Button onClick={zzz}>참가명단보기</Button> */}
+								</Col>
+							))}
+
+							
 						</Row>
 					</Jumbotron>
 				</MainCardStyle>

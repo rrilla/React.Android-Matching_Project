@@ -192,10 +192,10 @@ const JoinForm = () => {
 							<Col md={10}>
 								<Form.Control
 									type="text"
-									name="loginid"
+									name="nickname"
 									placeholder="아이디"
 									onChange={inputHandle}
-									value={user.loginid} />
+									value={user.nickname} />
 							</Col>
 							<Col md={2}>
 								<Button variant="dark" onClick={nicknameDuplicateCheck}>닉네임 중복검사</Button>{' '}

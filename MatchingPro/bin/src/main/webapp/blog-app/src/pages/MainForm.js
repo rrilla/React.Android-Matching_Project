@@ -7,12 +7,14 @@ import TeamCard from '../components/TeamCard';
 import UserCard from '../components/UserCard';
 import Background from '../components/Background';
 import Slide from '../components/Slide';
+import LoginForm from './user/LoginForm';
+import LoginModal from '../components/LoginModal';
 
 const MainCardStyle = styled.div`
   width: 100%;
   margin: auto;
 `;
-
+ 
 
 
 const LinkStyle = styled.span`
@@ -47,7 +49,10 @@ const MainForm = () => {
 
   const [teams, setTeams] = useState([]);
   const [users, setTusers] = useState([]);
+const [show, setShow] = useState(false);
 
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   return (
 
     <Container>
@@ -73,8 +78,9 @@ const MainForm = () => {
 
       <Row>
         {/* {users.map((res) => (<Col md={4}><UserCard team={res} key={res.id}></UserCard></Col>))} */}
-
+  <LoginModal></LoginModal>
       </Row>
+
 
     </Container>
   );
