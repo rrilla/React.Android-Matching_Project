@@ -1,9 +1,10 @@
 package com.project.matchingapp3.model;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 
-public class User {
+public class User implements Serializable {
     private int id;
     private String loginid;
     private String username;
@@ -123,11 +124,6 @@ public class User {
         this.joindate = joindate;
     }
 
-    public String getUrlImage(){
-        //return "http://172.30.1.58:8000/image/"+image;  //집
-        return "http://10.100.102.15:8000/image/"+image;//학원
-    }
-
     @Override
     public String toString() {
         return "User{" +
@@ -145,6 +141,16 @@ public class User {
                 ", joindate=" + joindate +
                 ", teams=" + teams +
                 '}';
+    }
+
+    public String getUrlImage(){
+        return "http://172.30.1.58:8000/image/" + image;  //집
+        //return "http://10.100.102.15:8000/image/" + image;//학원
+    }
+
+    public String getUrlTImage(){
+        return "http://172.30.1.58:8000/image/" + teams.getImage();  //집
+        //return "http://10.100.102.15:8000/image/" + t_image;//학원
     }
 
     //joindate 출력양식

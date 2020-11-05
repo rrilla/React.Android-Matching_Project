@@ -50,7 +50,7 @@ public class TeamCreateActivity extends AppCompatActivity {
 
     private String pathUserImg = null;
     private String jwtToken;
-    private NavDataDto navDataDto;
+    private User loginUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +62,7 @@ public class TeamCreateActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         jwtToken = intent.getStringExtra("jwtToken");
-        navDataDto = (NavDataDto)intent.getSerializableExtra("navDataDto");
+        loginUser = (User)intent.getSerializableExtra("loginUser");
 
         etName = findViewById(R.id.tCreate_et_name);
         etLocation = findViewById(R.id.tCreate_et_location);

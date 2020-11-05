@@ -15,8 +15,8 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class RestAPITask extends AsyncTask<String, Object, String[]> {
-    //final static String ip ="172.30.1.58"; // IP - 집
-    final static String ip ="10.100.102.15"; // IP - 학원
+    final static String ip ="172.30.1.58"; // IP - 집
+    //final static String ip ="10.100.102.15"; // IP - 학원
 
     private String serverUrl = "http://"+ip+":8000/"; // 연결할 서버주소
     private String reqUrl = "";
@@ -44,10 +44,9 @@ public class RestAPITask extends AsyncTask<String, Object, String[]> {
             serverUrl += reqUrl;
             method = "POST";
             reqData = json[1];
-        }else if(json[0].equals("user/navData")){
+        }else if(json[0].equals("user/app/loginUser")){
             reqUrl = json[0];
             serverUrl += reqUrl;
-            method = "POST";
         }else if(json[0].equals("user/myPage")){
             reqUrl = json[0];
             serverUrl += reqUrl;
@@ -76,6 +75,9 @@ public class RestAPITask extends AsyncTask<String, Object, String[]> {
         }else if(json[0].equals("user/apply2/")){
             reqUrl = json[0];
             serverUrl += reqUrl + json[1];
+        }else if(json[0].equals("user/app/teamPartyList")){
+            reqUrl = json[0];
+            serverUrl += reqUrl;
         }
 
         try {

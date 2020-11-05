@@ -10,7 +10,6 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -26,6 +25,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.project.matchingapp3.activity.LoginActivity;
 import com.project.matchingapp3.activity.MyPageActivity;
 import com.project.matchingapp3.activity.TeamCreateActivity;
@@ -33,10 +33,12 @@ import com.project.matchingapp3.adapter.ViewPagerAdapter;
 import com.project.matchingapp3.fragment.HomeFragment1;
 import com.project.matchingapp3.fragment.HomeFragment2;
 import com.project.matchingapp3.fragment.HomeFragment3;
+import com.project.matchingapp3.model.Party;
+import com.project.matchingapp3.model.User;
 import com.project.matchingapp3.model.dto.NavDataDto;
-import com.project.matchingapp3.task.ImageTask;
 import com.project.matchingapp3.task.RestAPITask;
 
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -46,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Toolbar toolbar;
     DrawerLayout drawer;
 
-    NavDataDto navDataDto;
+    User loginUser;
     String jwtToken;
 
     @Override
@@ -57,21 +59,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Intent intent = getIntent();
         jwtToken = intent.getStringExtra("jwtToken");
 
-        String[] result = new String[1];
+        String[] result1 = new String[1];
         RestAPITask task = new RestAPITask(jwtToken);
 
+        //loginUser 데이터 받기
         try {
-            result = task.execute("user/navData").get();
+            result1 = task.execute("user/app/loginUser").get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-        Log.d("test-데이터받음",result[0]);
+        Log.d("test-loginUser데이터받음",result1[0]);
         Gson gson = new Gson();
-        navDataDto = gson.fromJson(result[0], NavDataDto.class);
+        loginUser = gson.fromJson(result1[0], User.class);
 
+        //party 데이터 받기, user값 받은 후 팀값 확인 후 실행
+       // if(navDataDto.get)
+        String[] result2 = new String[1];
+        RestAPITask task2 = new RestAPITask(jwtToken);
+        try {
+            result2 = task2.execute("user/app/teamPartyList").get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Log.d("test-party데이터받음",result2[0]);
+        List<Party> partyList = gson.fromJson(result2[0], new TypeToken<List<Party>>(){}.getType());
 
         //툴바
         toolbar = findViewById(R.id.toolbar);
@@ -107,16 +122,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
         //네비뷰 헤더의 사용자 정보
         //이미지
-        if(navDataDto.getImage() != null) {
+        if(loginUser.getImage() != null) {
             ImageView navImage = header.findViewById(R.id.navHeader_iv_image);
-            Glide.with(this).load(navDataDto.getUrlImage()).into(navImage);
+            Glide.with(this).load(loginUser.getUrlImage()).into(navImage);
         }
         //텍스트
         TextView navName = header.findViewById(R.id.navHeader_tv_username);
         TextView navTName = header.findViewById(R.id.navHeader_tv_tName);
-        navName.setText(navDataDto.getUsername()+"("+ navDataDto.getNickname()+")");
-        if(navDataDto.getT_name() != null){
-            navTName.setText(navDataDto.getT_name());
+        navName.setText(loginUser.getUsername()+"("+ loginUser.getNickname()+")");
+        if(loginUser.getTeams() != null){
+            navTName.setText(loginUser.getTeams().getName());
         }
 
 
@@ -132,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         HomeFragment2 fragment2 = new HomeFragment2();
         adapter.addItem(fragment2);
 
-        HomeFragment3 fragment3 = new HomeFragment3(navDataDto);
+        HomeFragment3 fragment3 = new HomeFragment3(partyList, loginUser, jwtToken);
         adapter.addItem(fragment3);
 
         pager.setAdapter(adapter);
@@ -183,13 +198,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     case R.id.tab2:
                         Intent intent2 = new Intent(getApplicationContext(), TeamActivity.class);
                         intent2.putExtra("jwtToken", jwtToken);
-                        intent2.putExtra("navDataDto", navDataDto);
+                        intent2.putExtra("loginUser", loginUser);
                         startActivity(intent2);
                         return true;
                     case R.id.tab3:
                         Intent intent3 = new Intent(getApplicationContext(), UserActivity.class);
                         intent3.putExtra("jwtToken", jwtToken);
-                        intent3.putExtra("navDataDto", navDataDto);
+                        intent3.putExtra("loginUser", loginUser);
                         startActivity(intent3);
                         return true;
                 }
@@ -210,7 +225,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_menu2) {
             Intent intent = new Intent(getApplicationContext(), TeamCreateActivity.class);
             intent.putExtra("jwtToken", jwtToken);
-            intent.putExtra("navDataDto", navDataDto);
+            intent.putExtra("loginUser", loginUser);
             startActivity(intent);
         } else if (id == R.id.nav_menu3) {
             Toast.makeText(this, "네비-메뉴3 선택", Toast.LENGTH_LONG).show();
@@ -230,7 +245,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.appbar_info:
                 Intent intent = new Intent(getApplicationContext(), MyPageActivity.class);
                 intent.putExtra("jwtToken", jwtToken);
-                intent.putExtra("navDataDto", navDataDto);
+                intent.putExtra("loginUser", loginUser);
                 startActivity(intent);
                 break;
             default:

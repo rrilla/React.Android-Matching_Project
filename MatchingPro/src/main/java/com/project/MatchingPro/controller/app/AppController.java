@@ -15,11 +15,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.project.MatchingPro.domain.party.Party;
+import com.project.MatchingPro.domain.party.PartyRepository;
 import com.project.MatchingPro.domain.team.Team;
 import com.project.MatchingPro.domain.team.TeamRepository;
 import com.project.MatchingPro.domain.user.User;
 import com.project.MatchingPro.domain.user.UserRepository;
 import com.project.MatchingPro.dto.app.NavDataDto;
+import com.project.MatchingPro.service.UserService;
 import com.project.MatchingPro.service.app.AppService;
 
 import lombok.RequiredArgsConstructor;
@@ -30,8 +33,10 @@ import lombok.RequiredArgsConstructor;
 public class AppController {
 	
 	private final AppService appService;
+	private final UserService userService;
 	private final UserRepository userRepository;
 	private final TeamRepository teamRepository;
+	private final PartyRepository partyRepository;
 	private final HttpSession session;
 
 	@PostMapping("user/navData")
@@ -39,6 +44,17 @@ public class AppController {
 		User user = (User)session.getAttribute("principal");
 		return new ResponseEntity<NavDataDto>(appService.navData(user.getId()),HttpStatus.OK);
 	}
+	
+	//유저 상세보기
+	@PostMapping("user/app/loginUser")
+	public ResponseEntity<?> userDetail(){
+		User user = (User)session.getAttribute("principal");
+		System.out.println(user.getId());
+		return new ResponseEntity<User>(
+				userRepository.findById(user.getId()).orElseThrow(() -> new IllegalArgumentException(user.getId()+"는 존재하지 않습니다."))
+				,HttpStatus.OK);
+	}
+	
 	
 	@PostMapping("user/myPage")
 	public ResponseEntity<?> myPage(){
@@ -72,12 +88,20 @@ public class AppController {
 	public Team teamDetail(@PathVariable int teamId) {
 		return teamRepository.findById(teamId).get();
 	}
-		
+	
 	//유저 상세보기
 	@PostMapping("app/userDetail/{userId}")
 	public User userDetail(@PathVariable int userId) {
 		return userRepository.findById(userId).get();
 	}
 		
+	
 		
+	//팀 아이디 받아와서 해당 팀에 대한 파티 리스트 뿌리기
+	@PostMapping("user/app/teamPartyList")
+	public List<Party> teamPartyList(){
+		User user = (User)session.getAttribute("principal");
+		System.out.println("오나이까지");
+		return partyRepository.mFindByTeamid(user.getTeams().getId());
+	}
 }

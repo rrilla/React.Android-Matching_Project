@@ -1,8 +1,9 @@
 package com.project.matchingapp3.model;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class Party {
+public class Party implements Serializable {
     private int id;
     private int roleNumber; // 권한 / 팀:초대받은거, 개인:초대요청			domain : 1,2 // 1이면 개인이 팀한테 가입 신청 // 2면 팀이 개인한테 가입 요청
     private User user; // 신청 한 유저

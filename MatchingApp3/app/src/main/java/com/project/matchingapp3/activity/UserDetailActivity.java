@@ -42,11 +42,9 @@ public class UserDetailActivity extends AppCompatActivity implements NavigationV
     Toolbar toolbar;
     DrawerLayout drawer;
 
-    private NavDataDto navDataDto;
     private String jwtToken;
-    private int selectUserId;
-    private String selectUserTeam;
-    private String selectUserRole;
+    private User loginUser;
+    private User selectUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,18 +52,15 @@ public class UserDetailActivity extends AppCompatActivity implements NavigationV
         setContentView(R.layout.activity_user_detail);
 
         Intent intent = getIntent();
-        selectUserId = intent.getIntExtra("selectUserId",0);
-        selectUserTeam = intent.getStringExtra("selectUserTeam");
-        selectUserRole = intent.getStringExtra("selectUserRole");
-
         jwtToken = intent.getStringExtra("jwtToken");
-        navDataDto = (NavDataDto)intent.getSerializableExtra("navDataDto");
+        loginUser = (User)intent.getSerializableExtra("loginUser");
+        selectUser = (User)intent.getSerializableExtra("selectUser");
 
         String[] result = new String[1];
-        RestAPITask task = new RestAPITask();
+        RestAPITask task = new RestAPITask(jwtToken);
 
         try {
-            result = task.execute("app/userDetail/", Integer.toString(selectUserId)).get();
+            result = task.execute("app/userDetail/", Integer.toString(selectUser.getId())).get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -117,13 +112,13 @@ public class UserDetailActivity extends AppCompatActivity implements NavigationV
                     case R.id.tab2:
                         Intent intent2 = new Intent(getApplicationContext(), TeamActivity.class);
                         intent2.putExtra("jwtToken", jwtToken);
-                        intent2.putExtra("navDataDto", navDataDto);
+                        intent2.putExtra("loginUser", loginUser);
                         startActivity(intent2);
                         return true;
                     case R.id.tab3:
                         Intent intent3 = new Intent(getApplicationContext(), UserActivity.class);
                         intent3.putExtra("jwtToken", jwtToken);
-                        intent3.putExtra("navDataDto", navDataDto);
+                        intent3.putExtra("loginUser", loginUser);
                         startActivity(intent3);
                         return true;
                 }
@@ -152,16 +147,16 @@ public class UserDetailActivity extends AppCompatActivity implements NavigationV
         });
         //네비뷰 헤더의 사용자 정보
         //이미지
-        if(navDataDto.getImage() != null) {
+        if(loginUser.getImage() != null) {
             ImageView navImage = header.findViewById(R.id.navHeader_iv_image);
-            Glide.with(this).load(navDataDto.getUrlImage()).into(navImage);
+            Glide.with(this).load(loginUser.getUrlImage()).into(navImage);
         }
         //텍스트
         TextView navName = header.findViewById(R.id.navHeader_tv_username);
         TextView navTName = header.findViewById(R.id.navHeader_tv_tName);
-        navName.setText(navDataDto.getUsername()+"("+ navDataDto.getNickname()+")");
-        if(navDataDto.getT_name() != null){
-            navTName.setText(navDataDto.getT_name());
+        navName.setText(loginUser.getUsername()+"("+ loginUser.getNickname()+")");
+        if(loginUser.getTeams() != null){
+            navTName.setText(loginUser.getTeams().getName());
         }
 
         Button btnScout = findViewById(R.id.uDetail_btn_scout);
@@ -170,13 +165,13 @@ public class UserDetailActivity extends AppCompatActivity implements NavigationV
             public void onClick(View view) {
 
                 //팀장아니면 못하게해야함.
-                if(navDataDto.getT_name() == null){
+                if(loginUser.getTeams() == null){
                     Snackbar.make(view, "스카웃 신청 실패.  팀을 먼저 생성 해주세요.", Snackbar.LENGTH_SHORT).show();
                     return ;
-                } else if(selectUserRole != null){
+                } else if(loginUser.getId() != loginUser.getTeams().getOwner().getId()){
                     Snackbar.make(view, "스카웃 신청 실패.  구단주만 신청할 수 있습니다.", Snackbar.LENGTH_SHORT).show();
                     return ;
-                } else if(selectUserTeam != null){
+                } else if(selectUser.getTeams() != null){
                     Snackbar.make(view, "스카웃 신청 실패.  해당 유저는 가입된 팀이 있음.", Snackbar.LENGTH_SHORT).show();
                     return ;
                 } else {
@@ -184,7 +179,7 @@ public class UserDetailActivity extends AppCompatActivity implements NavigationV
                     RestAPITask task = new RestAPITask(jwtToken);
 
                     try {
-                        result = task.execute("user/apply2/", Integer.toString(selectUserId)).get();
+                        result = task.execute("user/apply2/", Integer.toString(selectUser.getId())).get();
                     } catch (ExecutionException e) {
                         e.printStackTrace();
                     } catch (InterruptedException e) {
@@ -212,7 +207,7 @@ public class UserDetailActivity extends AppCompatActivity implements NavigationV
             case R.id.appbar_info:
                 Intent intent = new Intent(getApplicationContext(), MyPageActivity.class);
                 intent.putExtra("jwtToken", jwtToken);
-                intent.putExtra("navDataDto", navDataDto);
+                intent.putExtra("loginUser", loginUser);
                 startActivity(intent);
                 break;
             default:
@@ -240,7 +235,7 @@ public class UserDetailActivity extends AppCompatActivity implements NavigationV
         } else if (id == R.id.nav_menu2) {
             Intent intent = new Intent(getApplicationContext(), TeamCreateActivity.class);
             intent.putExtra("jwtToken", jwtToken);
-            intent.putExtra("navDataDto", navDataDto);
+            intent.putExtra("loginUser", loginUser);
             startActivity(intent);
         } else if (id == R.id.nav_menu3) {
             Toast.makeText(this, "네비-메뉴3 선택", Toast.LENGTH_LONG).show();

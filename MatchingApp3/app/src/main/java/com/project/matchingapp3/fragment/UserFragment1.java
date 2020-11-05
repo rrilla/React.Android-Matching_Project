@@ -24,15 +24,15 @@ import java.util.List;
 public class UserFragment1 extends Fragment {
 
     private ArrayList<User> users = new ArrayList<User>();
-    private NavDataDto navDataDto;
+    private User loginUser;
     private String jwtToken;
 
     private RecyclerView recyclerView;
     UserListAdapter adapter;
 
-    public UserFragment1(List<User> users, NavDataDto navDataDto, String jwtToken){
+    public UserFragment1(List<User> users, User loginUser, String jwtToken){
         this.users = (ArrayList<User>) users;
-        this.navDataDto = navDataDto;
+        this.loginUser = loginUser;
         this.jwtToken = jwtToken;
 
         //this.users.addAll(users);
@@ -62,16 +62,15 @@ public class UserFragment1 extends Fragment {
 
                 Intent intent = new Intent(getContext(), UserDetailActivity.class);
                 intent.putExtra("jwtToken", jwtToken);
-                intent.putExtra("navDataDto", navDataDto);
-                intent.putExtra("selectUserId", item.getId());
+                intent.putExtra("loginUser", loginUser);
+                intent.putExtra("selectUser", item);
 
-                if(item.getTeams() != null){
-                    intent.putExtra("selectUserTeam", item.getTeams().getName());
-                    if(item.getId() == item.getTeams().getOwner().getId()){
-                        intent.putExtra("selectUserRole", "Owner");
-                    }
-                }
-
+//                if(item.getTeams() != null){
+//                    intent.putExtra("selectUserTeam", item.getTeams().getName());
+//                    if(item.getId() == item.getTeams().getOwner().getId()){
+//                        intent.putExtra("selectUserRole", "Owner");
+//                    }
+//                }
                 startActivity(intent);
             }
         });

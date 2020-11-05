@@ -31,6 +31,7 @@ import com.project.matchingapp3.R;
 import com.project.matchingapp3.TeamActivity;
 import com.project.matchingapp3.UserActivity;
 import com.project.matchingapp3.model.Team;
+import com.project.matchingapp3.model.User;
 import com.project.matchingapp3.model.dto.NavDataDto;
 import com.project.matchingapp3.task.RestAPITask;
 
@@ -45,7 +46,7 @@ public class TeamDetailActivity extends AppCompatActivity implements NavigationV
     Toolbar toolbar;
     DrawerLayout drawer;
 
-    private NavDataDto navDataDto;
+    private User loginUser;
     private String jwtToken;
     private int selectTeamId;
 
@@ -57,10 +58,10 @@ public class TeamDetailActivity extends AppCompatActivity implements NavigationV
         Intent intent = getIntent();
         selectTeamId = intent.getIntExtra("selectTeamId",0);
         jwtToken = intent.getStringExtra("jwtToken");
-        navDataDto = (NavDataDto)intent.getSerializableExtra("navDataDto");
+        loginUser = (User)intent.getSerializableExtra("loginUser");
 
         String[] result = new String[1];
-        RestAPITask task = new RestAPITask();
+        RestAPITask task = new RestAPITask(jwtToken);
 
         try {
             result = task.execute("app/teamDetail/", Integer.toString(selectTeamId)).get();
@@ -117,13 +118,13 @@ public class TeamDetailActivity extends AppCompatActivity implements NavigationV
                     case R.id.tab2:
                         Intent intent2 = new Intent(getApplicationContext(), TeamActivity.class);
                         intent2.putExtra("jwtToken", jwtToken);
-                        intent2.putExtra("navDataDto", navDataDto);
+                        intent2.putExtra("loginUser", loginUser);
                         startActivity(intent2);
                         return true;
                     case R.id.tab3:
                         Intent intent3 = new Intent(getApplicationContext(), UserActivity.class);
                         intent3.putExtra("jwtToken", jwtToken);
-                        intent3.putExtra("navDataDto", navDataDto);
+                        intent3.putExtra("loginUser", loginUser);
                         startActivity(intent3);
                         return true;
                 }
@@ -152,26 +153,27 @@ public class TeamDetailActivity extends AppCompatActivity implements NavigationV
         });
         //네비뷰 헤더의 사용자 정보
         //이미지
-        if(navDataDto.getImage() != null) {
+        if(loginUser.getImage() != null) {
             ImageView navImage = header.findViewById(R.id.navHeader_iv_image);
-            Glide.with(this).load(navDataDto.getUrlImage()).into(navImage);
+            Glide.with(this).load(loginUser.getUrlImage()).into(navImage);
         }
         //텍스트
         TextView navName = header.findViewById(R.id.navHeader_tv_username);
         TextView navTName = header.findViewById(R.id.navHeader_tv_tName);
-        navName.setText(navDataDto.getUsername()+"("+ navDataDto.getNickname()+")");
-        if(navDataDto.getT_name() != null){
-            navTName.setText(navDataDto.getT_name());
+        navName.setText(loginUser.getUsername()+"("+ loginUser.getNickname()+")");
+        if(loginUser.getTeams() != null){
+            navTName.setText(loginUser.getTeams().getName());
         }
 
         btnJoin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if(navDataDto.getT_name() != null){
+                if(loginUser.getTeams() != null){
                     Snackbar.make(view, "가입신청 실패.  이미 가입한 팀이 있습니다.", Snackbar.LENGTH_SHORT).show();
                     return ;
                 }
+
                 String[] result = new String[1];
                 RestAPITask task = new RestAPITask(jwtToken);
 
@@ -185,6 +187,8 @@ public class TeamDetailActivity extends AppCompatActivity implements NavigationV
 
                 if(result[0].equals("ok")){
                     Snackbar.make(view, "가입신청 완료.  구단주가 수락하면 가입됩니다.", Snackbar.LENGTH_SHORT).show();
+                }else{
+                    Snackbar.make(view, "가입 신청 실패.  " + result[0], Snackbar.LENGTH_SHORT).show();
                 }
             }
         });
@@ -201,7 +205,7 @@ public class TeamDetailActivity extends AppCompatActivity implements NavigationV
             case R.id.appbar_info:
                 Intent intent = new Intent(getApplicationContext(), MyPageActivity.class);
                 intent.putExtra("jwtToken", jwtToken);
-                intent.putExtra("navDataDto", navDataDto);
+                intent.putExtra("loginUser", loginUser);
                 startActivity(intent);
                 break;
             default:
@@ -229,7 +233,7 @@ public class TeamDetailActivity extends AppCompatActivity implements NavigationV
         } else if (id == R.id.nav_menu2) {
             Intent intent = new Intent(getApplicationContext(), TeamCreateActivity.class);
             intent.putExtra("jwtToken", jwtToken);
-            intent.putExtra("navDataDto", navDataDto);
+            intent.putExtra("loginUser", loginUser);
             startActivity(intent);
         } else if (id == R.id.nav_menu3) {
             Toast.makeText(this, "네비-메뉴3 선택", Toast.LENGTH_LONG).show();

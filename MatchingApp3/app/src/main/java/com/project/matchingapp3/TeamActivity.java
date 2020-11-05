@@ -34,6 +34,7 @@ import com.project.matchingapp3.adapter.ViewPagerAdapter;
 import com.project.matchingapp3.fragment.TeamFragment1;
 import com.project.matchingapp3.fragment.TeamFragment2;
 import com.project.matchingapp3.model.Team;
+import com.project.matchingapp3.model.User;
 import com.project.matchingapp3.model.dto.NavDataDto;
 import com.project.matchingapp3.task.RestAPITask;
 
@@ -47,7 +48,7 @@ public class TeamActivity extends AppCompatActivity implements NavigationView.On
     Toolbar toolbar;
     DrawerLayout drawer;
 
-    NavDataDto navDataDto;
+    User loginUser;
     String jwtToken;
 
     @Override
@@ -57,7 +58,7 @@ public class TeamActivity extends AppCompatActivity implements NavigationView.On
 
         Intent intent = getIntent();
         jwtToken = intent.getStringExtra("jwtToken");
-        navDataDto = (NavDataDto)intent.getSerializableExtra("navDataDto");
+        loginUser = (User)intent.getSerializableExtra("loginUser");
 
         String[] result = new String[1];
         RestAPITask task = new RestAPITask(jwtToken);
@@ -108,16 +109,16 @@ public class TeamActivity extends AppCompatActivity implements NavigationView.On
         });
         //네비뷰 헤더의 사용자 정보
         //이미지
-        if(navDataDto.getImage() != null) {
+        if(loginUser.getImage() != null) {
             ImageView navImage = header.findViewById(R.id.navHeader_iv_image);
-            Glide.with(this).load(navDataDto.getUrlImage()).into(navImage);
+            Glide.with(this).load(loginUser.getUrlImage()).into(navImage);
         }
         //텍스트
         TextView navName = header.findViewById(R.id.navHeader_tv_username);
         TextView navTName = header.findViewById(R.id.navHeader_tv_tName);
-        navName.setText(navDataDto.getUsername()+"("+ navDataDto.getNickname()+")");
-        if(navDataDto.getT_name() != null){
-            navTName.setText(navDataDto.getT_name());
+        navName.setText(loginUser.getUsername()+"("+ loginUser.getNickname()+")");
+        if(loginUser.getTeams() != null){
+            navTName.setText(loginUser.getTeams().getName());
         }
 
 
@@ -127,7 +128,7 @@ public class TeamActivity extends AppCompatActivity implements NavigationView.On
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        TeamFragment1 fragment1 = new TeamFragment1(tList, navDataDto, jwtToken);
+        TeamFragment1 fragment1 = new TeamFragment1(tList, loginUser, jwtToken);
         adapter.addItem(fragment1);
 
         TeamFragment2 fragment2 = new TeamFragment2();
@@ -178,13 +179,13 @@ public class TeamActivity extends AppCompatActivity implements NavigationView.On
                     case R.id.tab2:
                         Intent intent2 = new Intent(getApplicationContext(), TeamActivity.class);
                         intent2.putExtra("jwtToken", jwtToken);
-                        intent2.putExtra("navDataDto", navDataDto);
+                        intent2.putExtra("loginUser", loginUser);
                         startActivity(intent2);
                         return true;
                     case R.id.tab3:
                         Intent intent3 = new Intent(getApplicationContext(), UserActivity.class);
                         intent3.putExtra("jwtToken", jwtToken);
-                        intent3.putExtra("navDataDto", navDataDto);
+                        intent3.putExtra("loginUser", loginUser);
                         startActivity(intent3);
                         return true;
                 }
@@ -205,7 +206,7 @@ public class TeamActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_menu2) {
             Intent intent = new Intent(getApplicationContext(), TeamCreateActivity.class);
             intent.putExtra("jwtToken", jwtToken);
-            intent.putExtra("navDataDto", navDataDto);
+            intent.putExtra("loginUser", loginUser);
             startActivity(intent);
         } else if (id == R.id.nav_menu3) {
             Toast.makeText(this, "네비-메뉴3 선택", Toast.LENGTH_LONG).show();
@@ -225,7 +226,7 @@ public class TeamActivity extends AppCompatActivity implements NavigationView.On
             case R.id.appbar_info:
                 Intent intent = new Intent(getApplicationContext(), MyPageActivity.class);
                 intent.putExtra("jwtToken", jwtToken);
-                intent.putExtra("navDataDto", navDataDto);
+                intent.putExtra("loginUser", loginUser);
                 startActivity(intent);
                 break;
             default:
