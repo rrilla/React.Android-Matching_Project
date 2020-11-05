@@ -39,19 +39,19 @@ public class PartyController {
 		return partyService.teamsave(user, userid);
 	}
 	
-	//파티신청 리스트
+	//파티신청 리스트<임시로만듬>
 	@GetMapping("/partyList")
 	public List<Party> party(){
 		return partyRepository.findAll();
 	}
 	
-	//파티아이디값 받아와서 파티정보 리턴쓰
+	//파티아이디값 받아와서 파티정보 리턴쓰<하윤부탁>
 	@GetMapping("/user/partyInfo/{partyid}")
 	public ResponseEntity<?> partyInfo(@PathVariable int partyid){
 		return partyService.partyInfo(partyid);
 	}
 	
-	//팀 아이디 받아와서 해당 팀에 대한 파티 리스트 뿌리기
+	//팀 아이디 받아와서 해당 팀에 대한 파티 리스트 뿌리기<11/05,하윤부탁>
 	@GetMapping("/user/teamParty/{teamid}")
 	public List<Party> teamPartyinfo(@PathVariable int teamid){
 		return partyRepository.mFindByTeamid(teamid);

@@ -46,20 +46,20 @@ public class BattleController {
 		return battleService.matchAccept(user,battleid);
 	}
 	
-	//매칭 리스트
+	//매칭 리스트<11/04>
 	@GetMapping("/battleList")
 	public List<Battle> list(){
 		return battleRepository.findAll();
 	}
 	
-	//로그인한 유저의 팀의 매칭리스트
+	//로그인한 유저의 팀의 매칭리스트<11/04>
 	@GetMapping("/user/loginBattleList")
 	public List<Battle> loginBattleList (){
 		User user = (User) session.getAttribute("principal");
 		return battleRepository.mfindAll(user.getTeams().getId());
 	}
 	
-	//파티 아이디로 배틀리스트
+	//팀 아이디로 배틀리스트<11/05,하윤부탁>
 	@GetMapping("/battleList/{teamid}")
 	public List<Battle> teamByList(@PathVariable int teamid){
 		return battleRepository.mfindAll(teamid);

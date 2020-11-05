@@ -1,6 +1,6 @@
 package com.project.MatchingPro.domain.user;
 
-import java.sql.Timestamp;
+import java.sql.Timestamp;	
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -22,8 +22,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.project.MatchingPro.domain.battle.Battle;
 import com.project.MatchingPro.domain.party.Party;
-
-import com.project.MatchingPro.domain.position.Position;
 import com.project.MatchingPro.domain.team.Team;
 import com.project.MatchingPro.domain.teamInfo.TeamInfo;
 
