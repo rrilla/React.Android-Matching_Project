@@ -21,7 +21,7 @@ public class UserService {
 		user.setRole("USER");
 		try {
 			userRepository.save(user);
-			return new ResponseEntity<String>("회원가입되었습니다",HttpStatus.OK);
+			return new ResponseEntity<String>("ok",HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<String>("회원가입에 실패하였습니다",HttpStatus.EXPECTATION_FAILED);
 		}
@@ -32,7 +32,7 @@ public class UserService {
 	public ResponseEntity<?> idCheck(String loginid){
 		int n = userRepository.countByLoginid(loginid);
 		if(n == 0) {
-			return new ResponseEntity<String>("사용가능아이디", HttpStatus.OK);
+			return new ResponseEntity<String>("ok", HttpStatus.OK);
 		}else {
 			return new ResponseEntity<String>("사용불가아이디", HttpStatus.OK);
 		}
