@@ -22,7 +22,7 @@ public class ScoreService {
 	private final UserRepository userRepository;
 	
 	
-	
+	//로그인한 유저가 자기팀 승 등록 , 상대팀 패 등록
 	@Transactional
 	public ResponseEntity<?> scoreWin(User user, int battleid){
 		Battle battleEntity=battleRepository.findById(battleid).get();
@@ -33,7 +33,7 @@ public class ScoreService {
 		//battleRepository.deleteById(battleid);
 		return new ResponseEntity<String>("ok",HttpStatus.OK);
 	}
-	
+	//점수계산<11/05>
 	@Transactional
 	public void total(User user, int battleid) {
 		int wintotal = (user.getTeams().getScore().getWin()+1)*3;
@@ -50,7 +50,7 @@ public class ScoreService {
 
 		battleEntity.getResponseTeam().getScore().setTotal(wintotal2+Drawtotal2-LoseTotal2);
 	}
-	
+	//로그인한 유저가 자기팀 무 등록 , 상대팀 무 등록
 	@Transactional
 	public ResponseEntity<?> scoreDraw(User user, int battleid){
 		Battle battleEntity=battleRepository.findById(battleid).get();
@@ -60,7 +60,7 @@ public class ScoreService {
 		//battleRepository.deleteById(battleid);
 		return new ResponseEntity<String>("ok",HttpStatus.OK);
 	}
-	
+	//점수계산<11/05>
 	@Transactional
 	public void total2(User user, int battleid) {
 		int wintotal = user.getTeams().getScore().getWin()*3;
@@ -77,18 +77,18 @@ public class ScoreService {
 
 		battleEntity.getResponseTeam().getScore().setTotal(wintotal2+Drawtotal2-LoseTotal2);
 	}
-	
+	//로그인한 유저가 자기팀 패 등록 , 상대팀 승 등록
 	@Transactional
 	public ResponseEntity<?> scoreLose(User user, int battleid){
 		Battle battleEntity=battleRepository.findById(battleid).get();
 		battleEntity.getRequestTeam().getScore().setLose(user.getTeams().getScore().getLose()+1);
 		battleEntity.getResponseTeam().getScore().setWin(battleEntity.getResponseTeam().getScore().getWin()+1);
-		//battleEntity.setWinerTeam(battleEntity.getResponseTeam());
+		battleEntity.setWinerTeam(battleEntity.getResponseTeam());
 		//승무패 변경하고 배틀테이블 삭제
 		//battleRepository.deleteById(battleid);
 		return new ResponseEntity<String>("ok",HttpStatus.OK);
 	}
-	
+	//점수계산<11/05>
 	@Transactional
 	public void total3(User user, int battleid) {
 		int wintotal = (user.getTeams().getScore().getWin())*3;

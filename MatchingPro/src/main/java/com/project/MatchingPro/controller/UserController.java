@@ -41,7 +41,6 @@ public class UserController {	//app,web 둘다적용
 	}
 	
 	//id 중복체크
-
 	@GetMapping("/idCheck/{loginid}")
 	public ResponseEntity<?> idCheck(@PathVariable String loginid){
 		return userService.idCheck(loginid);
@@ -54,7 +53,6 @@ public class UserController {	//app,web 둘다적용
 	}
 	
 	//닉네임 중복체크
-
 	@GetMapping("/nicknameCheck/{nickname}")
 	public ResponseEntity<?> nicknameCheck(@PathVariable String nickname){
 		return userService.nicknameCheck(nickname);
@@ -68,6 +66,7 @@ public class UserController {	//app,web 둘다적용
 		return new ResponseEntity<String>("ok", HttpStatus.OK);
 	}
 	
+	//유저리스트
 	@GetMapping("/userList")
 	public List<User> list(){
 		return userRepository.findAll();
@@ -79,27 +78,27 @@ public class UserController {	//app,web 둘다적용
 		return userRepository.mfindAll();
 	}
 	
-	//회원탈퇴
+	//회원탈퇴<11/05>
 	@DeleteMapping("/user/userRemove")
 	public ResponseEntity<?> userDelete(){
 		User user = (User) session.getAttribute("principal");
 		return userService.delete(user);
 	}
 	
-	//닉네임으로 유저정보 검색
+	//닉네임으로 유저정보 검색<11/05>
 	@GetMapping("/nicknameDetail/{nickname}")
 	public User userDetail(@PathVariable String nickname) {
 		return userRepository.findByNickname(nickname);
 	}
 	
-	//로그인 한놈의 유저 아이디
+	//로그인 한놈의 유저 아이디<11/05>
 	@GetMapping("/user/loginid")
 	public int loginid() {
 		User user = (User) session.getAttribute("principal");
 		return user.getId();
 	}
 	
-	//팀탈퇴
+	//팀탈퇴<11/05>
 	@PutMapping("/user/teamRemove")
 	public ResponseEntity<?> teamRemove(){
 	User user = (User) session.getAttribute("principal");

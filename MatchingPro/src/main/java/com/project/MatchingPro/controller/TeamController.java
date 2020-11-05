@@ -86,6 +86,7 @@ public class TeamController {
 	}
 }
 
+//<보류>
 ////팀삭제
 //@DeleteMapping("/user/teamRemove")
 //public ResponseEntity<?> teamDelete(){

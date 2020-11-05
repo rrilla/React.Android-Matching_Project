@@ -31,7 +31,7 @@ public class ScoreController {
 	private final ScoreService scoreService;
 	private final HttpSession session;
 	
-	
+	//로그인한 유저가 자기팀 승 등록 , 상대팀 패 등록
 	@PutMapping("/user/scoreWiner/{battleid}")
 	public ResponseEntity<?> scoreWiner(@PathVariable int battleid){
 		User user = (User) session.getAttribute("principal");
@@ -57,6 +57,7 @@ public class ScoreController {
 		return new ResponseEntity<String>("ok",HttpStatus.OK);
 	}
 	
+	//랭크 리스트<11/05>
 	@GetMapping("/rank")
 	public List<Score> rank(){
 		return scoreRepository.rank();
