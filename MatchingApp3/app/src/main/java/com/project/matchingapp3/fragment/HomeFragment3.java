@@ -1,6 +1,5 @@
 package com.project.matchingapp3.fragment;
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,15 +10,30 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.project.matchingapp3.MainActivity;
 import com.project.matchingapp3.R;
+import com.project.matchingapp3.activity.UserDetailActivity;
+import com.project.matchingapp3.adapter.OnUserItemClickListener;
+import com.project.matchingapp3.adapter.PartyUserListAdapter;
+import com.project.matchingapp3.adapter.UserListAdapter;
+import com.project.matchingapp3.model.Party;
+import com.project.matchingapp3.model.User;
 import com.project.matchingapp3.model.dto.NavDataDto;
+
+import java.util.ArrayList;
 
 public class HomeFragment3 extends Fragment {
 
+    private ArrayList<Party> party = new ArrayList<Party>();
     private NavDataDto navDataDto;
+    private String jwtToken;
+
+    private RecyclerView recyclerView;
+    PartyUserListAdapter adapter;
 
     public HomeFragment3(NavDataDto navDataDto){
         this.navDataDto = navDataDto;
@@ -30,25 +44,39 @@ public class HomeFragment3 extends Fragment {
 
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.home_fragment3, container, false);
 
-        TextView f3TvName = rootView.findViewById(R.id.FHome3_tv_tName);
-        TextView f3TvLocation = rootView.findViewById(R.id.FHome3_tv_tLocation);
-        TextView f3TvExplain = rootView.findViewById(R.id.FHome3_tv_tExplin);
-        ImageView f3IvImage = rootView.findViewById(R.id.FHome3_iv_tImage);
+        recyclerView = rootView.findViewById(R.id.recyclerView);
 
-        f3TvName.setText(navDataDto.getT_name());
-        f3TvLocation.setText(navDataDto.getT_location());
-        f3TvExplain.setText(navDataDto.getT_explaintation());
-        Glide.with(this).load(navDataDto.getUrlImage()).into(f3IvImage);
+        //리사이클러뷰에 설정할 레이아웃 매니저 - 방향세로로 설정함.
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(layoutManager);
 
-//        Button button = rootView.findViewById(R.id.button);
-//        button.setOnClickListener(new View.OnClickListener() {
+        adapter = new PartyUserListAdapter(NavDataDto navDataDto, String jwtToken);
+        adapter.setItems(party);
+        Log.e("test-파티유저어댑터관리 아이템개수",":"+adapter.getItemCount());
+
+        recyclerView.setAdapter(adapter);
+
+//        adapter.setOnItemClickListener(new OnUserItemClickListener() {
 //            @Override
-//            public void onClick(View v) {
-//                MainActivity activity = (MainActivity) getActivity();
-//                activity.onFragmentChanged(0);
+//            public void onItemClick(UserListAdapter.ViewHolder holder, View view, int position) {
+//                User item = adapter.getItem(position);
+//
+//                Intent intent = new Intent(getContext(), UserDetailActivity.class);
+//                intent.putExtra("jwtToken", jwtToken);
+//                intent.putExtra("navDataDto", navDataDto);
+//                intent.putExtra("selectUserId", item.getId());
+//
+//                if(item.getTeams() != null){
+//                    intent.putExtra("selectUserTeam", item.getTeams().getName());
+//                    if(item.getId() == item.getTeams().getOwner().getId()){
+//                        intent.putExtra("selectUserRole", "Owner");
+//                    }
+//                }
+//
+//                startActivity(intent);
 //            }
 //        });
-//        return inflater.inflate(R.layout.home_fragment3, container, false);
+
         return rootView;
     }
 
