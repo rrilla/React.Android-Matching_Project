@@ -1,8 +1,10 @@
 package com.project.MatchingPro.service;
 
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.http.HttpStatus;	
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.project.MatchingPro.domain.user.User;
 import com.project.MatchingPro.domain.user.UserRepository;
@@ -64,4 +66,12 @@ public class UserService {
 			return new ResponseEntity<String>("ok",HttpStatus.OK);
 		}
 	}
+	
+	//팀 탈퇴
+	@Transactional
+	public ResponseEntity<?> teamLeave(User user){
+		userRepository.removeTeam(user.getTeams().getId());
+		return new ResponseEntity<String>("ok",HttpStatus.OK);
+	}
+	
 }
