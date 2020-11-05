@@ -34,6 +34,7 @@ public class TeamService {
 					score.setDraw(0);
 					score.setLose(0);
 					score.setTotal(0);
+					//score.setTeam(team);
 					scoreRepository.save(score);
 					team.setScore(score);
 					team.setOwner(user);
@@ -55,6 +56,7 @@ public class TeamService {
 	public void TeamsRegister(User user, int teamId) {
 		User realUser = userRepository.findById(user.getId()).orElseThrow(()-> new IllegalArgumentException(teamId+"는 존재하지 않습니다."));
 		realUser.setTeams(teamRepository.findById(teamId).get());
+		teamRepository.findById(teamId).get().getScore().setTeam(teamRepository.findById(teamId).get());
 	}
 		
 	
