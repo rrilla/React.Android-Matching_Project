@@ -253,24 +253,23 @@ const JoinModal = () => {
 									value={user.location} />
 							</Form.Group>
 							<Form.Group as={Col} controlId="formGridEmail">
-								<Button variant="dark" onClick={openTextFile}>Select Image</Button>{' '}
+								{/* <Button variant="dark" name="name" onClick={openTextFile}>Select Image</Button>{' '} */}
+
+								<input></input>
+								
 							</Form.Group>
 
 							<Form.Group as={Col} controlId="formGridEmail">
 								<hr />
 								<Button variant="info" onClick={joinRequest}>회원가입</Button>{' '}
 							</Form.Group>
-
 						</Form>
-
-
 					</Container>
 				</Modal.Body>
 				<Modal.Footer>
 					<Button variant="secondary" onClick={handleClose}>
 						Close
-			</Button>
-
+					</Button>
 				</Modal.Footer>
 			</Modal>
 		</>
