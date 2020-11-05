@@ -23,6 +23,7 @@ import com.project.matchingapp3.activity.TeamDetailActivity;
 import com.project.matchingapp3.adapter.OnTeamItemClickListener;
 import com.project.matchingapp3.adapter.TeamListAdapter;
 import com.project.matchingapp3.model.Team;
+import com.project.matchingapp3.model.User;
 import com.project.matchingapp3.model.dto.NavDataDto;
 
 import java.util.ArrayList;
@@ -31,15 +32,15 @@ import java.util.List;
 public class TeamFragment1 extends Fragment {
 
     private ArrayList<Team> teams = new ArrayList<Team>();
-    private NavDataDto navDataDto;
+    private User loginUser;
     private String jwtToken;
 
     private RecyclerView recyclerView;
     TeamListAdapter adapter;
 
-    public TeamFragment1(List<Team> teams, NavDataDto navDataDto, String jwtToken){
+    public TeamFragment1(List<Team> teams, User loginUser, String jwtToken){
         this.teams = (ArrayList<Team>) teams;
-        this.navDataDto = navDataDto;
+        this.loginUser = loginUser;
         this.jwtToken = jwtToken;
 
         //this.teams.addAll(teams);
@@ -69,7 +70,7 @@ public class TeamFragment1 extends Fragment {
 
                 Intent intent = new Intent(getContext(), TeamDetailActivity.class);
                 intent.putExtra("jwtToken", jwtToken);
-                intent.putExtra("navDataDto", navDataDto);
+                intent.putExtra("loginUser", loginUser);
                 intent.putExtra("selectTeamId", item.getId());
                 startActivity(intent);
             }

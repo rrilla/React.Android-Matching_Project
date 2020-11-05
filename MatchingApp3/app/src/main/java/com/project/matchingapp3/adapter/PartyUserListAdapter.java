@@ -15,29 +15,22 @@ import com.bumptech.glide.Glide;
 import com.project.matchingapp3.R;
 import com.project.matchingapp3.activity.UserDetailActivity;
 import com.project.matchingapp3.model.Party;
-import com.project.matchingapp3.model.User;
-import com.project.matchingapp3.model.dto.NavDataDto;
 
 import java.util.ArrayList;
 
-public class PartyUserListAdapter extends RecyclerView.Adapter<PartyUserListAdapter.ViewHolder> {
+public class PartyUserListAdapter extends RecyclerView.Adapter<PartyUserListAdapter.ViewHolder> implements OnPartyUserClickListener  {
 
     ArrayList<Party> items = new ArrayList<Party>();
-    static NavDataDto navDataDto;
-    static String jwtToken;
 
-    public PartyUserListAdapter(NavDataDto navDataDto, String jwtToken){
-        this.navDataDto = navDataDto;
-        this.jwtToken = jwtToken;
-    }
+    OnPartyUserClickListener listener1, listener2;
 
     @NonNull
     @Override
-    public PartyUserListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
         View itemView = inflater.inflate(R.layout.party_userlist_item, viewGroup, false);
 
-        return new PartyUserListAdapter.ViewHolder(itemView);
+        return new ViewHolder(itemView, listener1, listener2);
     }
 
     @Override
@@ -67,6 +60,21 @@ public class PartyUserListAdapter extends RecyclerView.Adapter<PartyUserListAdap
         items.set(position, item);
     }
 
+    public void setOnItemClickListener(OnPartyUserClickListener listener1, OnPartyUserClickListener listener2) {
+        this.listener1 = listener1;
+        this.listener2 = listener2;
+    }
+
+    @Override
+    public void onItemClick(ViewHolder holder, View view, int position) {
+        if (listener1 != null) {
+            listener1.onItemClick(holder, view, position);
+        }
+        if (listener2 != null) {
+            listener2.onItemClick(holder, view, position);
+        }
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvName, tvLocation, tvPosition;
         Button btnInfo, btnAccept;
@@ -74,7 +82,7 @@ public class PartyUserListAdapter extends RecyclerView.Adapter<PartyUserListAdap
         View view;
         Party item;
 
-        public ViewHolder(final View itemView) {
+        public ViewHolder(final View itemView, final OnPartyUserClickListener listener1, final OnPartyUserClickListener listener2) {
             super(itemView);
             this.view = itemView;
 
@@ -88,27 +96,20 @@ public class PartyUserListAdapter extends RecyclerView.Adapter<PartyUserListAdap
             btnInfo.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
-                    Intent intent = new Intent(itemView.getContext(), UserDetailActivity.class);
-                    intent.putExtra("jwtToken", jwtToken);
-                    intent.putExtra("navDataDto", navDataDto);
-                    intent.putExtra("selectUserId", item.getId());
-
-                    if(item.getUser().getTeams() != null){
-                        intent.putExtra("selectUserTeam", item.getUser().getTeams().getName());
-                        if(item.getId() == item.getUser().getTeams().getOwner().getId()){
-                            intent.putExtra("selectUserRole", "Owner");
-                        }
+                    int position = getAdapterPosition();
+                    if (listener1 != null) {
+                        listener1.onItemClick(ViewHolder.this, view, position);
                     }
-
-                    startActivity(intent);
                 }
             });
 
             btnAccept.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    int position = getAdapterPosition();
+                    if (listener2 != null) {
+                        listener2.onItemClick(ViewHolder.this, view, position);
+                    }
                 }
             });
 

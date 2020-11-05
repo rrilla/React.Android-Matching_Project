@@ -45,7 +45,7 @@ public class MyPageActivity extends AppCompatActivity implements NavigationView.
     DrawerLayout drawer;
     BottomNavigationView bottomNavigationView;
 
-    NavDataDto navDataDto;
+    User loginUser;
     String jwtToken;
 
     @Override
@@ -55,22 +55,22 @@ public class MyPageActivity extends AppCompatActivity implements NavigationView.
 
         Intent intent = getIntent();
         jwtToken = intent.getStringExtra("jwtToken");
-        navDataDto = (NavDataDto)intent.getSerializableExtra("navDataDto");
+        loginUser = (User)intent.getSerializableExtra("loginUser");
 
         String[] result = new String[1];
         RestAPITask task = new RestAPITask(jwtToken);
 
-        try {
-            result = task.execute("user/myPage").get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        Gson gson = new Gson();
-        User user = gson.fromJson(result[0], new TypeToken<User>(){}.getType());
-        Log.d("test-유저정보 data",result[0]);
-        Log.d("test-유저정보 obj", user.toString());
+//        try {
+//            result = task.execute("user/myPage").get();
+//        } catch (ExecutionException e) {
+//            e.printStackTrace();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//        Gson gson = new Gson();
+//        User user = gson.fromJson(result[0], new TypeToken<User>(){}.getType());
+//        Log.d("test-유저정보 data",result[0]);
+//        Log.d("test-유저정보 obj", user.toString());
 
         //툴바
         toolbar = findViewById(R.id.toolbar);
@@ -84,12 +84,12 @@ public class MyPageActivity extends AppCompatActivity implements NavigationView.
         TextView tvPhone = findViewById(R.id.mypage_et_phone);
         ImageView ivImage = findViewById(R.id.mypage_iv_image);
 
-        tvName.setText(user.getNickname());
-        tvLocation.setText(user.getLocation());
+        tvName.setText(loginUser.getNickname());
+        tvLocation.setText(loginUser.getLocation());
         //tvPosition.setText(user.getPosition());
-        tvEmail.setText(user.getEmail());
-        tvPhone.setText(user.getPhone());
-        Glide.with(this).load(user.getUrlImage()).into(ivImage);
+        tvEmail.setText(loginUser.getEmail());
+        tvPhone.setText(loginUser.getPhone());
+        Glide.with(this).load(loginUser.getUrlImage()).into(ivImage);
 
         //드로어 레이아웃
         drawer = findViewById(R.id.drawer_layout);
@@ -113,13 +113,13 @@ public class MyPageActivity extends AppCompatActivity implements NavigationView.
                     case R.id.tab2:
                         Intent intent2 = new Intent(getApplicationContext(), TeamActivity.class);
                         intent2.putExtra("jwtToken", jwtToken);
-                        intent2.putExtra("navDataDto", navDataDto);
+                        intent2.putExtra("loginUser", loginUser);
                         startActivity(intent2);
                         return true;
                     case R.id.tab3:
                         Intent intent3 = new Intent(getApplicationContext(), UserActivity.class);
                         intent3.putExtra("jwtToken", jwtToken);
-                        intent3.putExtra("navDataDto", navDataDto);
+                        intent3.putExtra("loginUser", loginUser);
                         startActivity(intent3);
                         return true;
                 }
@@ -149,16 +149,16 @@ public class MyPageActivity extends AppCompatActivity implements NavigationView.
         });
         //네비뷰 헤더의 사용자 정보
         //이미지
-        if(navDataDto.getImage() != null) {
+        if(loginUser.getImage() != null) {
             ImageView navImage = header.findViewById(R.id.navHeader_iv_image);
-            Glide.with(this).load(navDataDto.getUrlImage()).into(navImage);
+            Glide.with(this).load(loginUser.getUrlImage()).into(navImage);
         }
         //텍스트
         TextView navName = header.findViewById(R.id.navHeader_tv_username);
         TextView navTName = header.findViewById(R.id.navHeader_tv_tName);
-        navName.setText(navDataDto.getUsername()+"("+ navDataDto.getNickname()+")");
-        if(navDataDto.getT_name() != null){
-            navTName.setText(navDataDto.getT_name());
+        navName.setText(loginUser.getUsername()+"("+ loginUser.getNickname()+")");
+        if(loginUser.getTeams() != null){
+            navTName.setText(loginUser.getTeams().getName());
         }
     }
 
@@ -195,7 +195,7 @@ public class MyPageActivity extends AppCompatActivity implements NavigationView.
         } else if (id == R.id.nav_menu2) {
             Intent intent = new Intent(getApplicationContext(), TeamCreateActivity.class);
             intent.putExtra("jwtToken", jwtToken);
-            intent.putExtra("navDataDto", navDataDto);
+            intent.putExtra("loginUser", loginUser);
             startActivity(intent);
         } else if (id == R.id.nav_menu3) {
             Toast.makeText(this, "네비-메뉴3 선택", Toast.LENGTH_LONG).show();
