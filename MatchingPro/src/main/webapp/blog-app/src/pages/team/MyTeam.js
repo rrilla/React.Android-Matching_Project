@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Jumbotron, Button, Form, FormControl, Row, Col } from 'react-bootstrap';
+import { Container, Jumbotron, Button, Form, FormControl, Row, Col, Modal } from 'react-bootstrap';
 import Party from '../../components/Party';
 import Background from '../../components/Background';
 import { Link } from 'react-router-dom';
@@ -20,6 +20,50 @@ const SlideStyle = styled.div`
 `;
 
 const MyTeam = () => {
+	const [searchUser, setSearchUser] = useState({
+		nickname:"",
+		location:"",
+		position:""
+	});
+
+	const [isSearch, setIsSearch] = useState(false);
+
+	const inputHandle = (e) => {
+		setSearchUser({
+			...searchUser,
+			[e.target.name]: e.target.value,
+		});
+	};
+
+	const [show, setShow] = useState(false);
+	const handleClose = () => setShow(false);
+	const handleShow = () => { setShow(true) };
+
+
+	const searchUserfunction = () =>{
+		alert("검색되었습니다");
+		// fetch로 검색해서 searchUser에 넣기
+		setSearchUser({
+			...searchUser,
+			location:"검색된 지역",
+			position:"검색된 포지션"
+		});
+		setIsSearch(true);
+	}
+
+	const searchResult = () =>{
+		if(isSearch){
+			return <div>
+				usernickname : {searchUser.nickname} <br/>
+				usernicklocation : {searchUser.location} <br/>
+				usernickposition : {searchUser.position} <br/>
+			</div>
+		}else{
+			return <div>
+				검색결과 출력 예정
+			</div> 
+		}
+	}
 	// teaminfo create
 	const sss = () => {
 		let teamInfo = {
@@ -149,6 +193,43 @@ const MyTeam = () => {
 
 	return (
 		<Container>
+
+			<Modal show={show} size={"lg"} onHide={handleClose}>
+				<Modal.Header closeButton>
+					<Modal.Title>팀원초대</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+					<Form.Row>
+						<Col md={2}></Col>
+						<Form.Group as={Col} md={5} controlId="formGridEmail">
+							<Form.Label>nickname</Form.Label>
+							<Row>
+								<Col md={10}>
+									<Form.Control
+										type="text"
+										name="nickname"
+										placeholder="nickname"
+										onChange={inputHandle}
+										value={searchUser.nickname} />
+								</Col>
+								<Col md={2}>
+									<Button variant="secondary" onClick={searchUserfunction}>search</Button>
+								</Col>
+						{searchResult}d
+							</Row>
+						</Form.Group>
+					</Form.Row>
+				</Modal.Body>
+				<Modal.Footer>
+					<Button variant="secondary" onClick={handleClose}>
+						Close
+					</Button>
+				</Modal.Footer>
+			</Modal>
+
+
+
+
 			<SlideStyle>
 				<MainCardStyle>
 					<Jumbotron>
@@ -205,7 +286,13 @@ const MyTeam = () => {
 								</Col>
 							))}
 
-							
+
+
+							<Col md={3}>
+								<Button onClick={handleShow} variant="outline-success">팀원초대</Button>
+							</Col>
+
+
 						</Row>
 					</Jumbotron>
 				</MainCardStyle>
