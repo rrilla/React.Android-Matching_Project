@@ -53,6 +53,7 @@ function LoginForm(props) {
       }
       return res.text();
     }).then(res => {
+      
       alert(res);
     });
   }

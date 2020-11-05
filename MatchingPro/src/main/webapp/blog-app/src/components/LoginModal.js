@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Container, Form, Col, Button, Row, ListGroup, Badge, Modal } from 'react-bootstrap';
 import styled from 'styled-components';
 
-function LoginForm(props) {
+function LoginModal(props) {
 
 	const setToken = props.setToken;
+	const setLoginId = props.setID;
 
 	const [user, setUser] = useState({
 		loginid: "",
@@ -50,6 +51,7 @@ function LoginForm(props) {
 			}
 			return res.text();
 		}).then(res => {
+			//setLoginId();
 			alert(res);
 		});
 	}
@@ -126,4 +128,4 @@ function LoginForm(props) {
 	);
 }
 
-export default LoginForm;
+export default LoginModal;
