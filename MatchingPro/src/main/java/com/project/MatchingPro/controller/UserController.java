@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -89,5 +90,19 @@ public class UserController {	//app,web 둘다적용
 	@GetMapping("/nicknameDetail/{nickname}")
 	public User userDetail(@PathVariable String nickname) {
 		return userRepository.findByNickname(nickname);
+	}
+	
+	//로그인 한놈의 유저 아이디
+	@GetMapping("/user/loginid")
+	public int loginid() {
+		User user = (User) session.getAttribute("principal");
+		return user.getId();
+	}
+	
+	//팀탈퇴
+	@PutMapping("/user/teamRemove")
+	public ResponseEntity<?> teamRemove(){
+	User user = (User) session.getAttribute("principal");
+	return userService.teamLeave(user);
 	}
 }

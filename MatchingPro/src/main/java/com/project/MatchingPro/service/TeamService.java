@@ -107,9 +107,8 @@ public class TeamService {
 		Team teamEntity=teamRepository.findById(user.getTeams().getId()).get();
 		teamEntity.setOwner(userRepository.findById(userid).get());
 		//user.getTeams().setOwner(userRepository.findById(userid).get());
-		return new ResponseEntity<String>("위임완료",HttpStatus.OK);
-	}
-  
+		return new ResponseEntity<String>("ok",HttpStatus.OK);
+	} 
 }
 
 ////팀 삭제

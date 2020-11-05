@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.MatchingPro.domain.battle.Battle;
 import com.project.MatchingPro.domain.battle.BattleRepository;
+import com.project.MatchingPro.domain.team.TeamRepository;
 import com.project.MatchingPro.domain.user.User;
 import com.project.MatchingPro.service.BattleService;
 
@@ -27,6 +28,7 @@ public class BattleController {
 	private final BattleService battleService;
 	private final HttpSession session;
 	private final BattleRepository battleRepository;
+	private final TeamRepository teamRepositoty;
 	
 	
 	//매칭신청을 눌렀을 때
@@ -54,9 +56,12 @@ public class BattleController {
 	@GetMapping("/user/loginBattleList")
 	public List<Battle> loginBattleList (){
 		User user = (User) session.getAttribute("principal");
-
-
-		System.out.println(user.getTeams().getId());
 		return battleRepository.mfindAll(user.getTeams().getId());
+	}
+	
+	//파티 아이디로 배틀리스트
+	@GetMapping("/battleList/{teamid}")
+	public List<Battle> teamByList(@PathVariable int teamid){
+		return battleRepository.mfindAll(teamid);
 	}
 }
