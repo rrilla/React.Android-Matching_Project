@@ -21,9 +21,9 @@ const SlideStyle = styled.div`
 
 const MyTeam = () => {
 	const [searchUser, setSearchUser] = useState({
-		nickname:"",
-		location:"",
-		position:""
+		nickname: "",
+		location: "",
+		position: ""
 	});
 
 	const [isSearch, setIsSearch] = useState(false);
@@ -40,30 +40,28 @@ const MyTeam = () => {
 	const handleShow = () => { setShow(true) };
 
 
-	const searchUserfunction = () =>{
-		alert("검색되었습니다");
+	const searchUserfunction = (nick) => {
+		alert(nick+"검색되었습니다");
 		// fetch로 검색해서 searchUser에 넣기
-		setSearchUser({
-			...searchUser,
-			location:"검색된 지역",
-			position:"검색된 포지션"
+
+		fetch(`http://localhost:8000/nicknameDetail/${nick}`, {
+			method: "get",
+		}).then((res) => res.json())
+			.then(res => {
+				console.log("닉네임으로 검색 결과", res);
+				setSearchUser(res);
 		});
 		setIsSearch(true);
 	}
 
-	const searchResult = () =>{
-		if(isSearch){
-			return <div>
-				usernickname : {searchUser.nickname} <br/>
-				usernicklocation : {searchUser.location} <br/>
-				usernickposition : {searchUser.position} <br/>
+	const searchResult = 
+			<div>
+				usernickname : {searchUser.nickname} <br />
+				usernicklocation : {searchUser.location} <br />
+				usernickposition : {searchUser.position} <br />
 			</div>
-		}else{
-			return <div>
-				검색결과 출력 예정
-			</div> 
-		}
-	}
+
+	
 	// teaminfo create
 	const sss = () => {
 		let teamInfo = {
@@ -213,9 +211,9 @@ const MyTeam = () => {
 										value={searchUser.nickname} />
 								</Col>
 								<Col md={2}>
-									<Button variant="secondary" onClick={searchUserfunction}>search</Button>
+									<Button variant="secondary" onClick={()=>searchUserfunction(searchUser.nickname)}>search</Button>
 								</Col>
-						{searchResult}d
+								{searchResult}
 							</Row>
 						</Form.Group>
 					</Form.Row>

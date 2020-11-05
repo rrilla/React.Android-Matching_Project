@@ -20,6 +20,7 @@ const HeaderStyle = styled.div`
 const Header = (props) => {
   const isToken = props.isToken;
   //const setIsToken = props.setIsToken;
+  	const setToken = props.setToken;
 
   /*const tokenCheck = () => {
     console.log("header:: display Authorization", localStorage.getItem("Authorization"));
@@ -27,38 +28,56 @@ const Header = (props) => {
     else return false;
   }*/
 
+  const logoutfunction = () => {
+    localStorage.removeItem("Authorization");
+    fetch(`http://localhost:8000/logout`, {
+      method: "GET",
+      headers: {
+      }
+    }).then(res => res.text())
+      .then(res => {
+        if (res === "ok") {
+          setToken();
+          alert("로그아웃에 성공하였습니다");
+        } else {
+          alert("로그아웃 실패");
+        }
+      });
+  }
+
   const isLogin = (flag) => {
     if (flag) {
-      return <Row> 
+      return <Row>
         <NavDropdown title="MYPAGE" id="basic-nav-dropdown">
-            <NavDropdown.Item ><Nav.Link><Link to="/"><LinkStyle>MyPage(x)</LinkStyle></Link></Nav.Link></NavDropdown.Item>
-            <NavDropdown.Item ><Nav.Link><Link to="/MyTeam"><LinkStyle>MyTeam(o)</LinkStyle></Link></Nav.Link></NavDropdown.Item>
-            <NavDropdown.Divider />
-            <NavDropdown.Item ><Nav.Link><Link to="/"><LinkStyle>MyTeam(x)</LinkStyle></Link></Nav.Link></NavDropdown.Item>
-          </NavDropdown>
-        <Nav.Link><Link to="/Logout"><LinkStyle>Logout</LinkStyle></Link></Nav.Link>
-        </Row>
+          <NavDropdown.Item ><Nav.Link><Link to="/"><LinkStyle>MyPage(x)</LinkStyle></Link></Nav.Link></NavDropdown.Item>
+          <NavDropdown.Item ><Nav.Link><Link to="/MyTeam"><LinkStyle>MyTeam(o)</LinkStyle></Link></Nav.Link></NavDropdown.Item>
+          <NavDropdown.Divider />
+          <NavDropdown.Item ><Nav.Link><Link to="/"><LinkStyle>MyTeam(x)</LinkStyle></Link></Nav.Link></NavDropdown.Item>
+        </NavDropdown>
+        {/* <Nav.Link><Link to="/Logout"><LinkStyle>Logout</LinkStyle></Link></Nav.Link> */}
+        <Nav.Link><Link to="/"><LinkStyle onClick={logoutfunction}>Logout</LinkStyle></Link></Nav.Link>
+      </Row>
     }
     else {
       return <Row>
         <Nav.Link><Link to="/Login"><LoginModal setToken={props.setToken}></LoginModal></Link></Nav.Link>
         <Nav.Link><Link to="/Join"><JoinModal></JoinModal></Link></Nav.Link>
-        </Row>
+      </Row>
     }
   }
 
   return (
     <HeaderStyle>
       <Navbar bg="light" expand="lg">
-        
-      <Nav.Link><Link to="/"><LinkStyle><Navbar.Brand ><img
-        src="/soccer_logo-removebg-preview.png"
-        width="30"
-        height="30"
-        // className="d-inline-block align-top"
-        alt="React Bootstrap logo"
-      />{''}
-      </Navbar.Brand></LinkStyle></Link></Nav.Link>
+
+        <Nav.Link><Link to="/"><LinkStyle><Navbar.Brand ><img
+          src="/soccer_logo-removebg-preview.png"
+          width="30"
+          height="30"
+          // className="d-inline-block align-top"
+          alt="React Bootstrap logo"
+        />{''}
+        </Navbar.Brand></LinkStyle></Link></Nav.Link>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
@@ -66,7 +85,7 @@ const Header = (props) => {
           </Nav>
         </Navbar.Collapse>
       </Navbar>
-   
+
     </HeaderStyle>
   )
 };
