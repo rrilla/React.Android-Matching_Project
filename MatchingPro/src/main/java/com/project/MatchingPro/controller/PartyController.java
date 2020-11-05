@@ -45,7 +45,7 @@ public class PartyController {
 		return partyRepository.findAll();
 	}
 	
-	//파티정보
+	//파티아이디값 받아와서 파티정보 리턴쓰
 	@GetMapping("/user/partyInfo/{partyid}")
 	public ResponseEntity<?> partyInfo(@PathVariable int partyid){
 		return partyService.partyInfo(partyid);

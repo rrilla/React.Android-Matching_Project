@@ -10,5 +10,6 @@ import org.springframework.data.jpa.repository.Query;
 public interface PartyRepository extends JpaRepository<Party, Integer>{
 	@Query(value = "select * from party where team_id = :id", nativeQuery = true)
 	List<Party> mFindByTeamid(int id);
-//	//Board mFindById(int id);
+	
+	int countByUser_idAndTeam_id(int id1, int id2);
 }

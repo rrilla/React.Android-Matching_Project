@@ -8,7 +8,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.project.MatchingPro.domain.team.Team;
 
 import lombok.Data;
@@ -23,6 +25,11 @@ public class Score {
 	private int draw;
 	private int lose;
 	private int total;
+	
+	
+	@JsonIgnoreProperties({"score"})
+	@OneToOne
+	private Team team;
 	
 	@OneToMany//(cascade = CascadeType.ALL)
 	private List<Team> score; 

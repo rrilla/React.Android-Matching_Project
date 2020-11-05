@@ -1,15 +1,20 @@
 package com.project.MatchingPro.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.MatchingPro.domain.battle.Battle;
 import com.project.MatchingPro.domain.party.PartyRepository;
+import com.project.MatchingPro.domain.score.Score;
 import com.project.MatchingPro.domain.score.ScoreRepository;
 import com.project.MatchingPro.domain.team.TeamRepository;
 import com.project.MatchingPro.domain.user.User;
@@ -50,6 +55,11 @@ public class ScoreController {
 		scoreService.scoreLose(user,battleid);
 		scoreService.total3(user,battleid);
 		return new ResponseEntity<String>("ok",HttpStatus.OK);
+	}
+	
+	@GetMapping("/rank")
+	public List<Score> rank(){
+		return scoreRepository.rank();
 	}
 	
 }
