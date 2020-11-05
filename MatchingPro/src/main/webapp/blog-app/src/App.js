@@ -10,6 +10,7 @@ import Team_detail from './pages/team/Team_detail';
 import MyTeam from './pages/team/MyTeam';
 import Background from './components/Background';
 import JoinModal from './pages/user/JoinModal';
+import Team_schedule from './pages/team/Team_schedule';
 
 const App = () => {
 
@@ -34,7 +35,7 @@ const App = () => {
     <div>
       <Header isToken={isToken} setToken={setToken} setIsToken={setIsToken}></Header>
       <Background></Background>
-      
+
       {/* 아래는 Router */}
       <Route path="/" exact={true} component={MainForm}></Route>
       <Route path="/Join" exact={true} component={MainForm}></Route>
@@ -43,9 +44,12 @@ const App = () => {
 
       <Route path="/Logout" exact={true} component={Logout}><Logout setToken={setToken}></Logout></Route>
       <Route path="/Team_detail/:id" exact={true} component={Team_detail}></Route>
+
+      <Route path="/Team_schedule/:id" exact={true} component={Team_schedule}></Route>
+
       <Route path="/Team_create" exact={true} component={Team_create}></Route>
       <Route path="/MyTeam" exact={true} component={MyTeam}></Route>
-      
+
       {/* path에 적은 주소로 요 이 들어오면 component를 return해준다 */}
       {/* link to - /MyTeam -> component={MyTeam} */}
     </div>

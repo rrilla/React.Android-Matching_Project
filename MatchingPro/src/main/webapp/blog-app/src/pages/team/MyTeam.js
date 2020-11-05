@@ -204,6 +204,8 @@ const MyTeam = () => {
 									{/* <Button onClick={zzz}>참가명단보기</Button> */}
 								</Col>
 							))}
+
+							
 						</Row>
 					</Jumbotron>
 				</MainCardStyle>
