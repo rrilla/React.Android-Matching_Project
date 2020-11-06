@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.project.MatchingPro.domain.team.Team;
 import com.project.MatchingPro.domain.user.User;
@@ -22,6 +24,8 @@ public class Mercenary {
 	private int id;
 	private String title;
 	private String content;
+	private String gameDate;
+	@CreationTimestamp 
 	private Date createDate;
 	private int role;
 	
@@ -34,7 +38,7 @@ public class Mercenary {
 	private User user1;
 	@JsonIgnoreProperties({"teams"})
 	@OneToOne
-	private User uesr2;
+	private User user2;
 	@JsonIgnoreProperties({"teams"})
 	@OneToOne
 	private User user3;

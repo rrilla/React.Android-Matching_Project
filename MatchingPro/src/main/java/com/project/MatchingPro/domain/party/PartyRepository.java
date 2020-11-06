@@ -12,4 +12,8 @@ public interface PartyRepository extends JpaRepository<Party, Integer>{
 	List<Party> mFindByTeamid(int id);
 	
 	int countByUser_idAndTeam_id(int id1, int id2);
+	
+	@Query(value = "select * from party where user_id = :user_id", nativeQuery = true)
+	List<Party> findUser_idAll(int user_id);
+	
 }

@@ -3,6 +3,7 @@ package com.project.MatchingPro.controller;
 import java.util.List;		
 
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -55,5 +56,10 @@ public class PartyController {
 	@GetMapping("/user/teamParty/{teamid}")
 	public List<Party> teamPartyinfo(@PathVariable int teamid){
 		return partyRepository.mFindByTeamid(teamid);
+	}
+	
+	@PostMapping("/user/partyList/{userid}")
+	public List<Party> partyList_user(@PathVariable int userid) {
+	return partyRepository.findUser_idAll(userid);
 	}
 }

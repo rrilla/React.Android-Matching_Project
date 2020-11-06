@@ -1,6 +1,5 @@
 package com.project.MatchingPro.service;
 
-import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,8 +37,8 @@ public class MercenaryService {
 		if(mercenatyEntity.getUser1()==null) {
 			mercenatyEntity.setUser1(userRepository.findById(user.getId()).get());
 			return new ResponseEntity<String>("ok",HttpStatus.OK);
-		}else if(mercenatyEntity.getUesr2()==null) {
-			mercenatyEntity.setUesr2(userRepository.findById(user.getId()).get());
+		}else if(mercenatyEntity.getUser2()==null) {
+			mercenatyEntity.setUser2(userRepository.findById(user.getId()).get());
 			return new ResponseEntity<String>("ok",HttpStatus.OK);
 		}else if(mercenatyEntity.getUser3()==null) {
 			mercenatyEntity.setUser3(userRepository.findById(user.getId()).get());

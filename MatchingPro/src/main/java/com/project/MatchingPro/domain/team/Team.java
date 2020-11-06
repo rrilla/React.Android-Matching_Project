@@ -1,8 +1,7 @@
 package com.project.MatchingPro.domain.team;
 
-import java.util.List;
+import java.util.List;	
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -18,7 +17,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.project.MatchingPro.domain.battle.Battle;
 import com.project.MatchingPro.domain.party.Party;
 import com.project.MatchingPro.domain.score.Score;
-import com.project.MatchingPro.domain.teamInfo.TeamInfo;
 import com.project.MatchingPro.domain.user.User;
 
 import lombok.Data;

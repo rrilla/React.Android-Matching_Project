@@ -14,6 +14,8 @@ public interface UserRepository extends JpaRepository<User, Integer>{
 
 	int countByNickname(String nickname);
 	
+	int countByTeams_id(int teamid);
+	
 	@Query(value = "select * from user where teams_id is null", nativeQuery = true)
 	List<User>  mfindAll();
 	
