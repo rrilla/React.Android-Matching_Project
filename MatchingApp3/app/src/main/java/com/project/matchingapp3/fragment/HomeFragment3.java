@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -29,21 +30,21 @@ import java.util.concurrent.ExecutionException;
 
 public class HomeFragment3 extends Fragment {
 
-    private ArrayList<Party> party = new ArrayList<Party>();
+    private ArrayList<Party> party;
     private User loginUser;
     private String jwtToken;
 
     private RecyclerView recyclerView;
     PartyUserListAdapter adapter;
 
-    public HomeFragment3(List<Party> party, User loginUser, String jwtToken){
-        this.party = (ArrayList<Party>) party;
+    public HomeFragment3(ArrayList<Party> party, User loginUser, String jwtToken){
+        this.party = party;
         this.loginUser = loginUser;
         this.jwtToken = jwtToken;
 
         //this.users.addAll(party);
-        if(party !=null){
-            Log.e("test-파티리스트프래그받음?", party.toString());
+        if(party != null && party.size() != 0){
+            Log.e("test-home3프래그먼트", "파티리스트받음 : " + party.toString());
         }else{
             Log.e("test-메인에 마이 팀", "파티리스트프래그 안받았다");
         }
@@ -71,7 +72,7 @@ public class HomeFragment3 extends Fragment {
         Glide.with(this).load(loginUser.getUrlTImage()).into(f3IvImage);
 
 
-        if(party == null){
+        if(party == null || party.size() == 0){
             f3TvRequest.setText("가입 신청한 유저가 없습니다.");
         }else {
             recyclerView = rootView.findViewById(R.id.recyclerView);
@@ -128,9 +129,9 @@ public class HomeFragment3 extends Fragment {
                         party.remove(position);
                         adapter.notifyItemRemoved(position);
                         adapter.notifyItemRangeChanged(position, party.size());
-                        Snackbar.make(view, "가입 수락 완료.", Snackbar.LENGTH_SHORT).show();
+                        Toast.makeText(view.getContext(), "가입 수락 완료.",Toast.LENGTH_SHORT).show();
                     }else{
-                        Snackbar.make(view, "에러.  " + result[0], Snackbar.LENGTH_SHORT).show();
+                        Toast.makeText(view.getContext(), "에러.  " + result[0],Toast.LENGTH_SHORT).show();
                     }
                 }
             });

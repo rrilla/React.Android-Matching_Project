@@ -38,6 +38,7 @@ import com.project.matchingapp3.model.User;
 import com.project.matchingapp3.model.dto.NavDataDto;
 import com.project.matchingapp3.task.RestAPITask;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     User loginUser;
     String jwtToken;
-    List<Party> partyList;
+    ArrayList<Party> partyList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 e.printStackTrace();
             }
             Log.d("test-party데이터받음", result2[0]);
-            partyList = gson.fromJson(result2[0], new TypeToken<List<Party>>() {
+            partyList = gson.fromJson(result2[0], new TypeToken<ArrayList<Party>>() {
             }.getType());
         }
         //툴바
