@@ -71,7 +71,7 @@ public class TeamFragment1 extends Fragment {
                 Intent intent = new Intent(getContext(), TeamDetailActivity.class);
                 intent.putExtra("jwtToken", jwtToken);
                 intent.putExtra("loginUser", loginUser);
-                intent.putExtra("selectTeamId", item.getId());
+                intent.putExtra("selectTeam", item);
                 startActivity(intent);
             }
         });

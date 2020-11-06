@@ -11,13 +11,10 @@ import java.net.URL;
 
 public class ImageUpload extends AsyncTask<String, Integer, String> {
 
-    final static String ip ="172.30.1.58"; // IP - 집
-    //final static String ip ="10.100.102.15"; // IP - 학원
-
     String lineEnd = "\r\n";
     String twoHyphens = "--";
     String boundary = "*****";
-    String urlString = "http://"+ip+":8000/app/";
+    String urlString = "http://"+IP.ip+":8000/app/";
     String fileName;
 
     private String resData;
@@ -28,7 +25,6 @@ public class ImageUpload extends AsyncTask<String, Integer, String> {
         fileName = strings[1];
         try {
             FileInputStream mFileInputStream = new FileInputStream(fileName);
-            Log.d("Test-오나이까지","ㅇㅇ");
             URL connectUrl = new URL(urlString);
 
             // HttpURLConnection 통신

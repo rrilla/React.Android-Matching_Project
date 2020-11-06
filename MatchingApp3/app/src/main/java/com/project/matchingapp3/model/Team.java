@@ -1,5 +1,7 @@
 package com.project.matchingapp3.model;
 
+import com.project.matchingapp3.task.IP;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -89,7 +91,6 @@ public class Team implements Serializable {
     }
 
     public String getUrlImage(){
-        return "http://172.30.1.58:8000/image/"+image;  //집
-        //return "http://10.100.102.15:8000/image/"+image;//학원
+        return IP.serverUrl + "image/" + image;
     }
 }

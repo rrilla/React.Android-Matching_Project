@@ -39,12 +39,6 @@ public class AppController {
 	private final PartyRepository partyRepository;
 	private final HttpSession session;
 
-	@PostMapping("user/navData")
-	public ResponseEntity<?> navData(){
-		User user = (User)session.getAttribute("principal");
-		return new ResponseEntity<NavDataDto>(appService.navData(user.getId()),HttpStatus.OK);
-	}
-	
 	//유저 상세보기
 	@PostMapping("user/app/loginUser")
 	public ResponseEntity<?> userDetail(){
@@ -53,15 +47,6 @@ public class AppController {
 		return new ResponseEntity<User>(
 				userRepository.findById(user.getId()).orElseThrow(() -> new IllegalArgumentException(user.getId()+"는 존재하지 않습니다."))
 				,HttpStatus.OK);
-	}
-	
-	
-	@PostMapping("user/myPage")
-	public ResponseEntity<?> myPage(){
-		User user = (User)session.getAttribute("principal");
-		return new ResponseEntity<User>(
-				userRepository.findById(user.getId()).orElseThrow(()-> new IllegalArgumentException("db select결과없음.")),
-				HttpStatus.OK);
 	}
 	
 	@PostMapping("app/imgUpload")
@@ -81,18 +66,6 @@ public class AppController {
 	@PostMapping("app/userList")
 	public List<User> userList(){
 		return userRepository.findAll();
-	}
-		
-	//팀 상세보기
-	@PostMapping("app/teamDetail/{teamId}")
-	public Team teamDetail(@PathVariable int teamId) {
-		return teamRepository.findById(teamId).get();
-	}
-	
-	//유저 상세보기
-	@PostMapping("app/userDetail/{userId}")
-	public User userDetail(@PathVariable int userId) {
-		return userRepository.findById(userId).get();
 	}
 		
 	

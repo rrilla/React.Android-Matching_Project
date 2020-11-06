@@ -38,6 +38,7 @@ import com.project.matchingapp3.model.User;
 import com.project.matchingapp3.model.dto.NavDataDto;
 import com.project.matchingapp3.task.RestAPITask;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     User loginUser;
     String jwtToken;
+    ArrayList<Party> partyList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,19 +77,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         loginUser = gson.fromJson(result1[0], User.class);
 
         //party 데이터 받기, user값 받은 후 팀값 확인 후 실행
-       // if(navDataDto.get)
-        String[] result2 = new String[1];
-        RestAPITask task2 = new RestAPITask(jwtToken);
-        try {
-            result2 = task2.execute("user/app/teamPartyList").get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        if(loginUser.getTeams() != null) {
+            String[] result2 = new String[1];
+            RestAPITask task2 = new RestAPITask(jwtToken);
+            try {
+                result2 = task2.execute("user/app/teamPartyList").get();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            Log.d("test-party데이터받음", result2[0]);
+            partyList = gson.fromJson(result2[0], new TypeToken<ArrayList<Party>>() {
+            }.getType());
         }
-        Log.d("test-party데이터받음",result2[0]);
-        List<Party> partyList = gson.fromJson(result2[0], new TypeToken<List<Party>>(){}.getType());
-
         //툴바
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
