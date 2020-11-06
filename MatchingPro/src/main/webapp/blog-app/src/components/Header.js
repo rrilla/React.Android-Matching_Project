@@ -49,7 +49,7 @@ const Header = (props) => {
     if (flag) {
       return <Row>
         <NavDropdown title="MYPAGE" id="basic-nav-dropdown">
-          <NavDropdown.Item ><Nav.Link><Link to="/"><LinkStyle>MyPage(x)</LinkStyle></Link></Nav.Link></NavDropdown.Item>
+          <NavDropdown.Item ><Nav.Link><Link to="/Mypage"><LinkStyle>MyPage(o)</LinkStyle></Link></Nav.Link></NavDropdown.Item>
           <NavDropdown.Item ><Nav.Link><Link to="/MyTeam"><LinkStyle>MyTeam(o)</LinkStyle></Link></Nav.Link></NavDropdown.Item>
           <NavDropdown.Divider />
           <NavDropdown.Item ><Nav.Link><Link to="/"><LinkStyle>MyTeam(x)</LinkStyle></Link></Nav.Link></NavDropdown.Item>

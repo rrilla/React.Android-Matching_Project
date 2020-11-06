@@ -12,6 +12,7 @@ import Background from './components/Background';
 import JoinModal from './pages/user/JoinModal';
 import Team_schedule from './pages/team/Team_schedule';
 import LoginModal from './components/LoginModal';
+import Mypage from './pages/user/Mypage';
 
 const App = () => {
 
@@ -56,6 +57,8 @@ const App = () => {
 
       <Route path="/Team_create" exact={true} component={Team_create}></Route>
       <Route path="/MyTeam" exact={true} component={MyTeam}><MyTeam loginId={loginId}></MyTeam></Route>
+
+      <Route path="/Mypage" exact={true} component={Mypage}></Route>
 
       {/* path에 적은 주소로 요 이 들어오면 component를 return해준다 */}
       {/* link to - /MyTeam -> component={MyTeam} */}

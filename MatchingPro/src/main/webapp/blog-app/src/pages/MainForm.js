@@ -63,31 +63,31 @@ const MainForm = () => {
           <Jumbotron>
             <h1>아마추어 축구 여기서 시작하세요!</h1>
             <Button variant="info">
-            
-            <Link to="/Team_create"><LinkStyle>팀 만들기</LinkStyle></Link>
+
+              <Link to="/Team_create"><LinkStyle>팀 만들기</LinkStyle></Link>
             </Button>
-              <br/>
-              <br/>
+            <br />
+            <br />
 
             <h3> 팀 선수 목록을 검색해 보세요</h3>
             <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example">
               <Tab eventKey="home" title="팀목록보기">
-              
-<Row>
-        {teams.map((res) => (<Col md={4}><TeamCard team={res} key={res.id}></TeamCard></Col>))}
-      </Row>
+
+                <Row>
+                  {teams.map((res) => (<Col md={4}><TeamCard team={res} key={res.id}></TeamCard></Col>))}
+                </Row>
 
 
               </Tab>
               <Tab eventKey="profile" title="선수목록보기">
-<Row>
-        {users.map((res) => (<Col md={4}><UserCard user={res} key={res.id}></UserCard></Col>))}
-      </Row>
+                <Row>
+                  {users.map((res) => (<Col md={4}><UserCard user={res} key={res.id}></UserCard></Col>))}
+                </Row>
 
 
-                
+
               </Tab>
-            
+
             </Tabs>
             {/* <Form inline>
                 <FormControl type="text" placeholder="Search" className="mr-sm-2" />
@@ -97,8 +97,8 @@ const MainForm = () => {
         </MainCardStyle>
       </Row>
 
-     
-     
+
+
 
 
     </Container>
