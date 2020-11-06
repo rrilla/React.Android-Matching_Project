@@ -1,13 +1,12 @@
 package com.project.MatchingPro.service;
 
-import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatus;	
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.project.MatchingPro.domain.battle.Battle;
 import com.project.MatchingPro.domain.battle.BattleRepository;
-import com.project.MatchingPro.domain.score.ScoreRepository;
 import com.project.MatchingPro.domain.user.User;
 import com.project.MatchingPro.domain.user.UserRepository;
 
@@ -17,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ScoreService {
 
-	private final ScoreRepository scoreRepository;
 	private final BattleRepository battleRepository;
 	private final UserRepository userRepository;
 	

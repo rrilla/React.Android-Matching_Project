@@ -1,10 +1,9 @@
 package com.project.MatchingPro.controller;
 
-import java.util.List;
+import java.util.List;	
 
 import javax.servlet.http.HttpSession;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,11 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.MatchingPro.domain.mercenary.Mercenary;
 import com.project.MatchingPro.domain.mercenary.MercenaryRepository;
-import com.project.MatchingPro.domain.team.TeamRepository;
 import com.project.MatchingPro.domain.user.User;
-import com.project.MatchingPro.domain.user.UserRepository;
 import com.project.MatchingPro.service.MercenaryService;
-import com.project.MatchingPro.service.TeamService;
+
 
 import lombok.RequiredArgsConstructor;
 
@@ -46,22 +43,28 @@ public class MercenaryController {
 	}
 	
 	//용병모집 상세보기쓰(팀장이 누가 지원했는지 보는거)
-	@GetMapping("/user/recruitment/info")
+	@PostMapping("/user/recruitment/info")
 	public int recruitmentInfo() {
 		User user = (User)session.getAttribute("principal");
 		return mercenaryRepository.findByTeam_id(user.getTeams().getId());
 	}
 	
 	//용병모집리스트
-	@GetMapping("/recruitmentList")
+	@PostMapping("/recruitmentList")
 	public List<Mercenary> recruitmentList(){
 		return mercenaryRepository.findAll();
 	}
 	
 	// 한 팀이 올린 용병모집리스트
-	@GetMapping("/user/recruitmentList")
+	@PostMapping("/user/recruitmentList")
 	public List<Mercenary> LoginrecruitmentList() {
 		User user = (User)session.getAttribute("principal");
 		return mercenaryRepository.mercenaryList(user.getTeams().getId());
+	}
+	
+	//상세보기
+	@PostMapping("/recruitmentDetail/{mercid}")
+	public Mercenary recruitmentDetail(@PathVariable int mercid) {
+		return mercenaryRepository.findById(mercid).get();
 	}
 }

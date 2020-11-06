@@ -63,14 +63,17 @@ public class TeamService {
 	//팀 가입 요청시 수락
 	@Transactional
 	public ResponseEntity<?> teamJoin(int partyid){
-	
 		Party partyEntity = partyRepository.findById(partyid).orElseThrow(()-> new IllegalArgumentException(partyid+"는 존재하지 않습니다."));
-			
-		User userEntity = partyEntity.getUser();
-		userEntity.setTeams(partyEntity.getTeam());
-		//수락을 했으면 파티테이블에 있는 해당 데이터 삭제
-		partyRepository.deleteById(partyid);
-			return new ResponseEntity<String>("ok", HttpStatus.OK);
+		//만약 팀장 가입수가 20명이상이면 '팀원이 가득찼십니더' 메세지 출력함.
+		if(userRepository.countByTeams_id(partyEntity.getTeam().getId())<20) {
+			User userEntity = partyEntity.getUser();
+			userEntity.setTeams(partyEntity.getTeam());
+			//수락을 했으면 파티테이블에 있는 해당 데이터 삭제
+			partyRepository.deleteById(partyid);
+				return new ResponseEntity<String>("ok", HttpStatus.OK);
+		}else {
+			return new ResponseEntity<String>("팀원이 가득찼십니더 ", HttpStatus.OK);
+		}
 	}
 	
 	
