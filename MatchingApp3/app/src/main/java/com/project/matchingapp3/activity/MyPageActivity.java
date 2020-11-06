@@ -33,7 +33,6 @@ import com.project.matchingapp3.UserActivity;
 import com.project.matchingapp3.model.Team;
 import com.project.matchingapp3.model.User;
 import com.project.matchingapp3.model.dto.NavDataDto;
-import com.project.matchingapp3.task.ImageTask;
 import com.project.matchingapp3.task.RestAPITask;
 
 import java.util.List;
@@ -57,20 +56,6 @@ public class MyPageActivity extends AppCompatActivity implements NavigationView.
         jwtToken = intent.getStringExtra("jwtToken");
         loginUser = (User)intent.getSerializableExtra("loginUser");
 
-        String[] result = new String[1];
-        RestAPITask task = new RestAPITask(jwtToken);
-
-//        try {
-//            result = task.execute("user/myPage").get();
-//        } catch (ExecutionException e) {
-//            e.printStackTrace();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//        Gson gson = new Gson();
-//        User user = gson.fromJson(result[0], new TypeToken<User>(){}.getType());
-//        Log.d("test-유저정보 data",result[0]);
-//        Log.d("test-유저정보 obj", user.toString());
 
         //툴바
         toolbar = findViewById(R.id.toolbar);
@@ -86,7 +71,7 @@ public class MyPageActivity extends AppCompatActivity implements NavigationView.
 
         tvName.setText(loginUser.getNickname());
         tvLocation.setText(loginUser.getLocation());
-        //tvPosition.setText(user.getPosition());
+        tvPosition.setText(loginUser.getPosition());
         tvEmail.setText(loginUser.getEmail());
         tvPhone.setText(loginUser.getPhone());
         Glide.with(this).load(loginUser.getUrlImage()).into(ivImage);

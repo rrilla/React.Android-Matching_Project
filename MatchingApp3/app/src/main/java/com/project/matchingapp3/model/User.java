@@ -144,13 +144,13 @@ public class User implements Serializable {
     }
 
     public String getUrlImage(){
-        return "http://172.30.1.58:8000/image/" + image;  //집
-        //return "http://10.100.102.15:8000/image/" + image;//학원
+        //return "http://172.30.1.58:8000/image/" + image;  //집
+        return "http://10.100.102.15:8000/image/" + image;//학원
     }
 
     public String getUrlTImage(){
-        return "http://172.30.1.58:8000/image/" + teams.getImage();  //집
-        //return "http://10.100.102.15:8000/image/" + t_image;//학원
+        //return "http://172.30.1.58:8000/image/" + teams.getImage();  //집
+        return "http://10.100.102.15:8000/image/" + teams.getImage();//학원
     }
 
     //joindate 출력양식

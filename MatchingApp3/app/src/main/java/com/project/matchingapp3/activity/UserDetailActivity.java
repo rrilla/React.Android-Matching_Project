@@ -55,21 +55,9 @@ public class UserDetailActivity extends AppCompatActivity implements NavigationV
         jwtToken = intent.getStringExtra("jwtToken");
         loginUser = (User)intent.getSerializableExtra("loginUser");
         selectUser = (User)intent.getSerializableExtra("selectUser");
+        Log.e("test-유저디테일", loginUser.toString());
+        Log.e("test-유저디테일", selectUser.toString());
 
-        String[] result = new String[1];
-        RestAPITask task = new RestAPITask(jwtToken);
-
-        try {
-            result = task.execute("app/userDetail/", Integer.toString(selectUser.getId())).get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        Log.e("test-유저받기",result[0]);
-        Gson gson = new Gson();
-        User user = gson.fromJson(result[0], new TypeToken<User>(){}.getType());
-        Log.e("test-유저", user.toString());
 
         //툴바
         toolbar = findViewById(R.id.toolbar);
@@ -83,12 +71,12 @@ public class UserDetailActivity extends AppCompatActivity implements NavigationV
         TextView tvPhone = findViewById(R.id.uDetail_tv_phone);
         ImageView ivImage = findViewById(R.id.uDetail_iv_image);
 
-        tvName.setText(user.getNickname());
-        tvLocation.setText(user.getLocation());
-        tvPosition.setText(user.getPosition());
-        tvEmail.setText(user.getEmail());
-        tvPhone.setText(user.getPhone());
-        Glide.with(this).load(user.getUrlImage()).into(ivImage);
+        tvName.setText(selectUser.getNickname());
+        tvLocation.setText(selectUser.getLocation());
+        tvPosition.setText(selectUser.getPosition());
+        tvEmail.setText(selectUser.getEmail());
+        tvPhone.setText(selectUser.getPhone());
+        Glide.with(this).load(selectUser.getUrlImage()).into(ivImage);
 
         //드로어 레이아웃
         drawer = findViewById(R.id.drawer_layout);
@@ -220,7 +208,7 @@ public class UserDetailActivity extends AppCompatActivity implements NavigationV
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.appbar_menu, menu);
-        toolbar.setTitle("팀 상세보기");
+        toolbar.setTitle("유저 상세보기");
         return true;
     }
 

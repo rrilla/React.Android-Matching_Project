@@ -46,9 +46,9 @@ public class TeamDetailActivity extends AppCompatActivity implements NavigationV
     Toolbar toolbar;
     DrawerLayout drawer;
 
-    private User loginUser;
     private String jwtToken;
-    private int selectTeamId;
+    private User loginUser;
+    private Team selectTeam;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,24 +56,9 @@ public class TeamDetailActivity extends AppCompatActivity implements NavigationV
         setContentView(R.layout.activity_team_detail);
 
         Intent intent = getIntent();
-        selectTeamId = intent.getIntExtra("selectTeamId",0);
         jwtToken = intent.getStringExtra("jwtToken");
         loginUser = (User)intent.getSerializableExtra("loginUser");
-
-        String[] result = new String[1];
-        RestAPITask task = new RestAPITask(jwtToken);
-
-        try {
-            result = task.execute("app/teamDetail/", Integer.toString(selectTeamId)).get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        Log.e("test-팀받기",result[0]);
-        Gson gson = new Gson();
-        Team team = gson.fromJson(result[0], new TypeToken<Team>(){}.getType());
-        Log.e("test-팀", team.toString());
+        selectTeam = (Team)intent.getSerializableExtra("selectTeam");
 
         //툴바
         toolbar = findViewById(R.id.toolbar);
@@ -88,12 +73,12 @@ public class TeamDetailActivity extends AppCompatActivity implements NavigationV
         ImageView ivImage = findViewById(R.id.tDetail_iv_tImage);
         Button btnJoin = findViewById(R.id.tDetail_btn_join);
 
-        tvName.setText(team.getName());
-        tvLocation.setText(team.getLocation());
-        tvExplain.setText(team.getExplaintation());
-        tvCount.setText(team.getUsers().size() + " / 20");
-        tvOwner.setText(team.getOwner().getNickname());
-        Glide.with(this).load(team.getUrlImage()).into(ivImage);
+        tvName.setText(selectTeam.getName());
+        tvLocation.setText(selectTeam.getLocation());
+        tvExplain.setText(selectTeam.getExplaintation());
+        tvCount.setText(selectTeam.getUsers().size() + " / 20");
+        tvOwner.setText(selectTeam.getOwner().getNickname());
+        Glide.with(this).load(selectTeam.getUrlImage()).into(ivImage);
 
 
         //드로어 레이아웃
@@ -173,12 +158,16 @@ public class TeamDetailActivity extends AppCompatActivity implements NavigationV
                     Snackbar.make(view, "가입신청 실패.  이미 가입한 팀이 있습니다.", Snackbar.LENGTH_SHORT).show();
                     return ;
                 }
+                if(selectTeam.getUsers().size() >= 20){
+                    Snackbar.make(view, "가입신청 실패.  해당 팀의 팀원이 가득찼습니다..", Snackbar.LENGTH_SHORT).show();
+                    return ;
+                }
 
                 String[] result = new String[1];
                 RestAPITask task = new RestAPITask(jwtToken);
 
                 try {
-                    result = task.execute("user/apply1/", Integer.toString(selectTeamId)).get();
+                    result = task.execute("user/apply1/", Integer.toString(selectTeam.getId())).get();
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 } catch (InterruptedException e) {
