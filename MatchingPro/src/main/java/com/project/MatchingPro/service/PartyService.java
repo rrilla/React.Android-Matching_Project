@@ -35,7 +35,7 @@ public class PartyService {
 					party.setTeam(teamRepository.findById(teamid)
 							.orElseThrow(() -> new IllegalArgumentException(teamid + "는 존재하지 않습니다.")));
 					partyRepository.save(party);
-					return new ResponseEntity<String>("팀장이 동의후 가입됩니다", HttpStatus.OK);
+					return new ResponseEntity<String>("ok", HttpStatus.OK);
 				//팀이있으면 메세지
 				} else {
 					return new ResponseEntity<String>("이미 가입한 팀이 있습니다", HttpStatus.OK);

@@ -1,5 +1,7 @@
 package com.project.matchingapp3.model;
 
+import com.project.matchingapp3.task.IP;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -144,13 +146,11 @@ public class User implements Serializable {
     }
 
     public String getUrlImage(){
-        //return "http://172.30.1.58:8000/image/" + image;  //집
-        return "http://10.100.102.15:8000/image/" + image;//학원
+        return IP.serverUrl + "image/" + image;
     }
 
     public String getUrlTImage(){
-        //return "http://172.30.1.58:8000/image/" + teams.getImage();  //집
-        return "http://10.100.102.15:8000/image/" + teams.getImage();//학원
+        return IP.serverUrl + "image/" + teams.getImage();
     }
 
     //joindate 출력양식

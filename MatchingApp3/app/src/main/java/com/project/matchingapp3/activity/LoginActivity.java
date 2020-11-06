@@ -23,7 +23,6 @@ import java.util.concurrent.ExecutionException;
 
 public class LoginActivity extends AppCompatActivity {
 
-
     Button btnJoin, btnLogin;
     TextView tvResult;
     EditText etId, etPw;

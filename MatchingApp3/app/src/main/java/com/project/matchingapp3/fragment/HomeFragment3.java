@@ -21,10 +21,11 @@ import com.project.matchingapp3.adapter.OnPartyUserClickListener;
 import com.project.matchingapp3.adapter.PartyUserListAdapter;
 import com.project.matchingapp3.model.Party;
 import com.project.matchingapp3.model.User;
-import com.project.matchingapp3.model.dto.NavDataDto;
+import com.project.matchingapp3.task.RestAPITask;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class HomeFragment3 extends Fragment {
 
@@ -56,7 +57,7 @@ public class HomeFragment3 extends Fragment {
             return rootView;
         }
 
-        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.home_fragment3, container, false);
+        final ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.home_fragment3, container, false);
 
         TextView f3TvName = rootView.findViewById(R.id.FHome3_tv_tName);
         TextView f3TvLocation = rootView.findViewById(R.id.FHome3_tv_tLocation);
@@ -88,6 +89,7 @@ public class HomeFragment3 extends Fragment {
             adapter.setOnItemClickListener(new OnPartyUserClickListener() {
                 @Override   //상세보기 클릭시
                 public void onItemClick(PartyUserListAdapter.ViewHolder holder, View view, int position) {
+                    //유저 정보 클릭
                     Party item = adapter.getItem(position);
 
                     Intent intent = new Intent(getContext(), UserDetailActivity.class);
@@ -101,7 +103,35 @@ public class HomeFragment3 extends Fragment {
             }, new OnPartyUserClickListener() {
                 @Override
                 public void onItemClick(PartyUserListAdapter.ViewHolder holder, View view, int position) {
-                    Snackbar.make(view, "가입수락클릭", Snackbar.LENGTH_SHORT).show();
+                    //가입 승인 클릭
+
+                    if(loginUser.getId() != loginUser.getTeams().getOwner().getId()){
+                        Snackbar.make(view, "구단주만 승인 가능합니다.", Snackbar.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    Party item = adapter.getItem(position);
+
+                    String[] result = new String[1];
+                    RestAPITask task = new RestAPITask(jwtToken);
+                    try {
+                        result = task.execute("Acknowledgment/", Integer.toString(item.getId())).get();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    Log.e("test-팀가입요청 결과", result[0]);
+
+                    if(result[0].equals("ok")){
+                        party.remove(position);
+                        adapter.notifyItemRemoved(position);
+                        adapter.notifyItemRangeChanged(position, party.size());
+                        Snackbar.make(view, "가입 수락 완료.", Snackbar.LENGTH_SHORT).show();
+                    }else{
+                        Snackbar.make(view, "에러.  " + result[0], Snackbar.LENGTH_SHORT).show();
+                    }
                 }
             });
         }
