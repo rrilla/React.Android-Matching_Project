@@ -16,4 +16,7 @@ public interface PartyRepository extends JpaRepository<Party, Integer>{
 	@Query(value = "select * from party where user_id = :user_id", nativeQuery = true)
 	List<Party> findUser_idAll(int user_id);
 	
+	@Query(value = "delete from party where user_id = :user_id", nativeQuery = true)
+	void deleteParty(int user_id);
+	
 }

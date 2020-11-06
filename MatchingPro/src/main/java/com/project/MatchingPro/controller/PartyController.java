@@ -58,6 +58,7 @@ public class PartyController {
 		return partyRepository.mFindByTeamid(teamid);
 	}
 	
+	//유저아이디 받아와서 파티리스트 뿌리기<11/06,하윤>
 	@PostMapping("/user/partyList/{userid}")
 	public List<Party> partyList_user(@PathVariable int userid) {
 	return partyRepository.findUser_idAll(userid);

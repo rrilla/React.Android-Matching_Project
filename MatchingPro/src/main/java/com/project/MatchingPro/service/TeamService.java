@@ -64,12 +64,13 @@ public class TeamService {
 	@Transactional
 	public ResponseEntity<?> teamJoin(int partyid){
 		Party partyEntity = partyRepository.findById(partyid).orElseThrow(()-> new IllegalArgumentException(partyid+"는 존재하지 않습니다."));
-		//만약 팀장 가입수가 20명이상이면 '팀원이 가득찼십니더' 메세지 출력함.
+		//만약 팀장 가입수가 20명이상이면 '팀원이 가득찼십니더' 메세지 출력함.<11/06>
 		if(userRepository.countByTeams_id(partyEntity.getTeam().getId())<20) {
 			User userEntity = partyEntity.getUser();
 			userEntity.setTeams(partyEntity.getTeam());
-			//수락을 했으면 파티테이블에 있는 해당 데이터 삭제
-			partyRepository.deleteById(partyid);
+			//수락을 했으면 해당 유저아이디가 있는 파티테이블 전부 삭제<11/06>
+			Party deleteparty = partyRepository.findById(partyid).get();
+			partyRepository.deleteParty(deleteparty.getUser().getId());
 				return new ResponseEntity<String>("ok", HttpStatus.OK);
 		}else {
 			return new ResponseEntity<String>("팀원이 가득찼십니더 ", HttpStatus.OK);
