@@ -253,7 +253,7 @@ const JoinModal = () => {
 									value={user.location} />
 							</Form.Group>
 							<Form.Group as={Col} controlId="formGridEmail">
-								{/* <Button variant="dark" name="name" onClick={openTextFile}>Select Image</Button>{' '} */}
+								<Button variant="dark" name="name" onClick={openTextFile}>Select Image</Button>{' '}
 
 								<input></input>
 								

@@ -23,7 +23,8 @@ const MyTeam = () => {
 	const [searchUser, setSearchUser] = useState({
 		nickname: "",
 		location: "",
-		position: ""
+		position: "",
+		id:null
 	});
 
 	const [isSearch, setIsSearch] = useState(false);
@@ -39,9 +40,23 @@ const MyTeam = () => {
 	const handleClose = () => setShow(false);
 	const handleShow = () => { setShow(true) };
 
+	const cheo = (userid) => {
+		fetch(`http://localhost:8000/user/apply2/${userid}`, {
+			method: "post",
+			headers: {
+				'Content-Type': "application/json; charset=utf-8",
+				'Authorization': localStorage.getItem("Authorization")
+			}
+		}).then((res) => res.text())
+			.then(res => {
+				console.log(res);
+				if (res === "ok") alert("팀가입 요청 완료");
+				else alert("팀가입 요청 실패");
+			});
+	};
 
 	const searchUserfunction = (nick) => {
-		alert(nick+"검색되었습니다");
+		alert(nick + "검색되었습니다");
 		// fetch로 검색해서 searchUser에 넣기
 
 		fetch(`http://localhost:8000/nicknameDetail/${nick}`, {
@@ -50,18 +65,18 @@ const MyTeam = () => {
 			.then(res => {
 				console.log("닉네임으로 검색 결과", res);
 				setSearchUser(res);
-		});
+			});
 		setIsSearch(true);
 	}
 
-	const searchResult = 
-			<div>
-				usernickname : {searchUser.nickname} <br />
+	const searchResult =
+		<div>
+			usernickname : {searchUser.nickname} <br />
 				usernicklocation : {searchUser.location} <br />
 				usernickposition : {searchUser.position} <br />
-			</div>
+		</div>
 
-	
+
 	// teaminfo create
 	const sss = () => {
 		let teamInfo = {
@@ -211,7 +226,7 @@ const MyTeam = () => {
 										value={searchUser.nickname} />
 								</Col>
 								<Col md={2}>
-									<Button variant="secondary" onClick={()=>searchUserfunction(searchUser.nickname)}>search</Button>
+									<Button variant="secondary" onClick={() => searchUserfunction(searchUser.nickname)}>search</Button>
 								</Col>
 								{searchResult}
 							</Row>
@@ -219,6 +234,7 @@ const MyTeam = () => {
 					</Form.Row>
 				</Modal.Body>
 				<Modal.Footer>
+					<Button variant="secondary" onClick={() => cheo(searchUser.id)}>초대하기</Button>
 					<Button variant="secondary" onClick={handleClose}>
 						Close
 					</Button>
