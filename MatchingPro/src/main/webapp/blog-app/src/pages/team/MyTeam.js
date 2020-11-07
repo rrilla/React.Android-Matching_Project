@@ -4,7 +4,7 @@ import Party from '../../components/Party';
 import Background from '../../components/Background';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import MatchingCard from '../../components/MatchingCard';
+import MatchingCard from '../../components/card/MatchingCard';
 
 const MainCardStyle = styled.div`
   width: 100%;
