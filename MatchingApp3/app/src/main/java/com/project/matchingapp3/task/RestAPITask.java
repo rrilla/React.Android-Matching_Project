@@ -66,6 +66,9 @@ public class RestAPITask extends AsyncTask<String, Object, String[]> {
         }else if(json[0].equals("user/app/teamPartyList")){
             reqUrl = json[0];
             serverUrl += reqUrl;
+        }else if(json[0].equals("user/app/userPartyList")){
+            reqUrl = json[0];
+            serverUrl += reqUrl;
         }else if(json[0].equals("Acknowledgment/")){
             reqUrl = json[0];
             serverUrl += reqUrl + json[1];
@@ -76,7 +79,7 @@ public class RestAPITask extends AsyncTask<String, Object, String[]> {
             String str = "";
             URL url = new URL(serverUrl);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            Log.d("test","토큰대가리심음 : "+authorization);
+            Log.d("noteam","토큰대가리심음 : "+authorization);
             conn.setRequestProperty("Authorization", authorization);   //토큰
             conn.setRequestProperty("Content-Type", contentType);
             conn.setRequestMethod(method);
@@ -106,10 +109,10 @@ public class RestAPITask extends AsyncTask<String, Object, String[]> {
                         for(Iterator i = c.iterator(); i.hasNext(); ) {
                             authorization = (String)i.next();
                         }
-                        Log.d("test-받은header 토큰값", authorization);
+                        Log.d("noteam-받은header 토큰값", authorization);
                     }
-                    Log.d("test-request body data", reqData);
-                    Log.d("test-response body data", resData);
+                    Log.d("noteam-request body data", reqData);
+                    Log.d("noteam-response body data", resData);
                     return new String[]{resData, authorization};
                 }
             } else {
@@ -125,17 +128,17 @@ public class RestAPITask extends AsyncTask<String, Object, String[]> {
 
                 Log.d("응답 코드", conn.getResponseCode()+"에러");    //응답코드받기
                 Log.d("응답 메시지", conn.getResponseMessage());    //응답메시지
-                Log.d("test", "응답코드가 ok가 아님");
+                Log.d("noteam", "응답코드가 ok가 아님");
             }
         } catch (MalformedURLException e) {
-            Log.d("test","MalformedURLException");
+            Log.d("noteam","MalformedURLException");
             e.printStackTrace();
         } catch (IOException e) {
-            Log.d("test","IOException");
+            Log.d("noteam","IOException");
             e.printStackTrace();
         }
-        Log.d("test-request body data", reqData);
-        Log.d("test-response body data", resData);
+        Log.d("noteam-request body data", reqData);
+        Log.d("noteam-response body data", resData);
 
         return new String[]{resData};
     }

@@ -43,7 +43,7 @@ public class AppController {
 	@PostMapping("user/app/loginUser")
 	public ResponseEntity<?> userDetail(){
 		User user = (User)session.getAttribute("principal");
-		System.out.println(user.getId());
+		//System.out.println(userRepository.findById(user.getId()).orElseThrow(() -> new IllegalArgumentException(user.getId()+"는 존재하지 않습니다.")));
 		return new ResponseEntity<User>(
 				userRepository.findById(user.getId()).orElseThrow(() -> new IllegalArgumentException(user.getId()+"는 존재하지 않습니다."))
 				,HttpStatus.OK);
@@ -74,7 +74,13 @@ public class AppController {
 	@PostMapping("user/app/teamPartyList")
 	public List<Party> teamPartyList(){
 		User user = (User)session.getAttribute("principal");
-		System.out.println("오나이까지");
 		return partyRepository.mFindByTeamid(user.getTeams().getId());
+	}
+	
+	//유저 아이디 받아와서 해당 유저에 대한 파티 리스트 뿌리기
+	@PostMapping("user/app/userPartyList")
+	public List<Party> partyList_user() {
+		User user = (User)session.getAttribute("principal");
+		return partyRepository.findUser_idAll(user.getId());
 	}
 }

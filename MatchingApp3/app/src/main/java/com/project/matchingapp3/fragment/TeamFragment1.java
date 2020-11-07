@@ -44,7 +44,7 @@ public class TeamFragment1 extends Fragment {
         this.jwtToken = jwtToken;
 
         //this.teams.addAll(teams);
-        Log.e("test-팀리스트프래그받음?", teams.toString());
+        Log.e("noteam-팀리스트프래그받음?", teams.toString());
     }
 
     @Override

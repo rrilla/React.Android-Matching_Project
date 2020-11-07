@@ -5,6 +5,7 @@ import com.project.matchingapp3.task.IP;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 public class User implements Serializable {
     private int id;
@@ -20,7 +21,15 @@ public class User implements Serializable {
     private String role; // 권한
     private Timestamp joindate;
     private Team teams;
-    //private List<Party> partys;
+    private List<Party> partys;
+
+    public List<Party> getPartys() {
+        return partys;
+    }
+
+    public void setPartys(List<Party> partys) {
+        this.partys = partys;
+    }
 
     public String getPosition() {
         return position;

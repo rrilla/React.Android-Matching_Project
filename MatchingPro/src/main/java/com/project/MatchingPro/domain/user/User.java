@@ -51,7 +51,7 @@ public class User {
 	@CreationTimestamp // default 현재시간 자동 적용
 	private Timestamp joindate;
 
-	@JsonIgnoreProperties({"users","partys"})
+	@JsonIgnoreProperties({"partys"})
 	@JoinColumn(name = "teams_id")
 	@ManyToOne	
 	private Team teams;

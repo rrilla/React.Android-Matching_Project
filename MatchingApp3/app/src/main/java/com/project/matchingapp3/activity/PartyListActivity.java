@@ -1,4 +1,4 @@
-package com.project.matchingapp3;
+package com.project.matchingapp3.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -6,11 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -24,26 +24,24 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.project.matchingapp3.activity.LoginActivity;
-import com.project.matchingapp3.activity.MyPageActivity;
-import com.project.matchingapp3.activity.PartyListActivity;
-import com.project.matchingapp3.activity.TeamCreateActivity;
-import com.project.matchingapp3.activity.TeamDetailActivity;
+import com.project.matchingapp3.MainActivity;
+import com.project.matchingapp3.R;
+import com.project.matchingapp3.TeamActivity;
+import com.project.matchingapp3.UserActivity;
+import com.project.matchingapp3.adapter.PartyTeamAdapter;
+import com.project.matchingapp3.adapter.PartyUserAdapter;
 import com.project.matchingapp3.adapter.ViewPagerAdapter;
-import com.project.matchingapp3.fragment.TeamFragment1;
-import com.project.matchingapp3.fragment.TeamFragment2;
-import com.project.matchingapp3.model.Team;
+import com.project.matchingapp3.fragment.PartyListFragment1;
+import com.project.matchingapp3.model.Party;
 import com.project.matchingapp3.model.User;
-import com.project.matchingapp3.model.dto.NavDataDto;
 import com.project.matchingapp3.task.RestAPITask;
 
-import java.util.List;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
-public class TeamActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class PartyListActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     BottomNavigationView bottomNavigationView;
     ViewPager pager;
@@ -52,30 +50,43 @@ public class TeamActivity extends AppCompatActivity implements NavigationView.On
 
     User loginUser;
     String jwtToken;
+    ArrayList<Party> partyList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_team);
+        setContentView(R.layout.activity_party_list);
 
         Intent intent = getIntent();
         jwtToken = intent.getStringExtra("jwtToken");
         loginUser = (User)intent.getSerializableExtra("loginUser");
 
+
         String[] result = new String[1];
         RestAPITask task = new RestAPITask(jwtToken);
-
-        try {
-            result = task.execute("app/teamList").get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        Log.e("noteam-팀리스트받기",result[0]);
         Gson gson = new Gson();
-        List<Team> tList = gson.fromJson(result[0], new TypeToken<List<Team>>(){}.getType());
-        Log.e("noteam-팀리스트", tList.toString());
+        //party 데이터 받기, user값 받은 후 팀값 확인 후 실행
+        if(loginUser.getTeams() != null) {
+            try {
+                result = task.execute("user/app/teamPartyList").get();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            Log.d("test-PratyListActivity", "팀의 파티리스트 받음 : " + result[0]);
+            partyList = gson.fromJson(result[0], new TypeToken<ArrayList<Party>>() {}.getType());
+        }else{
+            try {
+                result = task.execute("user/app/userPartyList").get();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            Log.d("test-PratyListActivity", "유저의 파티리스트 받음 : " + result[0]);
+            partyList = gson.fromJson(result[0], new TypeToken<ArrayList<Party>>() {}.getType());
+        }
 
         //툴바
         toolbar = findViewById(R.id.toolbar);
@@ -127,46 +138,10 @@ public class TeamActivity extends AppCompatActivity implements NavigationView.On
 
         //뷰 페이저
         pager = findViewById(R.id.pager);
-        pager.setOffscreenPageLimit(3); //미리 로딩해 놓을 아이템의 갯수, 스크롤 넘길시 빠른 조회가능
-
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-
-        TeamFragment1 fragment1 = new TeamFragment1(tList, loginUser, jwtToken);
+        PartyListFragment1 fragment1 = new PartyListFragment1(partyList, loginUser, jwtToken);
         adapter.addItem(fragment1);
-
-        TeamFragment2 fragment2 = new TeamFragment2();
-        adapter.addItem(fragment2);
-
         pager.setAdapter(adapter);
-
-
-        //상단 탭 네비
-        TabLayout tabs = findViewById(R.id.tab_layout);
-        tabs.addTab(tabs.newTab().setText("팀 목록"));
-        tabs.addTab(tabs.newTab().setText("팀 랭킹"));
-        tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                int position = tab.getPosition();
-                String text = "";
-                String title = "";
-                if(position == 0){
-                    text = "상단탭 1 선택";
-                    title = "팀 목록";
-                }else if(position == 1){
-                    text = "상단탭 2 선택";
-                    title = "팀 랭킹";
-                }
-                Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
-                pager.setCurrentItem(position,true);   // true = 페이지 전환시 스무스
-                toolbar.setTitle(title);
-            }
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {}
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {}
-        });
-
 
         //하단 탭 네비
         bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -231,12 +206,6 @@ public class TeamActivity extends AppCompatActivity implements NavigationView.On
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int curId = item.getItemId();
         switch (curId) {
-            case R.id.appbar_search:
-                Intent intent = new Intent(getApplicationContext(), PartyListActivity.class);
-                intent.putExtra("jwtToken", jwtToken);
-                intent.putExtra("loginUser", loginUser);
-                startActivity(intent);
-                break;
             case R.id.appbar_info:
                 Intent intent2 = new Intent(getApplicationContext(), MyPageActivity.class);
                 intent2.putExtra("jwtToken", jwtToken);
@@ -253,7 +222,12 @@ public class TeamActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.appbar_menu, menu);
-        toolbar.setTitle("팀");
+        if(loginUser.getTeams() == null){
+            toolbar.setTitle("팀 스카웃 제의");
+        }else{
+            toolbar.setTitle("팀 가입 신청");
+        }
+
         return true;
     }
 
