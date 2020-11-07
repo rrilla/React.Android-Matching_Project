@@ -43,7 +43,7 @@ public class AppController {
 	@PostMapping("user/app/loginUser")
 	public ResponseEntity<?> userDetail(){
 		User user = (User)session.getAttribute("principal");
-		System.out.println(user.getId());
+		//System.out.println(userRepository.findById(user.getId()).orElseThrow(() -> new IllegalArgumentException(user.getId()+"는 존재하지 않습니다.")));
 		return new ResponseEntity<User>(
 				userRepository.findById(user.getId()).orElseThrow(() -> new IllegalArgumentException(user.getId()+"는 존재하지 않습니다."))
 				,HttpStatus.OK);

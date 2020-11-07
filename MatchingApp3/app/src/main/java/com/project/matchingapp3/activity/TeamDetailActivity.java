@@ -59,6 +59,7 @@ public class TeamDetailActivity extends AppCompatActivity implements NavigationV
         jwtToken = intent.getStringExtra("jwtToken");
         loginUser = (User)intent.getSerializableExtra("loginUser");
         selectTeam = (Team)intent.getSerializableExtra("selectTeam");
+        Log.e("test-TeamDetail", "선택한팀 데이터 : " + selectTeam);
 
         //툴바
         toolbar = findViewById(R.id.toolbar);

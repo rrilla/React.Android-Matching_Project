@@ -42,6 +42,8 @@ public class PartyListFragment1 extends Fragment {
     PartyUserAdapter adapterUser;
     PartyTeamAdapter adapterTeam;
 
+    public PartyListFragment1(){}
+
     public PartyListFragment1(ArrayList<Party> party, User loginUser, String jwtToken){
         this.party = party;
         this.loginUser = loginUser;
