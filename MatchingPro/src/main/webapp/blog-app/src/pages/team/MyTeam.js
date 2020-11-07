@@ -4,6 +4,7 @@ import Party from '../../components/Party';
 import Background from '../../components/Background';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import MatchingCard from '../../components/MatchingCard';
 
 const MainCardStyle = styled.div`
   width: 100%;
@@ -20,12 +21,14 @@ const SlideStyle = styled.div`
 `;
 
 const MyTeam = () => {
+
 	const [searchUser, setSearchUser] = useState({
 		nickname: "",
 		location: "",
 		position: "",
 		id: null
 	});
+	const [winner, setWinner] = useState(null);
 
 	const [isSearch, setIsSearch] = useState(false);
 	const [schedule, setSchedule] = useState([]);
@@ -37,17 +40,43 @@ const MyTeam = () => {
 		});
 	};
 
-	const showdetail = () => {
-
+	const as = () => {
+		console.log(winner);///user/scoreWiner/{battleid}
+		fetch(`http://localhost:8000/user/scoreWiner/${deId.id}`, {
+			method: "put",
+			headers: {
+				//'Content-Type': "application/json; charset=utf-8",
+				'Authorization': localStorage.getItem("Authorization")
+			}
+		}).then((res) => res.text())
+			.then(res => {
+				console.log(res);
+				if (res === "ok") alert("완료");
+				else alert("실패");
+			});
 	}
+
+	const [deId, setDeId] = useState({
+		id: null,
+		myTeam: null,
+		jteam: null
+	}); // 자세히 보기 팀 id
+
 
 	const [show, setShow] = useState(false);
 	const handleClose = () => setShow(false);
 	const handleShow = () => { setShow(true) };
-
 	const [show2, setShow2] = useState(false);
 	const handleClose2 = () => setShow2(false);
-	const handleShow2 = () => { setShow2(true) };
+
+	const handleShow2 = (id, myTeam, jteam) => {
+		setShow2(true);
+		setDeId({
+			id: id,
+			myTeam: myTeam,
+			jteam: jteam
+		});
+	};
 
 	const cheo = (userid) => {
 		fetch(`http://localhost:8000/user/apply2/${userid}`, {
@@ -222,6 +251,7 @@ const MyTeam = () => {
 	}, []);
 
 
+
 	return (
 		<Container>
 
@@ -264,29 +294,22 @@ const MyTeam = () => {
 					<Modal.Title>팀원초대</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
-					<Form.Row>
-						<Col md={2}></Col>
-						<Form.Group as={Col} md={5} controlId="formGridEmail">
-							<Form.Label>nickname</Form.Label>
-							<Row>
-								<Col md={10}>
-									<Form.Control
-										type="text"
-										name="nickname"
-										placeholder="nickname"
-										onChange={inputHandle}
-										value={searchUser.nickname} />
-								</Col>
-								<Col md={2}>
-									<Button variant="secondary" onClick={() => searchUserfunction(searchUser.nickname)}>search</Button>
-								</Col>
-								{searchResult}
-							</Row>
-						</Form.Group>
-					</Form.Row>
+					<MatchingCard></MatchingCard>
+					<hr />
+					승리팀 선택하기<br />
+					{/* <Form.Group onSubmit={win1} controlId="exampleForm.SelectCustomSizeSm">
+						<Form.Label>select winner</Form.Label>
+						<Form.Control as="select" size="sm" custom>
+							<option value="grapefruit">Grapefruit</option>
+							<option value="lime">Lime</option>
+						</Form.Control>
+					</Form.Group> */}
+
+					<Button variant="secondary" onClick={as}>{deId.myTeam}</Button>
+					<Button variant="secondary" onClick={as}>{deId.jteam}</Button>
+					<Button variant="secondary" onClick={as}>{deId.id}</Button>
 				</Modal.Body>
 				<Modal.Footer>
-					<Button variant="secondary" onClick={() => cheo(searchUser.id)}>초대하기</Button>
 					<Button variant="secondary" onClick={handleClose2}>
 						Close
 					</Button>
@@ -348,7 +371,7 @@ const MyTeam = () => {
 								{schedule.map((res) => (
 									res.role === 2
 										? <div>요청팀 = {res.requestTeam.name} vs 수락팀 = {res.responseTeam.name}
-											< Button onClick={handleShow2} size="sm" variant="outline-success" >자세히보기</Button>
+											< Button onClick={() => handleShow2(res.id, res.requestTeam.name, res.responseTeam.name)} size="sm" variant="outline-success" >자세히보기</Button>
 										</div>
 										: null
 
