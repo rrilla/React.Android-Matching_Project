@@ -63,7 +63,8 @@ const JoinModal = () => {
 		email: "",
 		phone: "",
 		location: "",
-		image: ""
+		image: "",
+		position: ""
 	});
 
 	const inputHandle = (e) => {
@@ -115,7 +116,8 @@ const JoinModal = () => {
 			email: user.email,
 			phone: user.phone,
 			location: user.location,
-			image: user.image
+			image: user.image,
+			position: user.position
 		}
 		const keys = Object.keys(person) // ['name', 'weight', 'price', 'isFresh']
 		for (let i = 0; i < keys.length; i++) {
@@ -252,6 +254,18 @@ const JoinModal = () => {
 									onChange={inputHandle}
 									value={user.location} />
 							</Form.Group>
+
+							<Form.Group as={Col} controlId="formGridEmail">
+								<Form.Label>지역 </Form.Label>
+								<Form.Control
+									type="text"
+									name="position"
+									placeholder="포지션을 입력하세요"
+									onChange={inputHandle}
+									value={user.position} />
+							</Form.Group>
+
+
 							<Form.Group as={Col} controlId="formGridEmail">
 								<Button variant="dark" name="name" onClick={openTextFile}>Select Image</Button>{' '}
 

@@ -24,10 +24,11 @@ const MyTeam = () => {
 		nickname: "",
 		location: "",
 		position: "",
-		id:null
+		id: null
 	});
 
 	const [isSearch, setIsSearch] = useState(false);
+	const [schedule, setSchedule] = useState([]);
 
 	const inputHandle = (e) => {
 		setSearchUser({
@@ -36,9 +37,17 @@ const MyTeam = () => {
 		});
 	};
 
+	const showdetail = () => {
+
+	}
+
 	const [show, setShow] = useState(false);
 	const handleClose = () => setShow(false);
 	const handleShow = () => { setShow(true) };
+
+	const [show2, setShow2] = useState(false);
+	const handleClose2 = () => setShow2(false);
+	const handleShow2 = () => { setShow2(true) };
 
 	const cheo = (userid) => {
 		fetch(`http://localhost:8000/user/apply2/${userid}`, {
@@ -200,6 +209,15 @@ const MyTeam = () => {
 				setBattles(res);
 			});
 
+			fetch(`http://localhost:8000/battleList/${res}`, {
+				method: "get",
+			}).then((res) => {
+				console.log("team schedule fetch fisrt then res :: ", res);
+				return res.json();
+			}).then((res) => {
+				console.log("team schedule fetch second then res", res);
+				setSchedule(res);
+			});
 		});
 	}, []);
 
@@ -241,6 +259,39 @@ const MyTeam = () => {
 				</Modal.Footer>
 			</Modal>
 
+			<Modal show={show2} size={"lg"} onHide={handleClose}>
+				<Modal.Header closeButton>
+					<Modal.Title>팀원초대</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+					<Form.Row>
+						<Col md={2}></Col>
+						<Form.Group as={Col} md={5} controlId="formGridEmail">
+							<Form.Label>nickname</Form.Label>
+							<Row>
+								<Col md={10}>
+									<Form.Control
+										type="text"
+										name="nickname"
+										placeholder="nickname"
+										onChange={inputHandle}
+										value={searchUser.nickname} />
+								</Col>
+								<Col md={2}>
+									<Button variant="secondary" onClick={() => searchUserfunction(searchUser.nickname)}>search</Button>
+								</Col>
+								{searchResult}
+							</Row>
+						</Form.Group>
+					</Form.Row>
+				</Modal.Body>
+				<Modal.Footer>
+					<Button variant="secondary" onClick={() => cheo(searchUser.id)}>초대하기</Button>
+					<Button variant="secondary" onClick={handleClose2}>
+						Close
+					</Button>
+				</Modal.Footer>
+			</Modal>
 
 
 
@@ -272,36 +323,39 @@ const MyTeam = () => {
 							))}
 							<Col md={12}><hr /></Col>
 							<Col md={3}><h3>⚔ 대전신청</h3></Col>
-							<Col md={8}><h3>{battles.length}건</h3></Col>
+							{/* <Col md={8}><h3>{battles.length}건</h3></Col> */}
 							<Col md={12}><br /></Col>
 
 							{battles.map((res) => (
-								<Col md={3}>
-									{/* 💥 이게 베틀 아이디{res.id}&nbsp;&nbsp;&nbsp; */}
-                         			💥 상대편 팀 이름 {res.requestTeam.name}&nbsp;&nbsp;&nbsp;
-									<Button onClick={sss} variant="outline-success">teaminfo</Button>
-									<Button onClick={() => zzz(res.id)}>수락</Button>
-									{/* <Button onClick={zzz}>참가명단보기</Button> */}
-								</Col>
+								res.role === 1
+									?
+									<Col md={3}>
+										{/* 💥 이게 베틀 아이디{res.id}&nbsp;&nbsp;&nbsp; */}
+										💥 상대편 팀 이름 {res.requestTeam.name}&nbsp;&nbsp;&nbsp;
+										<Button onClick={sss} variant="outline-success">teaminfo</Button>
+										<Button onClick={() => zzz(res.id)}>수락</Button>
+										{/* <Button onClick={zzz}>참가명단보기</Button> */}
+									</Col>
+									: null
 							))}
 							<Col md={12}><hr /></Col>
 
 							<Col md={3}><h3>⚔ 경기일정</h3></Col>
-							<Col md={8}><h3>{battles.length}건</h3></Col>
+							{/* <Col md={9}><h3>{battles.length}건</h3></Col> */}
 							<Col md={12}><br /></Col>
 
-							{battles.map((res) => (
-								<Col md={3}>
-									{/* 💥 이게 베틀 아이디{res.id}&nbsp;&nbsp;&nbsp; */}
-                         			💥 상대편 팀 이름 {res.requestTeam.name}&nbsp;&nbsp;&nbsp;
-									<Button onClick={sss} variant="outline-success">teaminfo</Button>
-									<Button onClick={() => zzz(res.id)}>수락</Button>
-									{/* <Button onClick={zzz}>참가명단보기</Button> */}
-								</Col>
-							))}
+							<Col md={12}>
+								{schedule.map((res) => (
+									res.role === 2
+										? <div>요청팀 = {res.requestTeam.name} vs 수락팀 = {res.responseTeam.name}
+											< Button onClick={handleShow2} size="sm" variant="outline-success" >자세히보기</Button>
+										</div>
+										: null
 
+								))}
+							</Col>
 
-
+							<Col md={12}><hr /></Col>
 							<Col md={3}>
 								<Button onClick={handleShow} variant="outline-success">팀원초대</Button>
 							</Col>
@@ -310,8 +364,8 @@ const MyTeam = () => {
 						</Row>
 					</Jumbotron>
 				</MainCardStyle>
-			</SlideStyle>
-		</Container>
+			</SlideStyle >
+		</Container >
 	);
 };
 // 일단 우리팀의 id를 찾는다
