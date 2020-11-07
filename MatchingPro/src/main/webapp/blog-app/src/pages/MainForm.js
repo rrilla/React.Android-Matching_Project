@@ -33,7 +33,7 @@ const MainForm = () => {
     }).then((res) => res.json())
       .then((res) => {
         console.log("mainForm userList response [json type]", res);
-        setTusers(res);
+        setUsers(res);
       });
 
     // rank fetch -> rank tab에서 보여줌
@@ -48,7 +48,7 @@ const MainForm = () => {
 
   const [rank, setRank] = useState([]);
   const [teams, setTeams] = useState([]);
-  const [users, setTusers] = useState([]);
+  const [users, setUsers] = useState([]);
 
   return (
     <Container>

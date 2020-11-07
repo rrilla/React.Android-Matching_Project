@@ -140,8 +140,11 @@ const Mypage = () => {
     <Accordion.Collapse eventKey="0">
       <Card.Body>
 					{partys.map((res) => (//이 팀에 들어온 파티 번호 : {res.id}
-								<Col md={3}> teamname that requested to me {res.team.name}</Col>
+								<Col md={3}> teamname that requested to me {res.team.name}
+								{/* button to accept the request here  */}
+								<Button >수락</Button></Col>
 							))}</Card.Body>
+
     </Accordion.Collapse>
 </Accordion>
 
