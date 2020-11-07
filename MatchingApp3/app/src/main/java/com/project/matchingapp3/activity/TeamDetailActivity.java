@@ -70,7 +70,8 @@ public class TeamDetailActivity extends AppCompatActivity implements NavigationV
         TextView tvCount = findViewById(R.id.tDetail_tv_tCount);
         TextView tvOwner = findViewById(R.id.tDetail_tv_tOwner);
         ImageView ivImage = findViewById(R.id.tDetail_iv_tImage);
-        Button btn = findViewById(R.id.tDetail_btn);
+        Button btnJoin = findViewById(R.id.tDetail_btnJoin);
+        Button btnMatch = findViewById(R.id.tDetail_btnMatch);
 
         tvName.setText(selectTeam.getName());
         tvLocation.setText(selectTeam.getLocation());
@@ -150,11 +151,20 @@ public class TeamDetailActivity extends AppCompatActivity implements NavigationV
             navigationView.getMenu().getItem(1).setTitle("My Team");
         }
 
-        if()
-        btn.setOnClickListener(new View.OnClickListener() {
+        if(selectTeam.getId() != loginUser.getTeams().getId() &&
+        loginUser.getId() == loginUser.getTeams().getOwner().getId()){
+            btnJoin.setVisibility(View.GONE);
+            btnMatch.setVisibility(View.VISIBLE);
+        }
+        btnMatch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+            }
+        });
+        btnJoin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 if(loginUser.getTeams() != null){
                     Snackbar.make(view, "가입신청 실패.  이미 가입한 팀이 있습니다.", Snackbar.LENGTH_SHORT).show();
                     return ;

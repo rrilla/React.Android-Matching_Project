@@ -78,8 +78,9 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="5dp"
                             android:text="구단주"
+                            android:textStyle="bold"
                             android:textColor="#FFFFFF"
-                            android:textSize="15dp" />
+                            android:textSize="18dp" />
 
                         <TextView
                             android:id="@+id/tDetail_tv_tLocation"
@@ -103,10 +104,17 @@
                         android:orientation="vertical">
 
                         <Button
-                            android:id="@+id/tDetail_btn"
+                            android:id="@+id/tDetail_btnJoin"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="가입 신청" />
+
+                        <Button
+                            android:id="@+id/tDetail_btnMatch"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:text="매칭 신청" />
                     </LinearLayout>
                 </LinearLayout>
                 <LinearLayout
