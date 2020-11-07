@@ -75,7 +75,6 @@ public class TeamActivity extends AppCompatActivity implements NavigationView.On
         Log.e("noteam-팀리스트받기",result[0]);
         Gson gson = new Gson();
         List<Team> tList = gson.fromJson(result[0], new TypeToken<List<Team>>(){}.getType());
-        Log.e("noteam-팀리스트", tList.toString());
 
         //툴바
         toolbar = findViewById(R.id.toolbar);
