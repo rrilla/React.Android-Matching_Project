@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Jumbotron, Container } from 'react-bootstrap';
+import { Jumbotron, Container, Tooltip, Button, OverlayTrigger } from 'react-bootstrap';
 import styled from 'styled-components';
 
 const MainCardStyle = styled.div`
@@ -17,6 +17,7 @@ const Mypage = () => {
 	const [partys, setPartys] = useState([]);
 
 	useEffect(() => {
+		//fetch that brings loginid 
 		fetch("http://localhost:8000/user/loginid", {
 			method: "get",
 			headers: {
@@ -36,7 +37,21 @@ const Mypage = () => {
 				console.log("Mypage useEffect, res of signin user::", res);
 				setUser(res);
 			});
+			//fetch to get the party information using the first login id 
+				fetch("/user/partyList/{userid}", {
+				method: "get",
+			}).then((res) => {
+				
+				return res.json();
+			}).then((res) => {
+				console.log("partyfirstres"+res);
+				console.log("Mypage useEffect, res of signin user::", res);
+				setUser(res);
+			});
+			//
 			// 여기 아이디로 파티 가져오는 패치 res가 id
+			//ㄴㅐㄱ내가 ㅍㅐㅊ패ㄹ치ㄹ를 ㅁㅏㄴ만ㅡㄹ들ㅐ때 Jsonㅇㅔㅅ에서 set 
+
 		});
 	}, []);
 
@@ -44,11 +59,55 @@ const Mypage = () => {
 		<Container>
 			<SlideStyle>
 				<MainCardStyle>
-					<Jumbotron>
-						지역 : {user.location} <br />
-						포지션 : {user.position} <br />
-						닉네임 : {user.nickname} <br />
+					
 
+					<Jumbotron>
+					<h2>
+ 				<OverlayTrigger
+    				  key='top'
+    				  placement='top'
+    				  overlay={
+     			   <Tooltip id={`tooltip-top`}>
+      			   Location
+      			  </Tooltip>
+     				 }
+    				>
+     			 <Button variant="light">📍</Button>
+    		</OverlayTrigger>
+						 {user.location} </h2>
+						<hr/>
+						<h2>
+ 				<OverlayTrigger
+    				  key='top'
+    				  placement='top'
+    				  overlay={
+     			   <Tooltip id={`tooltip-top`}>
+      			   포지션
+      			  </Tooltip>
+     				 }
+    				>
+     			 <Button variant="light">🏃</Button>
+    		</OverlayTrigger>
+						 {user.position}</h2> 
+						<hr/>
+					
+						<h2>
+ 				<OverlayTrigger
+    				  key='top'
+    				  placement='top'
+    				  overlay={
+     			   <Tooltip id={`tooltip-top`}>
+      			   닉네임
+      			  </Tooltip>
+     				 }
+    				>
+     			 <Button variant="light">📄</Button>
+    		</OverlayTrigger>
+						
+						 {user.nickname}</h2>
+						<hr/>
+
+					
 					</Jumbotron>
 				</MainCardStyle>
 			</SlideStyle>
