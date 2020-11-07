@@ -1,18 +1,14 @@
 import React, { useState } from 'react';
 import { Route } from 'react-router-dom';
-import LoginForm from './pages/user/LoginForm';
 import Header from './components/Header';
 import MainForm from './pages/MainForm';
-import JoinForm from './pages/user/JoinForm';
 import Team_create from './pages/team/Team_create';
-import Logout from './pages/user/Logout';
 import Team_detail from './pages/team/Team_detail';
 import MyTeam from './pages/team/MyTeam';
 import Background from './components/Background';
-import JoinModal from './pages/user/JoinModal';
 import Team_schedule from './pages/team/Team_schedule';
-import LoginModal from './components/LoginModal';
 import Mypage from './pages/user/Mypage';
+import LoginModal from './components/modal/LoginModal';
 
 const App = () => {
 
@@ -46,11 +42,12 @@ const App = () => {
 
       {/* 아래는 Router */}
       <Route path="/" exact={true} component={MainForm}></Route>
+      {/* 메인화면 */}
+
       <Route path="/Join" exact={true} component={MainForm}></Route>
       <Route path="/Login" exact={true} component={MainForm}><LoginModal setLoginId={() => setID()}></LoginModal></Route>
+      {/* 로그인과 회원가입, 둘 다 모달로 처리 */}
 
-
-      <Route path="/Logout" exact={true} component={Logout}><Logout setToken={setToken}></Logout></Route>
       <Route path="/Team_detail/:id" exact={true} component={Team_detail}></Route>
 
       <Route path="/Team_schedule/:id" exact={true} component={Team_schedule}></Route>

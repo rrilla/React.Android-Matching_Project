@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Carousel, Jumbotron, Button, Breadcrumb, Card, ListGroup, ListGroupItem, ResponsiveEmbed, Form, FormControl, Modal } from 'react-bootstrap';
 import styled from 'styled-components';
-import JoinModal from '../user/JoinModal';
 
 const SlideStyle = styled.div`
 	margin-top:15%;

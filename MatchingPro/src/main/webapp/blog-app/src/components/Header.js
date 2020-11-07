@@ -1,14 +1,11 @@
-import React, { useState } from "react";
+// ok
+import React from "react";
 import { Link } from "react-router-dom";
-import { Form, Button, Navbar, Nav, NavDropdown, FormControl, Row, Modal } from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown, Row } from 'react-bootstrap';
 import styled from "styled-components";
-import LoginModal from "./LoginModal";
-import JoinModal from "../pages/user/JoinModal";
-
-
-const LinkStyle = styled.span`
-    color : black;
-`;
+import SpanTagStyle from "../pages/constant/SpanTagStyle";
+import LoginModal from "./modal/LoginModal";
+import JoinModal from "./modal/JoinModal";
 
 const HeaderStyle = styled.div`
   width: 100%;
@@ -17,19 +14,19 @@ const HeaderStyle = styled.div`
   z-index: 999;
 `;
 
+const SpanStyle = styled.span`
+	color : black;
+	font-weight : 700;
+`;
+
 const Header = (props) => {
   const isToken = props.isToken;
-  //const setIsToken = props.setIsToken;
-  	const setToken = props.setToken;
-
-  /*const tokenCheck = () => {
-    console.log("header:: display Authorization", localStorage.getItem("Authorization"));
-    if(localStorage.getItem("Authorization") != null) return true;
-    else return false;
-  }*/
+  const setToken = props.setToken;
 
   const logoutfunction = () => {
     localStorage.removeItem("Authorization");
+
+    // logout fetch 
     fetch(`http://localhost:8000/logout`, {
       method: "GET",
       headers: {
@@ -49,16 +46,15 @@ const Header = (props) => {
     if (flag) {
       return <Row>
         <NavDropdown title="MYPAGE" id="basic-nav-dropdown">
-          <NavDropdown.Item ><Nav.Link><Link to="/Mypage"><LinkStyle>MyPage(o)</LinkStyle></Link></Nav.Link></NavDropdown.Item>
-          <NavDropdown.Item ><Nav.Link><Link to="/MyTeam"><LinkStyle>MyTeam(o)</LinkStyle></Link></Nav.Link></NavDropdown.Item>
+          <NavDropdown.Item ><Nav.Link><Link to="/Mypage"><SpanTagStyle msg="MYPAGE"></SpanTagStyle></Link></Nav.Link></NavDropdown.Item>
+          <NavDropdown.Item ><Nav.Link><Link to="/MyTeam"><SpanTagStyle msg="MYTEAM"></SpanTagStyle></Link></Nav.Link></NavDropdown.Item>
           <NavDropdown.Divider />
-          <NavDropdown.Item ><Nav.Link><Link to="/"><LinkStyle>MyTeam(x)</LinkStyle></Link></Nav.Link></NavDropdown.Item>
+          <NavDropdown.Item ><Nav.Link><Link to="/"><SpanTagStyle msg="MYTEAM"></SpanTagStyle></Link></Nav.Link></NavDropdown.Item>
         </NavDropdown>
-        {/* <Nav.Link><Link to="/Logout"><LinkStyle>Logout</LinkStyle></Link></Nav.Link> */}
-        <Nav.Link><Link to="/"><LinkStyle onClick={logoutfunction}>Logout</LinkStyle></Link></Nav.Link>
+        {/* <Nav.Link><Link to="/"><SpanTagStyle func={logoutfunction} msg="Logout"></SpanTagStyle></Link></Nav.Link> */}
+        <Nav.Link><Link to="/"><SpanStyle onClick={logoutfunction}>Logout</SpanStyle></Link></Nav.Link>
       </Row>
-    }
-    else {
+    } else {
       return <Row>
         <Nav.Link><Link to="/Login"><LoginModal setToken={props.setToken}></LoginModal></Link></Nav.Link>
         <Nav.Link><Link to="/Join"><JoinModal></JoinModal></Link></Nav.Link>
@@ -70,22 +66,25 @@ const Header = (props) => {
     <HeaderStyle>
       <Navbar bg="light" expand="lg">
 
-        <Nav.Link><Link to="/"><LinkStyle><Navbar.Brand ><img
-          src="/soccer_logo-removebg-preview.png"
-          width="30"
-          height="30"
-          // className="d-inline-block align-top"
-          alt="React Bootstrap logo"
-        />{''}
-        </Navbar.Brand></LinkStyle></Link></Nav.Link>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Nav.Link><Link to="/">
+          <SpanTagStyle msg={<Navbar.Brand >
+            <img src="/soccer_logo-removebg-preview.png"
+              width="30"
+              height="30"
+              alt="React Bootstrap logo" />{''}
+          </Navbar.Brand>}></SpanTagStyle>
+        </Link></Nav.Link>
+        {/* 윗 부분 로고 */}
+
+        {/* <Navbar.Toggle aria-controls="basic-navbar-nav" /> */}
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
             {isLogin(isToken)}
           </Nav>
         </Navbar.Collapse>
+        {/* 윗 부분 로그인 여부에 따른 메뉴 */}
+        
       </Navbar>
-
     </HeaderStyle>
   )
 };
