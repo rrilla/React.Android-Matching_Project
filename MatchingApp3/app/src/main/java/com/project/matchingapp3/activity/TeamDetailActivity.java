@@ -8,6 +8,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.ListActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -159,7 +160,10 @@ public class TeamDetailActivity extends AppCompatActivity implements NavigationV
         btnMatch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(getApplicationContext(), BattleActivity.class);
+                intent.putExtra("jwtToken", jwtToken);
+                intent.putExtra("loginUser", loginUser);
+                startActivity(intent);
             }
         });
         btnJoin.setOnClickListener(new View.OnClickListener() {

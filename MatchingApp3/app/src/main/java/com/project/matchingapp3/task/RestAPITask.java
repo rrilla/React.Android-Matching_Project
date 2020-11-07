@@ -40,7 +40,6 @@ public class RestAPITask extends AsyncTask<String, Object, String[]> {
         }else if(json[0].equals("join")){
             reqUrl = json[0];
             serverUrl += reqUrl;
-            method = "POST";
             reqData = json[1];
         }else if(json[0].equals("user/app/loginUser")){
             reqUrl = json[0];
@@ -48,12 +47,10 @@ public class RestAPITask extends AsyncTask<String, Object, String[]> {
         }else if(json[0].equals("user/create")){
             reqUrl = json[0];
             serverUrl += reqUrl;
-            method = "POST";
             reqData = json[1];
         }else if(json[0].equals("app/teamList")){
             reqUrl = json[0];
             serverUrl += reqUrl;
-            method = "POST";
         }else if(json[0].equals("app/userList")){
             reqUrl = json[0];
             serverUrl += reqUrl;
@@ -73,6 +70,10 @@ public class RestAPITask extends AsyncTask<String, Object, String[]> {
             reqUrl = json[0];
             serverUrl += reqUrl + json[1];
             method = "PUT";
+        }else if(json[0].equals("user/teamInfo")){
+            reqUrl = json[0];
+            serverUrl += reqUrl;
+            reqData = json[1];
         }
 
         try {
@@ -111,8 +112,8 @@ public class RestAPITask extends AsyncTask<String, Object, String[]> {
                         }
                         Log.d("noteam-받은header 토큰값", authorization);
                     }
-                    Log.d("noteam-request body data", reqData);
-                    Log.d("noteam-response body data", resData);
+                    Log.d("test-RestAPITsk", "reqData : " + reqData);
+                    Log.d("test-RestAPITsk", "resData : " + resData);
                     return new String[]{resData, authorization};
                 }
             } else {
@@ -137,8 +138,8 @@ public class RestAPITask extends AsyncTask<String, Object, String[]> {
             Log.d("noteam","IOException");
             e.printStackTrace();
         }
-        Log.d("noteam-request body data", reqData);
-        Log.d("noteam-response body data", resData);
+        Log.d("test-RestAPITsk", "req body data : " + reqData);
+        Log.d("test-RestAPITsk", "res body data : " + resData);
 
         return new String[]{resData};
     }
