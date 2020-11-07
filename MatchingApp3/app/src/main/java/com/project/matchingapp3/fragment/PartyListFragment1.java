@@ -11,18 +11,20 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.project.matchingapp3.R;
+import com.project.matchingapp3.TeamActivity;
+import com.project.matchingapp3.UserActivity;
 import com.project.matchingapp3.activity.TeamDetailActivity;
 import com.project.matchingapp3.activity.UserDetailActivity;
 import com.project.matchingapp3.adapter.OnPartyTClickListener;
 import com.project.matchingapp3.adapter.OnPartyUClickListener;
-import com.project.matchingapp3.adapter.OnPartyUserClickListener;
 import com.project.matchingapp3.adapter.PartyTeamAdapter;
 import com.project.matchingapp3.adapter.PartyUserAdapter;
-import com.project.matchingapp3.adapter.PartyUserListAdapter;
 import com.project.matchingapp3.model.Party;
 import com.project.matchingapp3.model.User;
 import com.project.matchingapp3.task.RestAPITask;
@@ -47,14 +49,48 @@ public class PartyListFragment1 extends Fragment {
 
         //this.users.addAll(party);
         if(party != null && party.size() != 0){
-            Log.e("noteam-partyList프래그먼트1", "파티리스트받음 : " + party.toString());
+            Log.e("test-partyList프래그먼트1", "파티리스트받음 : " + party.toString());
         }else{
-            Log.e("noteam-partyList프래그먼트1", "파티리스트프래그 안받았다");
+            Log.e("test-partyList프래그먼트1", "파티리스트프래그 안받았다");
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        //party리스트 없을시 띄울 화면
+        if(party == null || party.size() == 0){
+            final ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.noteam, container, false);
+            TextView tvMsg = rootView.findViewById(R.id.noitem_tv_message);
+            Button btnPage = rootView.findViewById(R.id.noitem_btn_teampage);
+
+            if(loginUser.getTeams() == null){
+                tvMsg.setText("받은 스카웃 제의가 없습니다.");
+                btnPage.setText("팀 가입하러 가기");
+                btnPage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(rootView.getContext(), TeamActivity.class);
+                        intent.putExtra("jwtToken", jwtToken);
+                        intent.putExtra("loginUser", loginUser);
+                        startActivity(intent);
+                    }
+                });
+            }else{
+                tvMsg.setText("받은 팀 가입 신청이 없습니다.");
+                btnPage.setText("스카웃 하러 가기");
+                btnPage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(rootView.getContext(), UserActivity.class);
+                        intent.putExtra("jwtToken", jwtToken);
+                        intent.putExtra("loginUser", loginUser);
+                        startActivity(intent);
+                    }
+                });
+            }
+            return rootView;
+        }
+
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.partylist_fragment1, container, false);
         recyclerView = rootView.findViewById(R.id.recyclerView);
         //리사이클러뷰에 설정할 레이아웃 매니저 - 방향세로로 설정함.
@@ -99,12 +135,12 @@ public class PartyListFragment1 extends Fragment {
                         e.printStackTrace();
                     }
 
-                    Log.e("noteam-팀가입요청 결과", result[0]);
+                    Log.e("test-partyList프래그먼트", "팀가입요청 결과 : " + result[0]);
 
                     if(result[0].equals("ok")){
                         party.remove(position);
-                        adapterUser.notifyItemRemoved(position);
-                        adapterUser.notifyItemRangeChanged(position, party.size());
+                        adapterTeam.notifyItemRemoved(position);
+                        adapterTeam.notifyItemRangeChanged(position, party.size());
                         Toast.makeText(view.getContext(), "가입 수락 완료.",Toast.LENGTH_SHORT).show();
                     }else{
                         Toast.makeText(view.getContext(), "에러.  " + result[0],Toast.LENGTH_SHORT).show();
@@ -155,13 +191,13 @@ public class PartyListFragment1 extends Fragment {
                         e.printStackTrace();
                     }
 
-                    Log.e("noteam-팀가입요청 결과", result[0]);
+                    Log.e("test-partyList프래그먼트", "팀가입요청 결과 : " + result[0]);
 
                     if(result[0].equals("ok")){
                         party.remove(position);
                         adapterUser.notifyItemRemoved(position);
                         adapterUser.notifyItemRangeChanged(position, party.size());
-                        Toast.makeText(view.getContext(), "가입 수락 완료.",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(view.getContext(), "가입 승인 완료.",Toast.LENGTH_SHORT).show();
                     }else{
                         Toast.makeText(view.getContext(), "에러.  " + result[0],Toast.LENGTH_SHORT).show();
                     }

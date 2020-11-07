@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     User loginUser;
     String jwtToken;
-    ArrayList<Party> partyList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,21 +76,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Gson gson = new Gson();
         loginUser = gson.fromJson(result1[0], User.class);
 
-        //party 데이터 받기, user값 받은 후 팀값 확인 후 실행
-        if(loginUser.getTeams() != null) {
-            String[] result2 = new String[1];
-            RestAPITask task2 = new RestAPITask(jwtToken);
-            try {
-                result2 = task2.execute("user/app/teamPartyList").get();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            Log.d("noteam-party데이터받음", result2[0]);
-            partyList = gson.fromJson(result2[0], new TypeToken<ArrayList<Party>>() {
-            }.getType());
-        }
         //툴바
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -151,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         HomeFragment2 fragment2 = new HomeFragment2();
         adapter.addItem(fragment2);
 
-        HomeFragment3 fragment3 = new HomeFragment3(partyList, loginUser, jwtToken);
+        HomeFragment3 fragment3 = new HomeFragment3(loginUser, jwtToken);
         adapter.addItem(fragment3);
 
         pager.setAdapter(adapter);

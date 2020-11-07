@@ -81,7 +81,6 @@ public class AppController {
 	@PostMapping("user/app/userPartyList")
 	public List<Party> partyList_user() {
 		User user = (User)session.getAttribute("principal");
-		System.out.println("지금작업중");
 		return partyRepository.findUser_idAll(user.getId());
 	}
 }

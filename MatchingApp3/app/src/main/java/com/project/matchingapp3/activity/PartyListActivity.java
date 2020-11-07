@@ -74,7 +74,7 @@ public class PartyListActivity extends AppCompatActivity implements NavigationVi
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            Log.d("noteam-PratyListActivity", "팀의 파티리스트 받음 : " + result[0]);
+            Log.d("test-PratyListActivity", "팀의 파티리스트 받음 : " + result[0]);
             partyList = gson.fromJson(result[0], new TypeToken<ArrayList<Party>>() {}.getType());
         }else{
             try {
@@ -84,7 +84,7 @@ public class PartyListActivity extends AppCompatActivity implements NavigationVi
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            Log.d("noteam-PratyListActivity", "유저의 파티리스트 받음 : " + result[0]);
+            Log.d("test-PratyListActivity", "유저의 파티리스트 받음 : " + result[0]);
             partyList = gson.fromJson(result[0], new TypeToken<ArrayList<Party>>() {}.getType());
         }
 

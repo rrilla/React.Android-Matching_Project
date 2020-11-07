@@ -26,7 +26,7 @@ public class PartyTeamAdapter extends RecyclerView.Adapter<PartyTeamAdapter.View
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-        View itemView = inflater.inflate(R.layout.party_userlist_item, viewGroup, false);
+        View itemView = inflater.inflate(R.layout.partlist_item, viewGroup, false);
 
         return new ViewHolder(itemView, listener1, listener2);
     }
@@ -74,7 +74,7 @@ public class PartyTeamAdapter extends RecyclerView.Adapter<PartyTeamAdapter.View
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvName, tvLocation, tvPosition;
+        TextView tvName, tvScore, tvLocation;
         Button btnInfo, btnAccept;
         ImageView ivImage;
         View view;
@@ -84,12 +84,12 @@ public class PartyTeamAdapter extends RecyclerView.Adapter<PartyTeamAdapter.View
             super(itemView);
             this.view = itemView;
 
-            tvName = itemView.findViewById(R.id.pUser_tv_Name);
-            tvLocation = itemView.findViewById(R.id.pUser_tv_location);
-            tvPosition = itemView.findViewById(R.id.pUser_tv_position);
-            ivImage = itemView.findViewById(R.id.pUser_tv_image);
-            btnInfo = itemView.findViewById(R.id.pUser_btn_info);
-            btnAccept = itemView.findViewById(R.id.pUser_btn_accept);
+            tvName = itemView.findViewById(R.id.party_tv_name);
+            tvScore = itemView.findViewById(R.id.party_tv_scoreOrAgePosition);
+            tvLocation = itemView.findViewById(R.id.party_tv_location);
+            ivImage = itemView.findViewById(R.id.party_iv_image);
+            btnInfo = itemView.findViewById(R.id.party_btn_info);
+            btnAccept = itemView.findViewById(R.id.party_btn_accept);
 
             btnInfo.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -115,10 +115,10 @@ public class PartyTeamAdapter extends RecyclerView.Adapter<PartyTeamAdapter.View
 
         public void setItem(Party item) {
             this.item = item;
-            tvName.setText(item.getUser().getNickname());
-            tvLocation.setText(item.getUser().getLocation());
-            tvPosition.setText(item.getUser().getPosition());
-            Glide.with(view).load(item.getUser().getUrlImage()).into(ivImage);
+            tvName.setText(item.getTeam().getName());
+            tvLocation.setText(item.getTeam().getLocation());
+            //점수tvScore.setText(item.getTeam().getScore());
+            Glide.with(view).load(item.getTeam().getUrlImage()).into(ivImage);
         }
 
     }
