@@ -95,7 +95,7 @@ public class JoinActivity extends AppCompatActivity {
                 try {
                     pathUserImg = imgUpload.execute("imgUpload", img_path).get();
                     Toast.makeText(getApplicationContext(), "이미지 전송 성공", Toast.LENGTH_SHORT).show();
-                    Log.d("test-이미지업로드", "Success");
+                    Log.d("noteam-이미지업로드", "Success");
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 } catch (InterruptedException e) {
@@ -128,7 +128,7 @@ public class JoinActivity extends AppCompatActivity {
                 user.setLocation(etLocation.getText().toString());
                 user.setImage(pathUserImg);
                 user.setPosition(rbPosition.getText().toString());
-                Log.e("test-라디오값", user.getPosition());
+                Log.e("noteam-라디오값", user.getPosition());
 
                 try {
                     result = task.execute("join", gson.toJson(user)).get();
@@ -137,7 +137,7 @@ public class JoinActivity extends AppCompatActivity {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                Log.d("test",result[0]);
+                Log.d("noteam",result[0]);
                 if(result[0].equals("ok")){
                     Toast.makeText(getBaseContext(), "회원가입 성공.", Toast.LENGTH_SHORT).show();
                     finish();
@@ -192,11 +192,11 @@ public class JoinActivity extends AppCompatActivity {
 
         //이미지의 경로 값
         String imgPath = cursor.getString(column_index);
-        Log.d("test", imgPath);
+        Log.d("noteam", imgPath);
 
         //이미지의 이름 값
         String imgName = imgPath.substring(imgPath.lastIndexOf("/") + 1);
-        Log.d("test - 이미지 이름", imgName);
+        Log.d("noteam - 이미지 이름", imgName);
 
 
         this.imageName = imgName;
@@ -206,13 +206,13 @@ public class JoinActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d("test - ", "인텐트로부터 받은 이미지 URI :" + data);
+        Log.d("noteam - ", "인텐트로부터 받은 이미지 URI :" + data);
         //Toast.makeText(getBaseContext(), "resultCode : " + data, Toast.LENGTH_SHORT).show();
         if (requestCode == REQ_CODE_SELECT_IMAGE) {
             if (resultCode == Activity.RESULT_OK) {
                 try {
                     img_path = getImagePathToUri(data.getData()); //이미지의 URI를 얻어 경로값으로 반환.
-                    Log.d("test - 이미지 경로", img_path);
+                    Log.d("noteam - 이미지 경로", img_path);
                     //이미지를 비트맵형식으로 반환
                     image_bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
 

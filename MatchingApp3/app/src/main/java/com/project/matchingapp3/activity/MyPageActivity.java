@@ -153,7 +153,10 @@ public class MyPageActivity extends AppCompatActivity implements NavigationView.
         int curId = item.getItemId();
         switch (curId) {
             case R.id.appbar_search:
-                Toast.makeText(this, "앱바-메뉴1 검색 선택", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), PartyListActivity.class);
+                intent.putExtra("jwtToken", jwtToken);
+                intent.putExtra("loginUser", loginUser);
+                startActivity(intent);
                 break;
             default:
                 break;

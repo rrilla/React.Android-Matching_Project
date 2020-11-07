@@ -36,11 +36,11 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences pref = getSharedPreferences("autoLogin",MODE_PRIVATE);
         String id = pref.getString("id","");
         String pw = pref.getString("pw", "");
-        Log.d("test-세션id",id);
-        Log.d("test-세션pw",pw);
+        Log.d("noteam-세션id",id);
+        Log.d("noteam-세션pw",pw);
 
         if(!id.equals("")&&!pw.equals("")){
-            Log.d("test","자동 로그인 실행");
+            Log.d("noteam","자동 로그인 실행");
             Gson gson = new Gson();
             User user = new User();
             String[] result = new String[2];
@@ -97,11 +97,11 @@ public class LoginActivity extends AppCompatActivity {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                Log.d("test-토큰값",result[1]);
+                Log.d("noteam-토큰값",result[1]);
                 if (result[0].equals("ok")){
                     //자동로그인 체크시 토큰 저장
                     if(cbAuto.isChecked()){
-                        Log.d("test-자동로그인체크","자동로그인 체크됨");
+                        Log.d("noteam-자동로그인체크","자동로그인 체크됨");
                         SharedPreferences pref = getSharedPreferences("autoLogin",MODE_PRIVATE);
                         SharedPreferences.Editor editor = pref.edit();
                         editor.putString("id", user.getLoginid());

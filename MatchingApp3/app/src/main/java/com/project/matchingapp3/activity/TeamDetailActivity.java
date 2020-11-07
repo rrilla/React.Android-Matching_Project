@@ -189,13 +189,16 @@ public class TeamDetailActivity extends AppCompatActivity implements NavigationV
         int curId = item.getItemId();
         switch (curId) {
             case R.id.appbar_search:
-                Toast.makeText(this, "앱바-메뉴1 검색 선택", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.appbar_info:
-                Intent intent = new Intent(getApplicationContext(), MyPageActivity.class);
+                Intent intent = new Intent(getApplicationContext(), PartyListActivity.class);
                 intent.putExtra("jwtToken", jwtToken);
                 intent.putExtra("loginUser", loginUser);
                 startActivity(intent);
+                break;
+            case R.id.appbar_info:
+                Intent intent2 = new Intent(getApplicationContext(), MyPageActivity.class);
+                intent2.putExtra("jwtToken", jwtToken);
+                intent2.putExtra("loginUser", loginUser);
+                startActivity(intent2);
                 break;
             default:
                 break;

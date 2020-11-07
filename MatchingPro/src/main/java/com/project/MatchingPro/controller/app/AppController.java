@@ -74,7 +74,14 @@ public class AppController {
 	@PostMapping("user/app/teamPartyList")
 	public List<Party> teamPartyList(){
 		User user = (User)session.getAttribute("principal");
-		System.out.println("오나이까지");
 		return partyRepository.mFindByTeamid(user.getTeams().getId());
+	}
+	
+	//유저 아이디 받아와서 해당 유저에 대한 파티 리스트 뿌리기
+	@PostMapping("user/app/userPartyList")
+	public List<Party> partyList_user() {
+		User user = (User)session.getAttribute("principal");
+		System.out.println("지금작업중");
+		return partyRepository.findUser_idAll(user.getId());
 	}
 }

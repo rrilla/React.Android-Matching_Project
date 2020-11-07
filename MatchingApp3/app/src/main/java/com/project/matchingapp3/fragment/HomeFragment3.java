@@ -25,7 +25,6 @@ import com.project.matchingapp3.model.User;
 import com.project.matchingapp3.task.RestAPITask;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class HomeFragment3 extends Fragment {
@@ -44,9 +43,9 @@ public class HomeFragment3 extends Fragment {
 
         //this.users.addAll(party);
         if(party != null && party.size() != 0){
-            Log.e("test-home3프래그먼트", "파티리스트받음 : " + party.toString());
+            Log.e("noteam-home3프래그먼트", "파티리스트받음 : " + party.toString());
         }else{
-            Log.e("test-메인에 마이 팀", "파티리스트프래그 안받았다");
+            Log.e("noteam-메인에 마이 팀", "파티리스트프래그 안받았다");
         }
     }
 
@@ -54,7 +53,7 @@ public class HomeFragment3 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         if(loginUser.getTeams() == null){
-            ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.test, container, false);
+            ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.noteam, container, false);
             return rootView;
         }
 
@@ -83,7 +82,7 @@ public class HomeFragment3 extends Fragment {
 
             adapter = new PartyUserListAdapter();
             adapter.setItems(party);
-            Log.e("test-파티유저어댑터관리 아이템개수", ":" + adapter.getItemCount());
+            Log.e("noteam-파티유저어댑터관리 아이템개수", ":" + adapter.getItemCount());
 
             recyclerView.setAdapter(adapter);
 
@@ -123,7 +122,7 @@ public class HomeFragment3 extends Fragment {
                         e.printStackTrace();
                     }
 
-                    Log.e("test-팀가입요청 결과", result[0]);
+                    Log.e("noteam-팀가입요청 결과", result[0]);
 
                     if(result[0].equals("ok")){
                         party.remove(position);

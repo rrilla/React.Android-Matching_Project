@@ -28,6 +28,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.project.matchingapp3.activity.LoginActivity;
 import com.project.matchingapp3.activity.MyPageActivity;
+import com.project.matchingapp3.activity.PartyListActivity;
 import com.project.matchingapp3.activity.TeamCreateActivity;
 import com.project.matchingapp3.adapter.ViewPagerAdapter;
 import com.project.matchingapp3.fragment.HomeFragment1;
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        Log.d("test-loginUser데이터받음",result1[0]);
+        Log.d("noteam-loginUser데이터받음",result1[0]);
         Gson gson = new Gson();
         loginUser = gson.fromJson(result1[0], User.class);
 
@@ -87,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            Log.d("test-party데이터받음", result2[0]);
+            Log.d("noteam-party데이터받음", result2[0]);
             partyList = gson.fromJson(result2[0], new TypeToken<ArrayList<Party>>() {
             }.getType());
         }
@@ -243,13 +244,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int curId = item.getItemId();
         switch (curId) {
             case R.id.appbar_search:
-                Toast.makeText(this, "앱바-메뉴1 검색 선택", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.appbar_info:
-                Intent intent = new Intent(getApplicationContext(), MyPageActivity.class);
+                Intent intent = new Intent(getApplicationContext(), PartyListActivity.class);
                 intent.putExtra("jwtToken", jwtToken);
                 intent.putExtra("loginUser", loginUser);
                 startActivity(intent);
+                break;
+            case R.id.appbar_info:
+                Intent intent2 = new Intent(getApplicationContext(), MyPageActivity.class);
+                intent2.putExtra("jwtToken", jwtToken);
+                intent2.putExtra("loginUser", loginUser);
+                startActivity(intent2);
                 break;
             default:
                 break;
