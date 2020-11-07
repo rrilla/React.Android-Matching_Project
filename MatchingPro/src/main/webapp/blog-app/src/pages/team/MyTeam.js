@@ -3,7 +3,6 @@ import { Container, Jumbotron, Button, Form, FormControl, Row, Col, Modal } from
 import styled from 'styled-components';
 import MatchingCard from '../../components/card/MatchingCard';
 import SpanTagStyle from '../constant/SpanTagStyle';
-import Br2 from '../constant/Br2';
 
 const MainCardStyle = styled.div`
   width: 100%;
@@ -60,43 +59,20 @@ const MyTeam = () => {
 		position: "",
 		id: null,
 	});
+
 	const [searchUserStatue, setSearchUserStatus] = useState("enter nickname and search!");
 
-
-	const [winner, setWinner] = useState(null);
 	const [isSearch, setIsSearch] = useState(false);
+
 	const [deId, setDeId] = useState({
 		id: null,
 		myTeam: null,
 		jteam: null
-	}); // 자세히 보기 팀 id
+	}); // 진행하기로 결정 된 경기 자세히 보기 모달에 가져갈 data
 
 	// 여기가지 state ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- 
 
-
-
-	const as = () => {
-		console.log(winner);///user/scoreWiner/{battleid}
-		fetch(`http://localhost:8000/user/scoreWiner/${deId.id}`, {
-			method: "put",
-			headers: {
-				//'Content-Type': "application/json; charset=utf-8",
-				'Authorization': localStorage.getItem("Authorization")
-			}
-		}).then((res) => res.text())
-			.then(res => {
-				console.log(res);
-				if (res === "ok") alert("완료");
-				else alert("실패");
-			});
-	}
-
-
-
-
-
-
-	const cheo = (userid) => {
+	const inviteMember = (userid) => {	// 팀원 초대 함수 (검색 다음 초대)
 		fetch(`http://localhost:8000/user/apply2/${userid}`, {
 			method: "post",
 			headers: {
@@ -105,16 +81,14 @@ const MyTeam = () => {
 			}
 		}).then((res) => res.text())
 			.then(res => {
-				console.log(res);
 				if (res === "ok") alert("팀가입 요청 완료");
 				else alert("팀가입 요청 실패");
 			});
 	};
 
-	const searchUserfunction = (nick) => {
-		alert(nick + "검색되었습니다");
+	const searchUserfunction = (nick) => {	// 팀원 검색 함수 (검색 다음 초대)
+		alert(nick + " 검색되었습니다");
 		// fetch로 검색해서 searchUser에 넣기
-
 		fetch(`http://localhost:8000/nicknameDetail/${nick}`, {
 			method: "get",
 		}).then((res) => {
@@ -134,8 +108,45 @@ const MyTeam = () => {
 		setIsSearch(true);
 	}
 
+	// 새로 고침없이 바로 수정되게 하려면 state 등록해야함 / 귀찮으니까 나중에 / 팀 가입 요청 온거 수락하기
+	const joinTeamReq = (partyid) => {
+		fetch(`http://localhost:8000/Acknowledgment/${partyid}`, {
+			method: "put",
+		}).then((res) => res.text())
+			.then((res) => {
+				alert(res);
+			});
+	};
+
+	const matchAccept = (battleid) => {	// 베틀 신청에 대한 수락 fetch
+		fetch(`http://localhost:8000/user/matchAccept/${battleid}`, {
+			method: "put",
+			headers: {
+				'Authorization': localStorage.getItem("Authorization")
+			}
+		}).then((res) => res.text())
+			.then((res) => {
+				alert(res);
+			});
+	};
 
 
+	// ----- ----- ----- ----- -----  
+
+	const as = () => {
+		fetch(`http://localhost:8000/user/scoreWiner/${deId.id}`, {
+			method: "put",
+			headers: {
+				//'Content-Type': "application/json; charset=utf-8",
+				'Authorization': localStorage.getItem("Authorization")
+			}
+		}).then((res) => res.text())
+			.then(res => {
+				console.log(res);
+				if (res === "ok") alert("완료");
+				else alert("실패");
+			});
+	}
 
 	// teaminfo create
 	const sss = () => {
@@ -169,38 +180,6 @@ const MyTeam = () => {
 				else alert("팀가입 요청 실패");
 			});
 	};
-
-	// 새로 고침없이 바로 수정되게 하려면 state 등록해야함 / 귀찮으니까 나중에
-	const joinTeamReq = (partyid) => {
-		alert("ddd");
-
-		fetch(`http://localhost:8000/Acknowledgment/${partyid}`, {
-			method: "put",
-		}).then((res) => {
-			console.log("zzz1", res);
-			return res.text();
-		}).then((res) => {
-			console.log("zzz2", res);
-		});
-	};
-
-	const zzz = (battleid) => {
-		alert("ddd");
-		console.log(battles.id);
-		fetch(`http://localhost:8000/user/matchAccept/${battleid}`, {
-			method: "put",
-			headers: {
-				'Authorization': localStorage.getItem("Authorization")
-			}
-		}).then((res) => {
-			console.log("zzz1", res);
-			return res.text();
-		}).then((res) => {
-			console.log("zzz2", res);
-		});
-	};
-
-
 
 	useEffect(() => {
 		// 현재 로그인 되어있는 ID가 가입한 팀의 ID를 받아옴
@@ -255,8 +234,6 @@ const MyTeam = () => {
 			});
 	}, []);
 
-
-
 	return (
 		<Container>
 			{/* 팀원 초대 모달 */}
@@ -288,7 +265,7 @@ const MyTeam = () => {
 					</Form.Row>
 				</Modal.Body>
 				<Modal.Footer>
-					<Button variant="secondary" onClick={() => cheo(searchUser.id)}>초대하기</Button>
+					<Button variant="secondary" onClick={() => inviteMember(searchUser.id)}>초대하기</Button>
 					<Button variant="secondary" onClick={handleClose}>Close</Button>
 				</Modal.Footer>
 			</Modal>
@@ -359,58 +336,48 @@ const MyTeam = () => {
 							{/* <Col md={6}><Button onClick={joinTeamReq}>전체수락</Button></Col> */}
 							<Col md={12}><br /></Col>
 							{partys.map((res) => (//이 팀에 들어온 파티 번호 : {res.id}
-								<Col md={3}>
+								<Col md={4}>
 									🏃 {res.user.nickname}&nbsp;&nbsp;&nbsp;
-									<Button onClick={() => joinTeamReq(res.id)}>수락</Button>
+									<Button size="sm" variant="outline-secondary" onClick={() => joinTeamReq(res.id)}>수락</Button>
 								</Col>
 							))}
 							<Col md={12}><hr /></Col>
-							<Col md={3}><h3>⚔ 대전신청</h3></Col>
-							{/* <Col md={8}><h3>{battles.length}건</h3></Col> */}
-							<Col md={12}><br /></Col>
 
+							<Col md={3}><h3>⚔ 대전신청</h3></Col>
+							<Col md={12}><br /></Col>
 							{battles.map((res) => (
 								res.role === 1
 									?
-									<Col md={3}>
-										{/* 💥 이게 베틀 아이디{res.id}&nbsp;&nbsp;&nbsp; */}
-										💥 상대편 팀 이름 {res.requestTeam.name}&nbsp;&nbsp;&nbsp;
-										<Button onClick={sss} variant="outline-success">teaminfo</Button>
-										<Button onClick={() => zzz(res.id)}>수락</Button>
+									<Col md={4}>
+										💥{res.requestTeam.name}&nbsp;&nbsp;&nbsp;
+										<Button onClick={sss} size="sm" variant="outline-secondary">teaminfo</Button>&nbsp;&nbsp;&nbsp;
+										<Button size="sm" variant="outline-secondary" onClick={() => matchAccept(res.id)}>수락</Button>
 										{/* <Button onClick={zzz}>참가명단보기</Button> */}
 									</Col>
 									: null
 							))}
-
-
-
-
 						</Row>
 					</Jumbotron>
 				</MainCardStyle>
 			</div >
 
+			{/* page 세 번째 박스 */}
 			<div>
 				<MainCardStyle>
 					<Jumbotron>
 						<Row>
-
-
-							<Col md={3}><h3>⚔ 경기일정</h3></Col>
-							{/* <Col md={9}><h3>{battles.length}건</h3></Col> */}
+							<Col md={3}><h3>🗓 경기일정</h3></Col>
 							<Col md={12}><br /></Col>
 
 							<Col md={12}>
 								{schedule.map((res) => (
 									res.role === 2
-										? <div>요청팀 = {res.requestTeam.name} vs 수락팀 = {res.responseTeam.name}
-											< Button onClick={() => handleShow2(res.id, res.requestTeam.name, res.responseTeam.name)} size="sm" variant="outline-success" >자세히보기</Button>
+										? <div>{res.requestTeam.name} ⚔ {res.responseTeam.name}&nbsp;&nbsp;&nbsp;
+											< Button onClick={() => handleShow2(res.id, res.requestTeam.name, res.responseTeam.name)} size="sm" variant="outline-secondary" >자세히보기</Button>
 										</div>
 										: null
-
 								))}
 							</Col>
-
 						</Row>
 					</Jumbotron>
 				</MainCardStyle>
