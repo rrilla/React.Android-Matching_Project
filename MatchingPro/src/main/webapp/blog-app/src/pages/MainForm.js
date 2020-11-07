@@ -36,7 +36,7 @@ const MainForm = () => {
     });
 
 
-    fetch("http://localhost:8000//userList", {
+    fetch("http://localhost:8000/userList", {
       method: "get",
     }).then((res) => {
       console.log("mainForm:: userList rsponse", res);
@@ -45,9 +45,21 @@ const MainForm = () => {
       console.log("mainForm:: userList -> json data", res);
       setTusers(res);
     });
+
+    fetch("http://localhost:8000/rank", {
+      method: "get",
+    }).then((res) => {
+      console.log("mainForm:: rank rsponse", res);
+      return res.json();
+    }).then((res) => {
+      console.log("mainForm:: rank -> json data", res);
+      setRank(res);
+    });
+
   }, []);
 
 
+  const [rank, setRank] = useState([]);
   const [teams, setTeams] = useState([]);
   const [users, setTusers] = useState([]);
   const [show, setShow] = useState(false);
@@ -70,8 +82,8 @@ const MainForm = () => {
             <br />
 
             <h3> 팀 선수 목록을 검색해 보세요</h3>
-            <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example">
-              <Tab eventKey="home" title="팀목록보기">
+            <Tabs defaultActiveKey="rank" id="uncontrolled-tab-example">
+              <Tab eventKey="team" title="팀목록보기">
 
                 <Row>
                   {teams.map((res) => (<Col md={4}><TeamCard team={res} key={res.id}></TeamCard></Col>))}
@@ -79,7 +91,7 @@ const MainForm = () => {
 
 
               </Tab>
-              <Tab eventKey="profile" title="선수목록보기">
+              <Tab eventKey="user" title="선수목록보기">
                 <Row>
                   {users.map((res) => (<Col md={4}><UserCard user={res} key={res.id}></UserCard></Col>))}
                 </Row>
@@ -88,6 +100,27 @@ const MainForm = () => {
 
               </Tab>
 
+              <Tab eventKey="rank" title="Rank">
+
+                <Row>
+                  <Col md={3}>TEAM</Col>
+                  <Col md={2}>SCORE</Col>
+                  <Col md={2}>W</Col>
+                  <Col md={2}>L</Col>
+                  <Col md={2}>D</Col>
+                </Row>
+                {rank.map((res) => <Row>
+                  <Col md={3}>{res.team.name}</Col>
+                  <Col md={2}>{res.total}</Col>
+                  <Col md={2}>{res.win}</Col>
+                  <Col md={2}>{res.lose}</Col>
+                  <Col md={2}>{res.draw}</Col>
+                </Row>)}
+
+
+
+
+              </Tab>
             </Tabs>
             {/* <Form inline>
                 <FormControl type="text" placeholder="Search" className="mr-sm-2" />
