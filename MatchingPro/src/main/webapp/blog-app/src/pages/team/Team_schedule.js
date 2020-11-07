@@ -1,6 +1,10 @@
+// ok
 import React, { useEffect, useState } from 'react';
-import { Jumbotron, Row, Container, Col, Button } from 'react-bootstrap';
+import { Jumbotron, Row, Container, Col } from 'react-bootstrap';
 import styled from 'styled-components';
+import TitleH3TagStyle from '../constant/TitleH3TagStyle';
+import SpanTagStyle from '../constant/SpanTagStyle';
+
 
 const MainCardStyle = styled.div`
   width: 100%;
@@ -13,31 +17,24 @@ const SlideStyle = styled.div`
 `;
 
 const Team_schedule = (props) => {
-	const id = props.match.params.id;
+	const id = props.match.params.id;	// 해당 팀 id에 해당하는 팀의 schedule
 	const [schedule, setSchedule] = useState([]);
-	const [teaminfo, setTeaminfo] = useState([]);
+	const [teaminfo, setTeaminfo] = useState([]);	// 해당 page 팀에 대한 정보
 
-	const zzz = () =>{
-		console.log(schedule);
-	} 
 	useEffect(() => {
+		// 해당 id의 팀 battle list
 		fetch(`http://localhost:8000/battleList/${id}`, {
 			method: "get",
-		}).then((res) => {
-			console.log("team schedule fetch fisrt then res :: ", res);
-			return res.json();
-		}).then((res) => {
-			console.log("team schedule fetch second then res", res);
-			setSchedule(res);
-		});
+		}).then((res) => res.json())
+			.then((res) => {
+				console.log("team schedule fetch second then res [json type]", res);
+				setSchedule(res);
+			});
 
 		fetch(`http://localhost:8000/teamDetail/${id}`, {
 			method: "get",
-		}).then((res) => {
-			return res.json();
-		}).then((res) => {
-			setTeaminfo(res);
-		});
+		}).then((res) => res.json())
+			.then((res) => setTeaminfo(res));
 	}, []);
 
 	return (
@@ -45,12 +42,32 @@ const Team_schedule = (props) => {
 			<SlideStyle>
 				<MainCardStyle>
 					<Jumbotron>
-						{teaminfo.name}팀 경기일정
-						<Row>
-						 	{schedule.map((res) => (
-								<div>요청팀 = {res.requestTeam.name} vs 수락팀 = {res.responseTeam.name} //////////</div> 
-							))}
-						</Row>
+						<TitleH3TagStyle imt="🗓" msg={teaminfo.name} msg2=" 경기일정"></TitleH3TagStyle>
+						<hr />
+						{schedule.map((res) => (
+							<Row>
+								<Col md={3}>
+									<SpanTagStyle imt={res.responseTeam.name} msg="⚔" msg2={res.requestTeam.name} ></SpanTagStyle>
+								</Col>
+								<Col md={9}></Col>
+								{/* 상대하는 두 팀 */}
+								<Col md={3}></Col>
+								<Col md={3}>
+									<SpanTagStyle imt="장소 " msg={res.location}></SpanTagStyle>
+								</Col>
+								<Col md={6}></Col>
+								{/* 장소 */}
+								<Col md={3}></Col>
+								<Col md={3}>
+									<SpanTagStyle imt="시간 " msg={res.matchDate}></SpanTagStyle>
+								</Col>
+								<Col md={6}></Col>
+								{/* 시간 */}
+								<Col md={3}></Col>
+								<Col md={9}><hr /></Col>
+								{/* 선 */}
+							</Row>
+						))}
 					</Jumbotron>
 				</MainCardStyle>
 			</SlideStyle>

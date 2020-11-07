@@ -8,7 +8,7 @@ const Style = styled.h3`
 const TitleH3TagStyle = (props) => {
 	return (
 		<Style>
-			{props.msg}
+			{props.imt}{props.msg}{props.msg2}
 		</Style>
 	);
 };

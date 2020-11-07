@@ -9,7 +9,7 @@ const Style = styled.span`
 const SpanTagStyle = (props) => {
 	return (
 		<Style>
-			{props.msg}
+			{props.imt}{props.msg}{props.msg2}
 		</Style>
 	);
 };
