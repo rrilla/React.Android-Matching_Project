@@ -145,6 +145,7 @@ public class UserDetailActivity extends AppCompatActivity implements NavigationV
         navName.setText(loginUser.getUsername()+"("+ loginUser.getNickname()+")");
         if(loginUser.getTeams() != null){
             navTName.setText(loginUser.getTeams().getName());
+            navigationView.getMenu().getItem(1).setTitle("My Team");
         }
 
         Button btnScout = findViewById(R.id.uDetail_btn_scout);
@@ -224,10 +225,18 @@ public class UserDetailActivity extends AppCompatActivity implements NavigationV
             intent.putExtra("jwtToken", jwtToken);
             startActivity(intent);
         } else if (id == R.id.nav_menu2) {
-            Intent intent = new Intent(getApplicationContext(), TeamCreateActivity.class);
-            intent.putExtra("jwtToken", jwtToken);
-            intent.putExtra("loginUser", loginUser);
-            startActivity(intent);
+            if(loginUser.getTeams() != null){
+                Intent intent = new Intent(getApplicationContext(), TeamDetailActivity.class);
+                intent.putExtra("jwtToken", jwtToken);
+                intent.putExtra("loginUser", loginUser);
+                intent.putExtra("selectTeam", loginUser.getTeams());
+                startActivity(intent);
+            }else{
+                Intent intent = new Intent(getApplicationContext(), TeamCreateActivity.class);
+                intent.putExtra("jwtToken", jwtToken);
+                intent.putExtra("loginUser", loginUser);
+                startActivity(intent);
+            }
         } else if (id == R.id.nav_menu3) {
             Toast.makeText(this, "네비-메뉴3 선택", Toast.LENGTH_LONG).show();
         }

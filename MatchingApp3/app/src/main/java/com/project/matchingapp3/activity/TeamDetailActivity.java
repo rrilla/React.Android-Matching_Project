@@ -24,25 +24,23 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.project.matchingapp3.MainActivity;
 import com.project.matchingapp3.R;
 import com.project.matchingapp3.TeamActivity;
 import com.project.matchingapp3.UserActivity;
+import com.project.matchingapp3.adapter.ViewPagerAdapter;
+import com.project.matchingapp3.fragment.TeamDetailFragment1;
 import com.project.matchingapp3.model.Team;
 import com.project.matchingapp3.model.User;
-import com.project.matchingapp3.model.dto.NavDataDto;
 import com.project.matchingapp3.task.RestAPITask;
 
-import org.w3c.dom.Text;
-
-import java.util.List;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 public class TeamDetailActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     BottomNavigationView bottomNavigationView;
+    ViewPager pager;
     Toolbar toolbar;
     DrawerLayout drawer;
 
@@ -72,7 +70,7 @@ public class TeamDetailActivity extends AppCompatActivity implements NavigationV
         TextView tvCount = findViewById(R.id.tDetail_tv_tCount);
         TextView tvOwner = findViewById(R.id.tDetail_tv_tOwner);
         ImageView ivImage = findViewById(R.id.tDetail_iv_tImage);
-        Button btnJoin = findViewById(R.id.tDetail_btn_join);
+        Button btn = findViewById(R.id.tDetail_btn);
 
         tvName.setText(selectTeam.getName());
         tvLocation.setText(selectTeam.getLocation());
@@ -149,9 +147,11 @@ public class TeamDetailActivity extends AppCompatActivity implements NavigationV
         navName.setText(loginUser.getUsername()+"("+ loginUser.getNickname()+")");
         if(loginUser.getTeams() != null){
             navTName.setText(loginUser.getTeams().getName());
+            navigationView.getMenu().getItem(1).setTitle("My Team");
         }
 
-        btnJoin.setOnClickListener(new View.OnClickListener() {
+        if()
+        btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -182,6 +182,13 @@ public class TeamDetailActivity extends AppCompatActivity implements NavigationV
                 }
             }
         });
+
+        //뷰 페이저
+        pager = findViewById(R.id.pager);
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        TeamDetailFragment1 fragment1 = new TeamDetailFragment1((ArrayList)selectTeam.getUsers(), loginUser, jwtToken);
+        adapter.addItem(fragment1);
+        pager.setAdapter(adapter);
     }
 
     //앱바 메뉴의 아이템 선택시 -
@@ -224,10 +231,18 @@ public class TeamDetailActivity extends AppCompatActivity implements NavigationV
             intent.putExtra("jwtToken", jwtToken);
             startActivity(intent);
         } else if (id == R.id.nav_menu2) {
-            Intent intent = new Intent(getApplicationContext(), TeamCreateActivity.class);
-            intent.putExtra("jwtToken", jwtToken);
-            intent.putExtra("loginUser", loginUser);
-            startActivity(intent);
+            if(loginUser.getTeams() != null){
+                Intent intent = new Intent(getApplicationContext(), TeamDetailActivity.class);
+                intent.putExtra("jwtToken", jwtToken);
+                intent.putExtra("loginUser", loginUser);
+                intent.putExtra("selectTeam", loginUser.getTeams());
+                startActivity(intent);
+            }else{
+                Intent intent = new Intent(getApplicationContext(), TeamCreateActivity.class);
+                intent.putExtra("jwtToken", jwtToken);
+                intent.putExtra("loginUser", loginUser);
+                startActivity(intent);
+            }
         } else if (id == R.id.nav_menu3) {
             Toast.makeText(this, "네비-메뉴3 선택", Toast.LENGTH_LONG).show();
         }

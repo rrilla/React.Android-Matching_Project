@@ -30,6 +30,7 @@ import com.project.matchingapp3.activity.LoginActivity;
 import com.project.matchingapp3.activity.MyPageActivity;
 import com.project.matchingapp3.activity.PartyListActivity;
 import com.project.matchingapp3.activity.TeamCreateActivity;
+import com.project.matchingapp3.activity.TeamDetailActivity;
 import com.project.matchingapp3.adapter.ViewPagerAdapter;
 import com.project.matchingapp3.fragment.TeamFragment1;
 import com.project.matchingapp3.fragment.TeamFragment2;
@@ -121,6 +122,7 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
         navName.setText(loginUser.getUsername()+"("+ loginUser.getNickname()+")");
         if(loginUser.getTeams() != null){
             navTName.setText(loginUser.getTeams().getName());
+            navigationView.getMenu().getItem(1).setTitle("My Team");
         }
 
 
@@ -206,10 +208,18 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
             intent.putExtra("jwtToken", jwtToken);
             startActivity(intent);
         } else if (id == R.id.nav_menu2) {
-            Intent intent = new Intent(getApplicationContext(), TeamCreateActivity.class);
-            intent.putExtra("jwtToken", jwtToken);
-            intent.putExtra("loginUser", loginUser);
-            startActivity(intent);
+            if(loginUser.getTeams() != null){
+                Intent intent = new Intent(getApplicationContext(), TeamDetailActivity.class);
+                intent.putExtra("jwtToken", jwtToken);
+                intent.putExtra("loginUser", loginUser);
+                intent.putExtra("selectTeam", loginUser.getTeams());
+                startActivity(intent);
+            }else{
+                Intent intent = new Intent(getApplicationContext(), TeamCreateActivity.class);
+                intent.putExtra("jwtToken", jwtToken);
+                intent.putExtra("loginUser", loginUser);
+                startActivity(intent);
+            }
         } else if (id == R.id.nav_menu3) {
             Toast.makeText(this, "네비-메뉴3 선택", Toast.LENGTH_LONG).show();
         }
