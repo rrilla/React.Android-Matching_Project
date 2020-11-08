@@ -15,7 +15,7 @@ const Mypage = () => {
 
 	const [user, setUser] = useState([]);
 	const [partys, setPartys] = useState([]);
-		const [team, setTeam] = useState([]);
+	const [team, setTeam] = useState([]);
 
 	useEffect(() => {
 		//fetch that brings loginid 
@@ -44,20 +44,20 @@ const Mypage = () => {
 			fetch(`http://localhost:8000/user/partyList/${res}`, {
 				method: "post",
 				headers: {
-				'Authorization': localStorage.getItem("Authorization")
+					'Authorization': localStorage.getItem("Authorization")
 				}
 			}).then((res) => {
-				console.log("dddddd",res);
+				console.log("dddddd", res);
 				return res.json();
 			}).then((res) => {
 				setPartys(res);
 				setTeam(res.team)
-				
-				
-				console.log("ooo",res);
-					console.log("ooooo",res[0]);
-					console.log("res.team"+res[0].team.name) //this works. it returns the team name
-					console.log() 
+
+
+				//console.log("ooo",res);
+				//console.log("ooooo",res[0]);
+				//console.log("res.team"+res[0].team.name) //this works. it returns the team name
+				//console.log() 
 
 			});
 			//
@@ -73,89 +73,89 @@ const Mypage = () => {
 		<Container>
 			<SlideStyle>
 				<MainCardStyle>
-					
+
 
 					<Jumbotron>
-					<h2>
- 				<OverlayTrigger
-    				  key='top'
-    				  placement='top'
-    				  overlay={
-     			   <Tooltip id={`tooltip-top`}>
-      			   Location
-      			  </Tooltip>
-     				 }
-    				>
-     			 <Button variant="light">📍</Button>
-    		</OverlayTrigger>
-						 {user.location} </h2>
-						<hr/>
 						<h2>
- 				<OverlayTrigger
-    				  key='top'
-    				  placement='top'
-    				  overlay={
-     			   <Tooltip id={`tooltip-top`}>
-      			   포지션
+							<OverlayTrigger
+								key='top'
+								placement='top'
+								overlay={
+									<Tooltip id={`tooltip-top`}>
+										Location
       			  </Tooltip>
-     				 }
-    				>
-     			 <Button variant="light">🏃</Button>
-    		</OverlayTrigger>
-						 {user.position}</h2> 
-						<hr/>
-					
+								}
+							>
+								<Button variant="light">📍</Button>
+							</OverlayTrigger>
+							{user.location} </h2>
+						<hr />
 						<h2>
- 				<OverlayTrigger
-    				  key='top'
-    				  placement='top'
-    				  overlay={
-     			   <Tooltip id={`tooltip-top`}>
-      			   닉네임
+							<OverlayTrigger
+								key='top'
+								placement='top'
+								overlay={
+									<Tooltip id={`tooltip-top`}>
+										포지션
       			  </Tooltip>
-     				 }
-    				>
-     			 <Button variant="light">📄</Button>
-    		</OverlayTrigger>
-						
-						 {user.nickname}</h2>
-						<hr/>
-<Accordion defaultActiveKey="0">
-<Card.Header>
-      <Accordion.Toggle as={Button} variant="link" eventKey="0">
-        
-						<OverlayTrigger
-    				  key='top'
-    				  placement='top'
-    				  overlay={
-     			   <Tooltip id={`tooltip-top`}>
-      			   {partys.map((res) => (//이 팀에 들어온 파티 번호 : {res.id}
-								<Col md={3}> request from {res.team.name} </Col>
-							))}
+								}
+							>
+								<Button variant="light">🏃</Button>
+							</OverlayTrigger>
+							{user.position}</h2>
+						<hr />
+
+						<h2>
+							<OverlayTrigger
+								key='top'
+								placement='top'
+								overlay={
+									<Tooltip id={`tooltip-top`}>
+										닉네임
       			  </Tooltip>
-     				 }
-    				>
-     			 <Button variant="light"> 💡  see my requet from existing team</Button>
-    		</OverlayTrigger>
-		
+								}
+							>
+								<Button variant="light">📄</Button>
+							</OverlayTrigger>
 
-      </Accordion.Toggle>
-    </Card.Header>
-    <Accordion.Collapse eventKey="0">
-      <Card.Body>
-					{partys.map((res) => (//이 팀에 들어온 파티 번호 : {res.id}
-								<Col md={3}> teamname that requested to me {res.team.name}
-								{/* button to accept the request here  */}
-								<Button >수락</Button></Col>
-							))}</Card.Body>
+							{user.nickname}</h2>
+						<hr />
+						<Accordion defaultActiveKey="0">
+							<Card.Header>
+								<Accordion.Toggle as={Button} variant="link" eventKey="0">
 
-    </Accordion.Collapse>
-</Accordion>
+									<OverlayTrigger
+										key='top'
+										placement='top'
+										overlay={
+											<Tooltip id={`tooltip-top`}>
+												{partys.map((res) => (//이 팀에 들어온 파티 번호 : {res.id}
+													<Col md={3}> request from {res.team.name} </Col>
+												))}
+											</Tooltip>
+										}
+									>
+										<Button variant="light"> 💡  see my requet from existing team</Button>
+									</OverlayTrigger>
 
-						
-					
-					
-					
+
+								</Accordion.Toggle>
+							</Card.Header>
+							<Accordion.Collapse eventKey="0">
+								<Card.Body>
+									{partys.map((res) => (//이 팀에 들어온 파티 번호 : {res.id}
+										<Col md={3}> teamname that requested to me {res.team.name}
+											{/* button to accept the request here  */}
+											<Button >수락</Button></Col>
+									))}</Card.Body>
+
+							</Accordion.Collapse>
+						</Accordion>
+
+
+
+
+
 					</Jumbotron>
 				</MainCardStyle>
 			</SlideStyle>
