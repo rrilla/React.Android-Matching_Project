@@ -44,6 +44,14 @@
                         android:textColor="#000000"
                         android:textSize="20sp"
                         android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/iBattle_tv_reqScore"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textColor="#1A0000"
+                        android:text="전적" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -83,8 +91,21 @@
                         android:textColor="#000000"
                         android:textSize="20sp"
                         android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/iBattle_tv_resScore"
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="#1A0000"
+                        android:text="전적" />
                 </LinearLayout>
             </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_centerInParent="true"
+                android:background="#D2D2D2"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

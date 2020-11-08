@@ -72,7 +72,7 @@ public class TeamListAdapter extends RecyclerView.Adapter<TeamListAdapter.ViewHo
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvName, tvLocation, tvCount;
+        TextView tvName, tvLocation, tvCount, tvScore;
         ImageView ivImage;
         View view;
 
@@ -83,6 +83,7 @@ public class TeamListAdapter extends RecyclerView.Adapter<TeamListAdapter.ViewHo
             tvName = itemView.findViewById(R.id.iTeam_tv_tName);
             tvLocation = itemView.findViewById(R.id.iTeam_tv_tLocation);
             tvCount = itemView.findViewById(R.id.iTeam_tv_tCount);
+            tvScore = itemView.findViewById(R.id.iTeam_tv_tScore);
             ivImage = itemView.findViewById(R.id.iTeam_iv_tImage);
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -100,8 +101,8 @@ public class TeamListAdapter extends RecyclerView.Adapter<TeamListAdapter.ViewHo
             tvName.setText(item.getName());
             tvLocation.setText(item.getLocation());
             tvCount.setText(item.getUsers().size()+" / 20");
+            tvScore.setText(item.getScore().getSummary());
             Glide.with(view).load(item.getUrlImage()).into(ivImage);
-            //Glide.with(view).load(item.getImage()).into(ivImage);
         }
 
     }

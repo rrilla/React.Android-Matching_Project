@@ -35,15 +35,25 @@
                 <TextView
                     android:id="@+id/iTeam_tv_tName"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:text="팀이름"
                     android:textColor="#000000"
                     android:textStyle="bold"
-                    android:textSize="30sp" />
+                    android:layout_weight="0.8"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/iTeam_tv_tScore"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:textSize="15sp"
+                    android:text="스코어" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:orientation="horizontal">
 
                     <TextView
@@ -52,7 +62,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="활동 지역"
-                        android:textSize="25sp" />
+                        android:textSize="15sp" />
 
                     <TextView
                         android:id="@+id/iTeam_tv_tCount"
@@ -61,7 +71,7 @@
                         android:layout_weight="1"
                         android:text="팀원 수"
                         android:gravity="center"
-                        android:textSize="20sp" />
+                        android:textSize="15sp" />
                 </LinearLayout>
 
             </LinearLayout>

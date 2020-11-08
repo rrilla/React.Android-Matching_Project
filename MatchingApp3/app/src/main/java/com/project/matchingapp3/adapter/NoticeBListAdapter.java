@@ -80,7 +80,7 @@ public class NoticeBListAdapter extends RecyclerView.Adapter<NoticeBListAdapter.
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvReqName, tvResName, tvDateReq, tvDateMatch, tvLocation, tvInfo;
+        TextView tvReqName, tvResName, tvReqScore, tvResScore, tvDateReq, tvDateMatch, tvLocation, tvInfo;
         Button btnDetail, btnMatch;
         ImageView ivReqImage, ivResImage;
         View view;
@@ -93,7 +93,9 @@ public class NoticeBListAdapter extends RecyclerView.Adapter<NoticeBListAdapter.
             this.loginTeamId = loginTeamId;
 
             tvReqName = itemView.findViewById(R.id.iBattle_tv_reqName);
+            tvReqScore = itemView.findViewById(R.id.iBattle_tv_reqScore);
             tvResName = itemView.findViewById(R.id.iBattle_tv_resName);
+            tvResScore = itemView.findViewById(R.id.iBattle_tv_resScore);
             tvDateReq = itemView.findViewById(R.id.iBattle_tv_dateReq);
             tvDateMatch = itemView.findViewById(R.id.iBattle_tv_dateMatch);
             tvLocation = itemView.findViewById(R.id.iBattle_tv_location);
@@ -129,7 +131,9 @@ public class NoticeBListAdapter extends RecyclerView.Adapter<NoticeBListAdapter.
         public void setItem(Battle item) {
             this.item = item;
             tvReqName.setText(item.getRequestTeam().getName());
+            tvReqScore.setText(item.getRequestTeam().getScore().getSummary());
             tvResName.setText(item.getResponseTeam().getName());
+            tvResScore.setText(item.getResponseTeam().getScore().getSummary());
             tvDateReq.setText(item.getDateToString());
             tvDateMatch.setText(item.getMatchDate());
             tvLocation.setText(item.getLocation());
