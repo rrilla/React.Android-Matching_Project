@@ -41,6 +41,15 @@ const MyTeam = () => {
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
 
+
+	const [battleIdInModal, setBattleIdInModal] = useState(0);
+	const [show3, setShow3] = useState(false);
+	const handleClose3 = () => setShow3(false);
+	const handleShow3 = (id) => {
+		setBattleIdInModal(id);
+		setShow3(true);
+	};
+
 	const [show2, setShow2] = useState(false);
 	const handleClose2 = () => setShow2(false);
 	const handleShow2 = (id, myTeam, jteam) => {
@@ -70,6 +79,21 @@ const MyTeam = () => {
 		jteam: null
 	}); // 진행하기로 결정 된 경기 자세히 보기 모달에 가져갈 data
 
+	// 팀원 선택 state
+	const [rteam, setRteam] = useState(["팀장"]);
+
+	const rteamplus = (id) => {
+		alert("추가되었습니다");
+		setRteam([
+			...rteam,
+			id
+		]);
+		console.log(rteam);
+	}
+
+	const memberCheck = () => {
+		alert(rteam);
+	}
 	// 여기가지 state ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- 
 
 	const inviteMember = (userid) => {	// 팀원 초대 함수 (검색 다음 초대)
@@ -118,6 +142,8 @@ const MyTeam = () => {
 			});
 	};
 
+	// ----- ----- ----- ----- -----  
+
 	const matchAccept = (battleid) => {	// 베틀 신청에 대한 수락 fetch
 		fetch(`http://localhost:8000/user/matchAccept/${battleid}`, {
 			method: "put",
@@ -130,9 +156,50 @@ const MyTeam = () => {
 			});
 	};
 
+	// teaminfo create & 베틀 수락 포함
+	const createInfo = () => {
+		let teamInfo = {
+			/* loginid: user.loginid,
+			password: user.password */
+			//user1: {id: 1},
+			user2: { id: rteam[1] },
+			user3: { id: rteam[2] },
+			user4: { id: rteam[3] },
+			user5: { id: rteam[4] },
+			user6: { id: rteam[5] },
+			user7: { id: rteam[6] },
+			user8: { id: rteam[7] },
+			user9: { id: rteam[8] },
+			user10: { id: rteam[9] },
+			user11: { id: rteam[10] },
+			/* user2: { id: 1 },
+			user3: { id: 1 },
+			user4: { id: 1 },
+			user5: { id: 1 },
+			user6: { id: 1 },
+			user7: { id: 1 },
+			user8: { id: 1 },
+			user9: { id: 1 },
+			user10: { id: 1 },
+			user11: { id: 1 }, */
+		}
+		fetch(`http://localhost:8000/user/teamInfo`, {
+			method: "post",
+			body: JSON.stringify(teamInfo),
+			headers: {
+				'Content-Type': "application/json; charset=utf-8",
+				'Authorization': localStorage.getItem("Authorization")
+			}
+		}).then((res) => res.text())
+			.then(res => {
+				if (res === "ok") matchAccept(battleIdInModal);
+				else alert("요청 실패");
+			});
+	};
 
-	// ----- ----- ----- ----- -----  
+	// ----- ----- -----
 
+	// 승자 선택
 	const as = () => {
 		fetch(`http://localhost:8000/user/scoreWiner/${deId.id}`, {
 			method: "put",
@@ -148,39 +215,9 @@ const MyTeam = () => {
 			});
 	}
 
-	// teaminfo create
-	const sss = () => {
-		let teamInfo = {
-			/* loginid: user.loginid,
-			password: user.password */
-			//user1: {id: 1},
-			user2: { id: 1 },
-			user3: { id: 1 },
-			user4: { id: 1 },
-			user5: { id: 1 },
-			user6: { id: 1 },
-			user7: { id: 1 },
-			user8: { id: 1 },
-			user9: { id: 1 },
-			user10: { id: 1 },
-			user11: { id: 1 },
-
-		}
-
-		fetch(`http://localhost:8000/user/teamInfo`, {
-			method: "post",
-			body: JSON.stringify(teamInfo),
-			headers: {
-				'Content-Type': "application/json; charset=utf-8",
-				'Authorization': localStorage.getItem("Authorization")
-			}
-		}).then((res) => res.text())
-			.then(res => {
-				if (res === "ok") alert("tema info create");
-				else alert("팀가입 요청 실패");
-			});
-	};
-
+	const rjwjf = () => {
+		alert("거절되었습니다");
+	}
 	useEffect(() => {
 		// 현재 로그인 되어있는 ID가 가입한 팀의 ID를 받아옴
 		fetch("http://localhost:8000/user/myTeam", {
@@ -270,8 +307,59 @@ const MyTeam = () => {
 				</Modal.Footer>
 			</Modal>
 
+			{/* 경기 요청 자세히 보기(+팀원입력 및 수락) 모달 */}
+			<Modal show={show3} size={"lg"} onHide={handleClose3}>
+				<Modal.Header closeButton>
+					<Modal.Title>대전요청 자세히보기</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+					<SpanTagStyle msg="게임에 참여할 팀원을 선택해 주세요"></SpanTagStyle>
+					<hr />
+					<Row>
+						{users.map((res) => (//이 팀에 들어온 파티 번호 : {res.id}
+							<Col md={3}>🏃 {res.nickname}&nbsp;&nbsp;&nbsp;
+								<Button onClick={() => rteamplus(battleIdInModal)} size="sm" variant="outline-secondary">추가</Button></Col>
+						))}
+					</Row>
+					<br />
+					<Button onClick={memberCheck} size="sm" variant="outline-secondary">선택된 팀원 확인</Button>
+					<hr />
+					{/* <Form>
+						<Form.Group as={Col} controlId="formGridEmail">
+							<Form.Label><SpanTagStyle msg="location"></SpanTagStyle></Form.Label>
+							<Row>
+								<Col md={10}>
+									<Form.Control
+										type="text"
+										name="location"
+										placeholder="enter message"
+										onChange={inputHandle}
+										value={battleInfo.location} /></Col>
+							</Row>
+							<br />
+							<Form.Label><SpanTagStyle msg="matchDate"></SpanTagStyle></Form.Label>
+							<Row>
+								<Col md={10}>
+									<Form.Control
+										type="text"
+										name="matchDate"
+										placeholder="matchDate"
+										onChange={inputHandle}
+										value={battleInfo.matchDate} /></Col>
+							</Row>
+						</Form.Group>
+					</Form> */}
+				</Modal.Body>
+				<Modal.Footer>
+					<Button onClick={() => createInfo()} variant="outline-secondary">수락하기</Button>
+					{/* createInfo 안에 베틀수락함수 포함 */}
+					<Button variant="secondary" onClick={handleClose3}>Close
+					</Button>
+				</Modal.Footer>
+			</Modal >
+
 			{/* 경기 자세히 보기(+결과입력) 모달 */}
-			<Modal show={show2} size={"lg"} onHide={handleClose}>
+			<Modal show={show2} size={"lg"} onHide={handleClose2}>
 				<Modal.Header closeButton>
 					<Modal.Title>경기</Modal.Title>
 				</Modal.Header>
@@ -350,8 +438,8 @@ const MyTeam = () => {
 									?
 									<Col md={4}>
 										💥{res.requestTeam.name}&nbsp;&nbsp;&nbsp;
-										<Button onClick={sss} size="sm" variant="outline-secondary">teaminfo</Button>&nbsp;&nbsp;&nbsp;
-										<Button size="sm" variant="outline-secondary" onClick={() => matchAccept(res.id)}>수락</Button>
+										<Button onClick={() => handleShow3(res.id)} size="sm" variant="outline-secondary">자세히보기</Button>&nbsp;&nbsp;&nbsp;
+										<Button size="sm" variant="outline-secondary" onClick={() => rjwjf()}>거절</Button>
 										{/* <Button onClick={zzz}>참가명단보기</Button> */}
 									</Col>
 									: null

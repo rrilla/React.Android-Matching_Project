@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Carousel, Jumbotron, Button, Breadcrumb, Card, ListGroup, ListGroupItem, ResponsiveEmbed, Form, FormControl, Modal } from 'react-bootstrap';
 import styled from 'styled-components';
-import JoinModal from '../user/JoinModal';
+import SpanTagStyle from '../constant/SpanTagStyle';
 
 const SlideStyle = styled.div`
 	margin-top:15%;
@@ -14,40 +14,28 @@ const MainCardStyle = styled.div`
 `;
 
 const Team_detail = (props) => {
-	console.log("Team_detail:: 해당 page의 팀 ID: ", props.match.params.id);
-	const teamId = props.match.params.id;
+	const teamId = props.match.params.id;		// 해당 페이지가 어떤 팀의 페이지인지 ID 받아서 들어옴 (props)
+
+	// useEffect에서 팀정보, 팀장정보, 팀원정보를 state로 받는다
 	const [team, setTeam] = useState([]);
-	const { id, explaintation, name } = team;
+	const { explaintation, name } = team;
 	const [owner, setOwner] = useState([]);
 	const [users, setUsers] = useState([]);
 
-	const [users2, setUsers2] = useState([]);
-
-	const [rteam, setRteam] = useState([]);
-
-	const rteamplus = () => {
-		alert("clickd");
-		setRteam({
-			...rteam,
-			id: 1,
-			nickname: "a"
-		})
-	}
+	// 기본적으로 팀 정보를 보여주기 위해 필요한 state들을 받아온다
 	useEffect(() => {
 		fetch(`http://localhost:8000/teamDetail/${teamId}`, {
 			method: "get",
-		}).then((res) => {
-			console.log("aaa",res);
-			return res.json()
-			})
+		}).then((res) => res.json())
 			.then((res) => {
-				console.log("Team_detail:: fetch 받아온 team의 response", res);
+				console.log("teamDetailForm teamDetail info fetch (json type) ", res);
 				setTeam(res);
 				setOwner(res.owner);
 				setUsers(res.users);
 			});
 	}, []);
 
+	// 해당 팀에 팀원 가입 요청을 보내는 fetch
 	const joinTeamReq = () => {
 		fetch(`http://localhost:8000/user/apply1/${teamId}`, {
 			method: "post",
@@ -62,40 +50,47 @@ const Team_detail = (props) => {
 			});
 	};
 
+	// 대전시청시 필요한 정보를 입력할 수 있는 modal
 	const [show, setShow] = useState(false);
-
 	const handleClose = () => setShow(false);
-	const handleShow = () => {
-
-		fetch("http://localhost:8000/user/myTeam", {
+	const handleShow = () => {	// modal을 활성화 하는데, 내가 선택할 수 있게 팀원 리스트를 보여준다
+		fetch("http://localhost:8000/user/myTeam", {	// 로그인 해 있는 ID가 속한 팀의 ID를 받아온다
 			method: "get",
 			headers: {
 				'Authorization': localStorage.getItem("Authorization")
 			}
-		}).then((res) => {
-			console.log("신청하는 입장:: login한 ID의 Team Id display res", res);
-			return res.text();
-		}).then((res) => {
-			console.log("신청하는 입장:: login한 ID의 Team Id display", res);
-
-			fetch(`http://localhost:8000/teamDetail/${res}`, {
-				// 여기 들어가는 res는 현재 로그인 한 ID의 TeamID // 팀 정보 가져와서 소속 선수, 팀장 display
-				method: "get",
-			}).then((res) => {
-				return res.json();
-			}).then((res) => {
-				console.log("신청하는 팀 정보:: Team info fetch display res: ", res);
-				setUsers2(res.users);
+		}).then((res) => res.text())
+			.then((res) => {
+				// 내가 가입한 팀원들 중 게임에 참가할 인원을 선택하기 위해 우리 팀원 리스트를 받아온다
+				fetch(`http://localhost:8000/teamDetail/${res}`, {
+					method: "get",
+				}).then((res) => res.json())
+					.then((res) => {
+						console.log("teamDetailForm 대전신청 modal - 신청하는 팀의 팀원 list (json type) ", res); setUsers2(res.users);
+					});
 			});
-		});
-		setShow(true)
+		setShow(true);
 	};
 
-	const z = () => {
-		alert("click");
 
+
+
+	// 
+	const [users2, setUsers2] = useState([]);
+	const [rteam, setRteam] = useState([]);
+
+
+	const rteamplus = () => {
+		alert("clickd");
+		setRteam({
+			...rteam,
+			id: 1,
+			nickname: "a"
+		})
 	}
-	const sss = () => {
+
+	// teaminfo 만들기 - battle 신청 함수도 안에 있음
+	const createInfo = () => {
 		let teamInfo = {
 			/* loginid: user.loginid,
 			password: user.password */
@@ -110,7 +105,6 @@ const Team_detail = (props) => {
 			user9: { id: 1 },
 			user10: { id: 1 },
 			user11: { id: 1 },
-
 		}
 
 		fetch(`http://localhost:8000/user/teamInfo`, {
@@ -122,14 +116,29 @@ const Team_detail = (props) => {
 			}
 		}).then((res) => res.text())
 			.then(res => {
-				if (res === "ok") alert("tema info create");
+				if (res === "ok") battleRequest();
 				else alert("팀가입 요청 실패");
 			});
 	};
 
-	const aaa = () => {
-		let battle = {
+	const [battleInfo, setBattleInfo] = useState([{
+		info: "",
+		location: "",
+		matchDate: ""
+	}]);
 
+	const inputHandle = (e) => {
+		setBattleInfo({
+			...battleInfo,
+			[e.target.name]: e.target.value,
+		});
+	};
+
+	const battleRequest = () => {	// battle 신청 함수
+		let battle = {
+			info: battleInfo.info,
+			location: battleInfo.location,
+			matchDate: battleInfo.matchDate
 		}
 		fetch(`http://localhost:8000/user/matchApply/${teamId}`, {
 			method: "post",
@@ -138,145 +147,105 @@ const Team_detail = (props) => {
 				'Content-Type': "application/json; charset=utf-8",
 				'Authorization': localStorage.getItem("Authorization")
 			}
-		}).then((res) => {
-			console.log("battle 신청 res : ", res);
-			return res.text()
-		})
+		}).then((res) => res.text())
 			.then(res => {
-				if (res === "ok") alert("팀가입 요청 완료");
-				else alert("팀가입 요청 실패");
+				if (res === "ok") alert("battle request complete");
+				else alert("battle request failed");
 			});
 	};
 
 	return (
 		<Container>
+			{/* 대전신청을 진행할 수 있는 mdoal */}
 			<Modal show={show} size={"lg"} onHide={handleClose}>
 				<Modal.Header closeButton>
 					<Modal.Title>대전신청</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
-					 {users2.map((res) => (//이 팀에 들어온 파티 번호 : {res.id}
-						<Col md={3}>🏃 {res.nickname}
-							<Button onClick={rteamplus} size="sm" variant="outline-success">신청d하기</Button></Col>
-
-					))} 
-
-
-					<Form>  {/* , 'radio' */}
-						{['radio'].map((type) => (
-							<div key={`custom-inline-${type}`} className="mb-3">
-								{users2.map((res) => (//이 팀에 들어온 파티 번호 : {res.id}
-									<div>
-										<Form.Check
-										custom
-										inline
-										label={res.nickname}
-										type={type}
-										id={`custom-inline-${type}-${1}`}
-										/>
-									</div>
-								))}
-
-								{/* <Form.Check
-									custom
-									inline
-									label="2"
-									type={type}
-									id={`custom-inline-${type}-2`}
-								/>
-								<Form.Check
-									custom
-									inline
-									disabled
-									label="3 (disabled)"
-									type={type}
-									id={`custom-inline-${type}-3`}
-								/> */}
-							</div>
+					<SpanTagStyle msg="게임에 참여할 팀원을 선택해 주세요"></SpanTagStyle>
+					<hr />
+					<Row>
+						{users2.map((res) => (//이 팀에 들어온 파티 번호 : {res.id}
+							<Col md={3}>🏃 {res.nickname}&nbsp;&nbsp;&nbsp;
+								<Button onClick={rteamplus} size="sm" variant="outline-secondary">추가</Button></Col>
 						))}
+					</Row>
+
+					<hr/>
+					<Form>
+						<Form.Group as={Col} controlId="formGridEmail">
+							<Form.Label><SpanTagStyle msg="message"></SpanTagStyle></Form.Label>
+							<Row>
+								<Col md={10}>
+									<Form.Control
+										type="text"
+										name="battleInfo"
+										placeholder="enter message"
+										onChange={inputHandle}
+										value={battleInfo.info} /></Col>
+							</Row>
+							<br />
+							<Form.Label><SpanTagStyle msg="location"></SpanTagStyle></Form.Label>
+							<Row>
+								<Col md={10}>
+									<Form.Control
+										type="text"
+										name="location"
+										placeholder="enter message"
+										onChange={inputHandle}
+										value={battleInfo.location} /></Col>
+							</Row>
+							<br />
+							<Form.Label><SpanTagStyle msg="matchDate"></SpanTagStyle></Form.Label>
+							<Row>
+								<Col md={10}>
+									<Form.Control
+										type="text"
+										name="matchDate"
+										placeholder="matchDate"
+										onChange={inputHandle}
+										value={battleInfo.matchDate} /></Col>
+							</Row>
+						</Form.Group>
 					</Form>
-
-<Form>
-  <Form.Group controlId="exampleForm.SelectCustomHtmlSize">
-    <Form.Label>Select with three visible options</Form.Label>
-    <Form.Control as="select" htmlSize={3} custom>
-      <option>1</option>
-      <option>2</option>
-      <option>3</option>
-      <option>4</option>
-      <option>5</option>
-    </Form.Control>
-  </Form.Group>
-</Form>
-
-<Form>
-  {['checkbox', 'radio'].map((type) => (
-    <div key={`custom-${type}`} className="mb-3">
-      <Form.Check 
-        custom
-        type={type}
-        id={`custom-${type}`}
-        label={`Check this custom ${type}`}
-      />
-
-      <Form.Check
-        custom
-        disabled
-        type={type}
-        label={`disabled ${type}`}
-        id={`disabled-custom-${type}`}
-      />
-    </div>
-  ))}
-</Form>
-
-					<Container>
-						<br /><br /><br /><br /><br />
-
-						<Button onClick={aaa} variant="outline-success">신청하기</Button>
-
-					</Container>
 				</Modal.Body>
 				<Modal.Footer>
-					<Button variant="secondary" onClick={handleClose}>
-						Close
+					<Button onClick={createInfo} variant="outline-secondary">신청하기</Button>
+					{/* createInfo 안에 battleRequest 포함 */}
+					<Button variant="secondary" onClick={handleClose}>Close
 					</Button>
-
-					{/*rteam.map((res) => (//이 팀에 들어온 파티 번호 : {res.id}
-						<Col md={3}>🏃 {res.nickname}
-						</Col>
-						
-					))*/}
 				</Modal.Footer>
-			</Modal>
+			</Modal >
+
 			<SlideStyle>
 				<MainCardStyle>
 					<Jumbotron>
 						<Row>
-							<Col md={12}><h1>⚽ {name}</h1></Col>
+							<Col md={8}><h1>⚽ {name}</h1></Col>
+							<Col md={2}>
+								<Button onClick={handleShow} variant="outline-secondary">대전신청</Button>
+							</Col>
+							<Col md={2}>
+								<Button onClick={joinTeamReq} variant="outline-secondary">가입신청</Button>
+							</Col>
 							<Col md={12}><hr /></Col>
+
 							<Col md={3}><h5>👑 {owner.nickname}</h5></Col>
-							<Col md={8}><h5>📄 {explaintation}</h5></Col>
+							<Col md={9}><h5>📄 {explaintation}</h5></Col>
 							<Col md={12}><hr /></Col>
+
 							<Col md={3}><h3>🏃‍♀️ Member</h3></Col>
-							<Col md={8}></Col>
+							<Col md={9}></Col>
 							<Col md={12}><br /></Col>
+
 							{users.map((res) => (//이 팀에 들어온 파티 번호 : {res.id}
 								<Col md={3}>🏃 {res.nickname}</Col>
 							))}
-							<Col md={12}><hr /></Col>
-							<Col md={3}>
-								<Button onClick={joinTeamReq} variant="outline-success">가입신청</Button>
-							</Col>
-							<Col md={3}>
-								<Button onClick={handleShow} variant="outline-success">대전신청</Button>
-							</Col>
-							
 						</Row>
 					</Jumbotron>
 				</MainCardStyle>
 			</SlideStyle>
-		</Container>
+		</Container >
 	);
 };
 
