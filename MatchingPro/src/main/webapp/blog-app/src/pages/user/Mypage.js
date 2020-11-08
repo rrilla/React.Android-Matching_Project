@@ -30,6 +30,8 @@ const Mypage = () => {
 		}).then((res) => {
 			console.log("Mypage useEffect, id of signin user::", res);
 
+
+
 			fetch(`http://localhost:8000/userDetail/${res}`, {
 				method: "get",
 			}).then((res) => {
@@ -60,7 +62,9 @@ const Mypage = () => {
 			});
 			//
 			// 여기 아이디로 파티 가져오는 패치 res가 id
+
 			//ㄴㅐㄱ내가 ㅍㅐㅊ패ㄹ치ㄹ를 ㅁㅏㄴ만ㅡㄹ들ㅐ때 Jsonㅇㅔㅅ에서 set 
+
 
 		});
 	}, []);

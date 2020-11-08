@@ -73,25 +73,6 @@
                 android:text="없음"
                 android:textSize="30dp" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="가입 신청한 유저"
-                android:textSize="40dp" />
-
-            <TextView
-                android:id="@+id/FHome3_tv_tRequest"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="40dp"
-                android:gravity="right"
-                android:textSize="30dp" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
         </LinearLayout>
     </ScrollView>
 

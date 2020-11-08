@@ -29,7 +29,9 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.project.matchingapp3.activity.LoginActivity;
 import com.project.matchingapp3.activity.MyPageActivity;
+import com.project.matchingapp3.activity.PartyListActivity;
 import com.project.matchingapp3.activity.TeamCreateActivity;
+import com.project.matchingapp3.activity.TeamDetailActivity;
 import com.project.matchingapp3.adapter.ViewPagerAdapter;
 import com.project.matchingapp3.fragment.TeamFragment1;
 import com.project.matchingapp3.fragment.TeamFragment2;
@@ -70,10 +72,9 @@ public class TeamActivity extends AppCompatActivity implements NavigationView.On
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        Log.e("test-팀리스트받기",result[0]);
+        Log.e("noteam-팀리스트받기",result[0]);
         Gson gson = new Gson();
         List<Team> tList = gson.fromJson(result[0], new TypeToken<List<Team>>(){}.getType());
-        Log.e("test-팀리스트", tList.toString());
 
         //툴바
         toolbar = findViewById(R.id.toolbar);
@@ -119,6 +120,7 @@ public class TeamActivity extends AppCompatActivity implements NavigationView.On
         navName.setText(loginUser.getUsername()+"("+ loginUser.getNickname()+")");
         if(loginUser.getTeams() != null){
             navTName.setText(loginUser.getTeams().getName());
+            navigationView.getMenu().getItem(1).setTitle("My Team");
         }
 
 
@@ -204,10 +206,18 @@ public class TeamActivity extends AppCompatActivity implements NavigationView.On
             intent.putExtra("jwtToken", jwtToken);
             startActivity(intent);
         } else if (id == R.id.nav_menu2) {
-            Intent intent = new Intent(getApplicationContext(), TeamCreateActivity.class);
-            intent.putExtra("jwtToken", jwtToken);
-            intent.putExtra("loginUser", loginUser);
-            startActivity(intent);
+            if(loginUser.getTeams() != null){
+                Intent intent = new Intent(getApplicationContext(), TeamDetailActivity.class);
+                intent.putExtra("jwtToken", jwtToken);
+                intent.putExtra("loginUser", loginUser);
+                intent.putExtra("selectTeam", loginUser.getTeams());
+                startActivity(intent);
+            }else{
+                Intent intent = new Intent(getApplicationContext(), TeamCreateActivity.class);
+                intent.putExtra("jwtToken", jwtToken);
+                intent.putExtra("loginUser", loginUser);
+                startActivity(intent);
+            }
         } else if (id == R.id.nav_menu3) {
             Toast.makeText(this, "네비-메뉴3 선택", Toast.LENGTH_LONG).show();
         }
@@ -221,13 +231,16 @@ public class TeamActivity extends AppCompatActivity implements NavigationView.On
         int curId = item.getItemId();
         switch (curId) {
             case R.id.appbar_search:
-                Toast.makeText(this, "앱바-메뉴1 검색 선택", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.appbar_info:
-                Intent intent = new Intent(getApplicationContext(), MyPageActivity.class);
+                Intent intent = new Intent(getApplicationContext(), PartyListActivity.class);
                 intent.putExtra("jwtToken", jwtToken);
                 intent.putExtra("loginUser", loginUser);
                 startActivity(intent);
+                break;
+            case R.id.appbar_info:
+                Intent intent2 = new Intent(getApplicationContext(), MyPageActivity.class);
+                intent2.putExtra("jwtToken", jwtToken);
+                intent2.putExtra("loginUser", loginUser);
+                startActivity(intent2);
                 break;
             default:
                 break;
