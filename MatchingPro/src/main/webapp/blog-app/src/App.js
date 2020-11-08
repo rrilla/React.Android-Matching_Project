@@ -51,7 +51,7 @@ const App = () => {
       <Route path="/Team_detail/:id" exact={true} component={Team_detail}></Route>
       <Route path="/Team_schedule/:id" exact={true} component={Team_schedule}></Route>
 
-      <Route path="/Team_create" exact={true} component={Team_create}></Route>
+        {/* <Route path="/Team_create" exact={true} component={MainForm}></Route> */}
 
       <Route path="/MyTeam" exact={true} component={MyTeam}><MyTeam loginId={loginId}></MyTeam></Route>
       <Route path="/Mypage" exact={true} component={Mypage}></Route>

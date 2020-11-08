@@ -3,7 +3,14 @@ import React from 'react';
 import { ListGroup, Card, ListGroupItem, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import SpanTagStyle from '../../pages/constant/SpanTagStyle';
+import styled from 'styled-components';
 
+
+const CardStyle = styled.div`
+opacity: 1;
+
+
+`;
 const TeamCard = (props) => {
 	console.log("TeamCard:: props data: ", props);
 
@@ -14,7 +21,7 @@ const TeamCard = (props) => {
 
 	//http://ip:8000/image/ imageValue
 	return (
-		<div>
+		<CardStyle>
 			<Card style={{ width: '18rem' }}>
 				<Card.Img variant="top" src="1slideepic.png" />
 				<Card.Body>
@@ -31,7 +38,7 @@ const TeamCard = (props) => {
 				</ListGroup>
 			</Card>
 			<br />
-		</div>
+		</CardStyle>
 	);
 };
 
