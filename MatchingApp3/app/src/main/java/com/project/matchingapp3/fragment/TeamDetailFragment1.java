@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.project.matchingapp3.R;
@@ -55,6 +56,14 @@ public class TeamDetailFragment1 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_team_detail, container, false);
+
+//        if(users.size() != 0 && users != null) {
+//            if (loginUser.getId() == loginUser.getTeams().getOwner().getId() &&
+//                    loginUser.getId() == users.get(0).getTeams().getOwner().getId()) {
+//                Button btnBan = rootView.findViewById(R.id.tDetail_item_btn_ban);
+//                btnBan.setVisibility(View.VISIBLE);
+//            }
+//        }
 
         recyclerView = rootView.findViewById(R.id.recyclerView);
         //리사이클러뷰에 설정할 레이아웃 매니저 - 방향세로로 설정함.

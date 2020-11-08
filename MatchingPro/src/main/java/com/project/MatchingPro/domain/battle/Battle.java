@@ -1,6 +1,7 @@
 package com.project.MatchingPro.domain.battle;
 
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -38,7 +39,7 @@ public class Battle {
 	private String location;
 	
 	@CreationTimestamp 
-	private Date createDate;
+	private Timestamp createDate;
 
 	private String matchDate;
 	

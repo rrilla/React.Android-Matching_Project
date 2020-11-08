@@ -55,8 +55,8 @@ public class UserDetailActivity extends AppCompatActivity implements NavigationV
         jwtToken = intent.getStringExtra("jwtToken");
         loginUser = (User)intent.getSerializableExtra("loginUser");
         selectUser = (User)intent.getSerializableExtra("selectUser");
-        Log.e("noteam-유저디테일", loginUser.toString());
-        Log.e("noteam-유저디테일", selectUser.toString());
+        Log.e("noitem-유저디테일", loginUser.toString());
+        Log.e("noitem-유저디테일", selectUser.toString());
 
 
         //툴바

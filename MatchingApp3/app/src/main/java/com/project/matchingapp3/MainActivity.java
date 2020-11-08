@@ -35,6 +35,7 @@ import com.project.matchingapp3.adapter.ViewPagerAdapter;
 import com.project.matchingapp3.fragment.HomeFragment1;
 import com.project.matchingapp3.fragment.HomeFragment2;
 import com.project.matchingapp3.fragment.HomeFragment3;
+import com.project.matchingapp3.model.Battle;
 import com.project.matchingapp3.model.Party;
 import com.project.matchingapp3.model.User;
 import com.project.matchingapp3.model.dto.NavDataDto;
@@ -53,6 +54,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     User loginUser;
     String jwtToken;
+    ArrayList<Battle> myBattleList;
+    ArrayList<Battle> allBattleList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,20 +65,38 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Intent intent = getIntent();
         jwtToken = intent.getStringExtra("jwtToken");
 
-        String[] result1 = new String[1];
+        Gson gson = new Gson();
+        String[] result = new String[1];
         RestAPITask task = new RestAPITask(jwtToken);
+        String[] result2 = new String[1];
+        RestAPITask task2 = new RestAPITask(jwtToken);
+        String[] result3 = new String[1];
+        RestAPITask task3 = new RestAPITask(jwtToken);
 
         //loginUser 데이터 받기
         try {
-            result1 = task.execute("user/app/loginUser").get();
+            result = task.execute("user/app/loginUser").get();
+            result2 = task2.execute("app/battleList").get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        Log.d("noteam-loginUser데이터받음",result1[0]);
-        Gson gson = new Gson();
-        loginUser = gson.fromJson(result1[0], User.class);
+        Log.e("test-Main액티비티", "loginUser데이터받음 : " + result[0]);
+        Log.e("test-Main액티비티", "allBattle리스트 받음 : " + result2[0]);
+        loginUser = gson.fromJson(result[0], User.class);
+        allBattleList = gson.fromJson(result2[0], new TypeToken<ArrayList<Battle>>() {}.getType());
+
+        try{
+            result3 = task3.execute("app/battleList2/", Integer.toString(loginUser.getTeams().getId())).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Log.e("test-Main액티비티", "myBattle리스트 받음 : " + result3[0]);
+        myBattleList = gson.fromJson(result2[0], new TypeToken<ArrayList<Battle>>() {}.getType());
+
 
         //툴바
         toolbar = findViewById(R.id.toolbar);
@@ -119,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //텍스트
         TextView navName = header.findViewById(R.id.navHeader_tv_username);
         TextView navTName = header.findViewById(R.id.navHeader_tv_tName);
-        navName.setText(loginUser.getUsername()+"("+ loginUser.getNickname()+")");
+        navName.setText(loginUser.getNickname());
         if(loginUser.getTeams() != null){
             navTName.setText(loginUser.getTeams().getName());
             navigationView.getMenu().getItem(1).setTitle("My Team");
@@ -135,10 +156,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         HomeFragment1 fragment1 = new HomeFragment1();
         adapter.addItem(fragment1);
 
-        HomeFragment2 fragment2 = new HomeFragment2();
+        HomeFragment2 fragment2 = new HomeFragment2(myBattleList, loginUser, jwtToken);
         adapter.addItem(fragment2);
 
-        HomeFragment3 fragment3 = new HomeFragment3(loginUser, jwtToken);
+        HomeFragment3 fragment3 = new HomeFragment3(allBattleList, loginUser, jwtToken);
         adapter.addItem(fragment3);
 
         pager.setAdapter(adapter);
@@ -146,25 +167,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //상단 탭 네비
         TabLayout tabs = findViewById(R.id.tab_layout);
+        tabs.addTab(tabs.newTab().setText("용병구함"));
         tabs.addTab(tabs.newTab().setText("내 경기"));
-        tabs.addTab(tabs.newTab().setText("내 점수"));
-        tabs.addTab(tabs.newTab().setText("내 팀"));
+        tabs.addTab(tabs.newTab().setText("모든 경기"));
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 int position = tab.getPosition();
-                String text = "";
                 String title = "";
                 if(position == 0){
-                    text = "상단탭 1 선택";
-                    title = "내 경기";
+                    title = "용병구함";
                 }else if(position == 1){
-                    text = "상단탭 2 선택";
-                    title = "내 점수";
+                    title = "내 경기";
                 }else if(position == 2){
-                    title = "내 팀";
+                    title = "모든 경기";
                 }
-                Toast.makeText(getApplicationContext(), text,Toast.LENGTH_SHORT).show();
                 pager.setCurrentItem(position,true);   // true = 페이지 전환시 스무스
                 toolbar.setTitle(title);
             }

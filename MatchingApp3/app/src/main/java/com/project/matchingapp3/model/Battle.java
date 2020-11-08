@@ -2,13 +2,15 @@ package com.project.matchingapp3.model;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 public class Battle implements Serializable {
     private int id;
     private TeamInfo teamInfo1;
     private TeamInfo teamInfo2;
     private String location;
-    private Date createDate;
+    private Timestamp createDate;
     private String matchDate;
     private String info;
     private int role; //0 일때 신청 1일때 수락 2일때 거절
@@ -65,11 +67,11 @@ public class Battle implements Serializable {
         this.location = location;
     }
 
-    public Date getCreateDate() {
+    public Timestamp getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Date createDate) {
+    public void setCreateDate(Timestamp createDate) {
         this.createDate = createDate;
     }
 
@@ -119,5 +121,12 @@ public class Battle implements Serializable {
 
     public void setWinerTeam(Team winerTeam) {
         this.winerTeam = winerTeam;
+    }
+
+    //joindate 출력양식
+    public String getDateToString() {
+        Timestamp time = this.getCreateDate();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        return format.format(time);
     }
 }

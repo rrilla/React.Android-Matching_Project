@@ -73,6 +73,7 @@ public class TeamDetailActivity extends AppCompatActivity implements NavigationV
         ImageView ivImage = findViewById(R.id.tDetail_iv_tImage);
         Button btnJoin = findViewById(R.id.tDetail_btnJoin);
         Button btnMatch = findViewById(R.id.tDetail_btnMatch);
+        Button btnModify = findViewById(R.id.tDetail_btnInfo);
 
         tvName.setText(selectTeam.getName());
         tvLocation.setText(selectTeam.getLocation());
@@ -152,8 +153,11 @@ public class TeamDetailActivity extends AppCompatActivity implements NavigationV
             navigationView.getMenu().getItem(1).setTitle("My Team");
         }
 
-        if(selectTeam.getId() != loginUser.getTeams().getId() &&
-        loginUser.getId() == loginUser.getTeams().getOwner().getId()){
+        if(selectTeam.getOwner().getId() == loginUser.getId()){
+            btnJoin.setVisibility(View.GONE);
+            btnModify.setVisibility(View.VISIBLE);
+        }else if(selectTeam.getId() != loginUser.getTeams().getId() &&
+                loginUser.getId() == loginUser.getTeams().getOwner().getId()){
             btnJoin.setVisibility(View.GONE);
             btnMatch.setVisibility(View.VISIBLE);
         }

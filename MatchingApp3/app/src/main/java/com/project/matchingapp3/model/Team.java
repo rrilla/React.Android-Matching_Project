@@ -13,6 +13,59 @@ public class Team implements Serializable {
     private String image;
     private User owner;
     private List<User> users;
+    private List<Party> partys;
+    private List<Battle> battle1;
+    private List<Battle> battle2;
+    private Score score;
+
+    @Override
+    public String toString() {
+        return "Team{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", location='" + location + '\'' +
+                ", explaintation='" + explaintation + '\'' +
+                ", image='" + image + '\'' +
+                ", owner=" + owner +
+                ", users=" + users +
+                ", partys=" + partys +
+                ", battle1=" + battle1 +
+                ", battle2=" + battle2 +
+                ", score=" + score +
+                '}';
+    }
+
+    public List<Party> getPartys() {
+        return partys;
+    }
+
+    public void setPartys(List<Party> partys) {
+        this.partys = partys;
+    }
+
+    public List<Battle> getBattle1() {
+        return battle1;
+    }
+
+    public void setBattle1(List<Battle> battle1) {
+        this.battle1 = battle1;
+    }
+
+    public List<Battle> getBattle2() {
+        return battle2;
+    }
+
+    public void setBattle2(List<Battle> battle2) {
+        this.battle2 = battle2;
+    }
+
+    public Score getScore() {
+        return score;
+    }
+
+    public void setScore(Score score) {
+        this.score = score;
+    }
 
     public Team(){}
 
@@ -20,18 +73,6 @@ public class Team implements Serializable {
         this.name = name;
         this.location = location;
         this.image = image;
-    }
-
-    @Override
-    public String toString() {
-        return "Team{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", explaintation='" + explaintation + '\'' +
-                ", image='" + image + '\'' +
-                ", owner=" + owner +
-                ", users=" + users +
-                '}';
     }
 
     public String getLocation() {

@@ -36,7 +36,7 @@ public class UserFragment1 extends Fragment {
         this.jwtToken = jwtToken;
 
         //this.users.addAll(users);
-        Log.e("noteam-유저리스트프래그받음?", users.toString());
+        Log.e("noitem-유저리스트프래그받음?", users.toString());
     }
 
     @Override
@@ -51,7 +51,7 @@ public class UserFragment1 extends Fragment {
 
         adapter = new UserListAdapter();
         adapter.setItems(users);
-        Log.e("noteam-유저어댑터관리 아이템개수",":"+adapter.getItemCount());
+        Log.e("noitem-유저어댑터관리 아이템개수",":"+adapter.getItemCount());
 
         recyclerView.setAdapter(adapter);
 

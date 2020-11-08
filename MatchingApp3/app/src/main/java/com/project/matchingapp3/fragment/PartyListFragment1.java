@@ -34,7 +34,7 @@ import java.util.concurrent.ExecutionException;
 
 public class PartyListFragment1 extends Fragment {
 
-    private ArrayList<Party> party;
+    private ArrayList<Party> partyList;
     private User loginUser;
     private String jwtToken;
 
@@ -44,14 +44,14 @@ public class PartyListFragment1 extends Fragment {
 
     public PartyListFragment1(){}
 
-    public PartyListFragment1(ArrayList<Party> party, User loginUser, String jwtToken){
-        this.party = party;
+    public PartyListFragment1(ArrayList<Party> partyList, User loginUser, String jwtToken){
+        this.partyList = partyList;
         this.loginUser = loginUser;
         this.jwtToken = jwtToken;
 
         //this.users.addAll(party);
-        if(party != null && party.size() != 0){
-            Log.e("test-partyList프래그먼트1", "파티리스트받음 : " + party.toString());
+        if(partyList != null && partyList.size() != 0){
+            Log.e("test-partyList프래그먼트1", "파티리스트받음 : " + partyList.toString());
         }else{
             Log.e("test-partyList프래그먼트1", "파티리스트프래그 안받았다");
         }
@@ -60,8 +60,8 @@ public class PartyListFragment1 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //party리스트 없을시 띄울 화면
-        if(party == null || party.size() == 0){
-            final ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.noteam, container, false);
+        if(partyList == null || partyList.size() == 0){
+            final ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.noitem, container, false);
             TextView tvMsg = rootView.findViewById(R.id.noitem_tv_message);
             Button btnPage = rootView.findViewById(R.id.noitem_btn_teampage);
 
@@ -93,7 +93,7 @@ public class PartyListFragment1 extends Fragment {
             return rootView;
         }
 
-        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.partylist_fragment1, container, false);
+        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_party_list1, container, false);
         recyclerView = rootView.findViewById(R.id.recyclerView);
         //리사이클러뷰에 설정할 레이아웃 매니저 - 방향세로로 설정함.
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
@@ -103,7 +103,7 @@ public class PartyListFragment1 extends Fragment {
         if (loginUser.getTeams() == null){
 
             adapterTeam = new PartyTeamAdapter();
-            adapterTeam.setItems(party);
+            adapterTeam.setItems(partyList);
             Log.e("test-partyList프래그먼트1", "파티 팀 어댑터 관리수:" + adapterTeam.getItemCount());
 
             recyclerView.setAdapter(adapterTeam);
@@ -140,9 +140,9 @@ public class PartyListFragment1 extends Fragment {
                     Log.e("test-partyList프래그먼트", "팀가입요청 결과 : " + result[0]);
 
                     if(result[0].equals("ok")){
-                        party.remove(position);
+                        partyList.remove(position);
                         adapterTeam.notifyItemRemoved(position);
-                        adapterTeam.notifyItemRangeChanged(position, party.size());
+                        adapterTeam.notifyItemRangeChanged(position, partyList.size());
                         Toast.makeText(view.getContext(), "가입 수락 완료.",Toast.LENGTH_SHORT).show();
                     }else{
                         Toast.makeText(view.getContext(), "에러.  " + result[0],Toast.LENGTH_SHORT).show();
@@ -152,7 +152,7 @@ public class PartyListFragment1 extends Fragment {
         //팀있을시 팀 가입신청 리스트
         }else{
             adapterUser = new PartyUserAdapter();
-            adapterUser.setItems(party);
+            adapterUser.setItems(partyList);
             Log.e("test-partyList프래그먼트1", "파티 유저 어댑터 관리수:" + adapterUser.getItemCount());
 
             recyclerView.setAdapter(adapterUser);
@@ -196,9 +196,9 @@ public class PartyListFragment1 extends Fragment {
                     Log.e("test-partyList프래그먼트", "팀가입요청 결과 : " + result[0]);
 
                     if(result[0].equals("ok")){
-                        party.remove(position);
+                        partyList.remove(position);
                         adapterUser.notifyItemRemoved(position);
-                        adapterUser.notifyItemRangeChanged(position, party.size());
+                        adapterUser.notifyItemRangeChanged(position, partyList.size());
                         Toast.makeText(view.getContext(), "가입 승인 완료.",Toast.LENGTH_SHORT).show();
                     }else{
                         Toast.makeText(view.getContext(), "에러.  " + result[0],Toast.LENGTH_SHORT).show();
