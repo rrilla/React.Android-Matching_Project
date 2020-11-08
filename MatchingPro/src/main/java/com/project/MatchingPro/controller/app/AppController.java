@@ -92,8 +92,20 @@ public class AppController {
 	}
 	
 	//팀 아이디로 배틀리스트
-	@PostMapping("/battleList/{teamid}")
+	@PostMapping("app/battleList/{teamid}")
 	public List<Battle> teamByList(@PathVariable int teamid){
-		return battleRepository.mfindAll(teamid);
+		return battleRepository.waitingFindAll(teamid);
+	}
+	
+	//수락한 모든 배틀리스트
+	@PostMapping("app/battleList")
+	public List<Battle> battleList(){
+		return battleRepository.acceptAFindAll();
+	}
+	
+	//수락한 모든 내팀의 배틀리스트
+	@PostMapping("app/battleList2/{teamid}")
+	public List<Battle> battleList2(@PathVariable int teamid){
+		return battleRepository.acceptMFindAll(teamid);
 	}
 }

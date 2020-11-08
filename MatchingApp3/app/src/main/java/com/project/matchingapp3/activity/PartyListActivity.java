@@ -75,7 +75,7 @@ public class PartyListActivity extends AppCompatActivity implements NavigationVi
         if(loginUser.getTeams() != null) {
             try {
                 result = task.execute("user/app/teamPartyList").get();
-                result2 = task2.execute("battleList/", Integer.toString(loginUser.getTeams().getId())).get();
+                result2 = task2.execute("app/battleList/", Integer.toString(loginUser.getTeams().getId())).get();
             } catch (ExecutionException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {
@@ -165,27 +165,21 @@ public class PartyListActivity extends AppCompatActivity implements NavigationVi
         }else{
             tabs.addTab(tabs.newTab().setText("팀 가입 신청"));
         }
-        tabs.addTab(tabs.newTab().setText("매치"));
+        tabs.addTab(tabs.newTab().setText("진행중인 매칭"));
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 int position = tab.getPosition();
-                String text = "";
                 String title = "";
                 if(position == 0){
                     if(loginUser.getTeams() == null){
-                        text = "상단탭 1 선택";
                         title = "팀 스카웃 제의";
                     }else{
-                        text = "상단탭 1 선택";
                         title = "팀 가입 신청";
                     }
-
                 }else if(position == 1){
-                    text = "상단탭 2 선택";
-                    title = "매치";
+                    title = "진행중인 매칭";
                 }
-                Toast.makeText(getApplicationContext(), text,Toast.LENGTH_SHORT).show();
                 pager.setCurrentItem(position,true);   // true = 페이지 전환시 스무스
                 toolbar.setTitle(title);
             }

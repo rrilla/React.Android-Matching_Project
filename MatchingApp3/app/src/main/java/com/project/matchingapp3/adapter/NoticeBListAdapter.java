@@ -138,7 +138,14 @@ public class NoticeBListAdapter extends RecyclerView.Adapter<NoticeBListAdapter.
             tvDateMatch.setText(item.getMatchDate());
             tvLocation.setText(item.getLocation());
             tvInfo.setText(item.getInfo());
-            if(loginTeamId == item.getRequestTeam().getId()){
+
+            if(loginTeamId == 0){
+                btnDetail.setText("Home팀 보기");
+                btnMatch.setText("Away팀 보기");
+            }else if(loginTeamId == -1){
+                btnDetail.setText("상대팀 보기");
+                btnMatch.setVisibility(View.GONE);
+            }else if(loginTeamId == item.getRequestTeam().getId()){
                 btnMatch.setVisibility(View.GONE);
             }
             Glide.with(view).load(item.getRequestTeam().getUrlImage()).into(ivReqImage);
