@@ -10,7 +10,6 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -35,11 +34,13 @@ import com.project.matchingapp3.activity.TeamDetailActivity;
 import com.project.matchingapp3.adapter.ViewPagerAdapter;
 import com.project.matchingapp3.fragment.TeamFragment1;
 import com.project.matchingapp3.fragment.TeamFragment2;
+import com.project.matchingapp3.model.Party;
+import com.project.matchingapp3.model.Score;
 import com.project.matchingapp3.model.Team;
 import com.project.matchingapp3.model.User;
-import com.project.matchingapp3.model.dto.NavDataDto;
 import com.project.matchingapp3.task.RestAPITask;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -53,6 +54,9 @@ public class TeamActivity extends AppCompatActivity implements NavigationView.On
     User loginUser;
     String jwtToken;
 
+    List<Team> tList;
+    ArrayList<Score> rank;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,17 +68,23 @@ public class TeamActivity extends AppCompatActivity implements NavigationView.On
 
         String[] result = new String[1];
         RestAPITask task = new RestAPITask(jwtToken);
+        String[] result2 = new String[1];
+        RestAPITask task2 = new RestAPITask(jwtToken);
 
         try {
             result = task.execute("app/teamList").get();
+            result2 = task2.execute("rank").get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        Log.e("noitem-팀리스트받기",result[0]);
+        Log.e("test-Team액티비티", "팀리스트 받기" + result[0]);
+        Log.e("test-Team액티비티", "랭킹리스트 받기" + result2[0]);
         Gson gson = new Gson();
-        List<Team> tList = gson.fromJson(result[0], new TypeToken<List<Team>>(){}.getType());
+        tList = gson.fromJson(result[0], new TypeToken<List<Team>>(){}.getType());
+        rank = gson.fromJson(result2[0], new TypeToken<ArrayList<Score>>() {}.getType());
+
 
         //툴바
         toolbar = findViewById(R.id.toolbar);
@@ -133,7 +143,7 @@ public class TeamActivity extends AppCompatActivity implements NavigationView.On
         TeamFragment1 fragment1 = new TeamFragment1(tList, loginUser, jwtToken);
         adapter.addItem(fragment1);
 
-        TeamFragment2 fragment2 = new TeamFragment2();
+        TeamFragment2 fragment2 = new TeamFragment2(rank, loginUser, jwtToken);
         adapter.addItem(fragment2);
 
         pager.setAdapter(adapter);
@@ -147,16 +157,12 @@ public class TeamActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 int position = tab.getPosition();
-                String text = "";
                 String title = "";
                 if(position == 0){
-                    text = "상단탭 1 선택";
                     title = "팀 목록";
                 }else if(position == 1){
-                    text = "상단탭 2 선택";
                     title = "팀 랭킹";
                 }
-                Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
                 pager.setCurrentItem(position,true);   // true = 페이지 전환시 스무스
                 toolbar.setTitle(title);
             }

@@ -107,7 +107,7 @@ public class BattleActivity extends AppCompatActivity implements NavigationView.
             @Override
             public void onClick(View view) {
                 if(checkUsers.size() != 11){
-                    Snackbar.make(view, "선택 실패. 11명만 선택 가능합니다. 선택 수 = '" + checkUsers.size() + "'명", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(view, "선택 실패. 11명을 선택 해야합니다. 선택 수 = '" + checkUsers.size() + "'명", Snackbar.LENGTH_SHORT).show();
                     return;
                 }
                 teamInfo.setUser1((User)checkUsers.get(0));

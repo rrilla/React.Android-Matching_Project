@@ -1,6 +1,5 @@
 package com.project.matchingapp3.fragment;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -19,13 +18,10 @@ import android.widget.TextView;
 import com.google.android.material.snackbar.Snackbar;
 import com.project.matchingapp3.R;
 import com.project.matchingapp3.TeamActivity;
-import com.project.matchingapp3.UserActivity;
 import com.project.matchingapp3.activity.TeamDetailActivity;
 import com.project.matchingapp3.adapter.NoticeBListAdapter;
 import com.project.matchingapp3.adapter.OnNoticeBClickListener;
-import com.project.matchingapp3.adapter.PartyTeamAdapter;
 import com.project.matchingapp3.model.Battle;
-import com.project.matchingapp3.model.Party;
 import com.project.matchingapp3.model.User;
 
 import java.util.ArrayList;
@@ -89,6 +85,7 @@ public class PartyListFragment2 extends Fragment {
                     }
                 });
             }
+
             return rootView;
         }
 
@@ -132,6 +129,7 @@ public class PartyListFragment2 extends Fragment {
                 }
             }
         });
+
         return rootView;
     }
 }

@@ -87,6 +87,9 @@ public class RestAPITask extends AsyncTask<String, Object, String[]> {
         }else if(json[0].equals("app/battleList2/")){
             reqUrl = json[0];
             serverUrl += reqUrl + json[1];
+        }else if(json[0].equals("rank")){
+            reqUrl = json[0];
+            serverUrl += reqUrl;
         }
 
         try {

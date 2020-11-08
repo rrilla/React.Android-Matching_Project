@@ -38,6 +38,8 @@ public class TeamFragment1 extends Fragment {
     private RecyclerView recyclerView;
     TeamListAdapter adapter;
 
+    public TeamFragment1(){}
+
     public TeamFragment1(List<Team> teams, User loginUser, String jwtToken){
         this.teams = (ArrayList<Team>) teams;
         this.loginUser = loginUser;
@@ -52,7 +54,6 @@ public class TeamFragment1 extends Fragment {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.team_fragment1, container, false);
 
         recyclerView = rootView.findViewById(R.id.recyclerView);
-
         //리사이클러뷰에 설정할 레이아웃 매니저 - 방향세로로 설정함.
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);

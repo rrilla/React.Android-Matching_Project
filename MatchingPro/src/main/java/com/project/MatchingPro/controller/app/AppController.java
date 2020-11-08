@@ -20,6 +20,8 @@ import com.project.MatchingPro.domain.battle.Battle;
 import com.project.MatchingPro.domain.battle.BattleRepository;
 import com.project.MatchingPro.domain.party.Party;
 import com.project.MatchingPro.domain.party.PartyRepository;
+import com.project.MatchingPro.domain.score.Score;
+import com.project.MatchingPro.domain.score.ScoreRepository;
 import com.project.MatchingPro.domain.team.Team;
 import com.project.MatchingPro.domain.team.TeamRepository;
 import com.project.MatchingPro.domain.teamInfo.TeamInfo;
@@ -38,13 +40,12 @@ import lombok.RequiredArgsConstructor;
 public class AppController {
 	
 	private final AppService appService;
-	private final UserService userService;
 	private final UserRepository userRepository;
 	private final TeamRepository teamRepository;
 	private final PartyRepository partyRepository;
 	private final HttpSession session;
-	private final TeamInfoService teamInfoService;
 	private final BattleRepository battleRepository;
+	private final ScoreRepository scoreRepository;
 
 	//유저 상세보기
 	@PostMapping("user/app/loginUser")
@@ -107,5 +108,10 @@ public class AppController {
 	@PostMapping("app/battleList2/{teamid}")
 	public List<Battle> battleList2(@PathVariable int teamid){
 		return battleRepository.acceptMFindAll(teamid);
+	}
+	
+	@PostMapping("/rank")
+	public List<Score> rank(){
+		return scoreRepository.rank();
 	}
 }
