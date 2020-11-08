@@ -26,7 +26,7 @@ public class PartyUserAdapter extends RecyclerView.Adapter<PartyUserAdapter.View
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-        View itemView = inflater.inflate(R.layout.partlist_item, viewGroup, false);
+        View itemView = inflater.inflate(R.layout.item_partylist, viewGroup, false);
 
         return new ViewHolder(itemView, listener1, listener2);
     }

@@ -73,10 +73,10 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        Log.e("noteam-유저리스트받기",result[0]);
+        Log.e("noitem-유저리스트받기",result[0]);
         Gson gson = new Gson();
         List<User> uList = gson.fromJson(result[0], new TypeToken<List<User>>(){}.getType());
-        Log.e("noteam-유저리스트", uList.toString());
+        Log.e("noitem-유저리스트", uList.toString());
 
         //툴바
         toolbar = findViewById(R.id.toolbar);

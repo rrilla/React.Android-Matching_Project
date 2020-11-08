@@ -72,7 +72,7 @@ public class TeamActivity extends AppCompatActivity implements NavigationView.On
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        Log.e("noteam-팀리스트받기",result[0]);
+        Log.e("noitem-팀리스트받기",result[0]);
         Gson gson = new Gson();
         List<Team> tList = gson.fromJson(result[0], new TypeToken<List<Team>>(){}.getType());
 

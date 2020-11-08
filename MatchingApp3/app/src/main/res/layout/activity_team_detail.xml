@@ -114,7 +114,14 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:visibility="gone"
-                            android:text="매칭 신청" />
+                            android:text="경기 신청" />
+
+                        <Button
+                            android:id="@+id/tDetail_btnInfo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:text="팀 정보 수정" />
                     </LinearLayout>
                 </LinearLayout>
                 <LinearLayout

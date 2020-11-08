@@ -26,7 +26,7 @@ public class TeamInfoController {
 	public ResponseEntity<?> teamInfoRegister(@RequestBody TeamInfo teamInfo) {
 		User user = (User)session.getAttribute("principal");
 		System.out.println("controller 들어옴");
-		System.out.println(teamInfo.getUser1());
+		//System.out.println(teamInfo.getUser1());
 		return teamInfoService.teamInfoRegister(teamInfo, user);
 	}
 }

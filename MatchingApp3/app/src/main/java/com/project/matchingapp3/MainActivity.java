@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        Log.d("noteam-loginUser데이터받음",result1[0]);
+        Log.d("noitem-loginUser데이터받음",result1[0]);
         Gson gson = new Gson();
         loginUser = gson.fromJson(result1[0], User.class);
 
@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //텍스트
         TextView navName = header.findViewById(R.id.navHeader_tv_username);
         TextView navTName = header.findViewById(R.id.navHeader_tv_tName);
-        navName.setText(loginUser.getUsername()+"("+ loginUser.getNickname()+")");
+        navName.setText(loginUser.getNickname());
         if(loginUser.getTeams() != null){
             navTName.setText(loginUser.getTeams().getName());
             navigationView.getMenu().getItem(1).setTitle("My Team");
@@ -146,8 +146,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //상단 탭 네비
         TabLayout tabs = findViewById(R.id.tab_layout);
+        tabs.addTab(tabs.newTab().setText("용병구함"));
         tabs.addTab(tabs.newTab().setText("내 경기"));
-        tabs.addTab(tabs.newTab().setText("내 점수"));
         tabs.addTab(tabs.newTab().setText("내 팀"));
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -157,10 +157,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 String title = "";
                 if(position == 0){
                     text = "상단탭 1 선택";
-                    title = "내 경기";
+                    title = "용병구함";
                 }else if(position == 1){
                     text = "상단탭 2 선택";
-                    title = "내 점수";
+                    title = "내 경기";
                 }else if(position == 2){
                     title = "내 팀";
                 }

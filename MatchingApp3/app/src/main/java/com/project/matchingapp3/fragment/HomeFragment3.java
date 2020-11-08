@@ -32,7 +32,7 @@ public class HomeFragment3 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         if(loginUser.getTeams() == null){
-            final ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.noteam, container, false);
+            final ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.noitem, container, false);
             Button btnTeam = rootView.findViewById(R.id.noitem_btn_teampage);
             btnTeam.setOnClickListener(new View.OnClickListener() {
                 @Override

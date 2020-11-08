@@ -78,13 +78,16 @@ public class RestAPITask extends AsyncTask<String, Object, String[]> {
             reqUrl = json[0];
             serverUrl += reqUrl + json[1];
             reqData = json[2];
+        }else if(json[0].equals("battleList/")){
+            reqUrl = json[0];
+            serverUrl += reqUrl + json[1];
         }
 
         try {
             String str = "";
             URL url = new URL(serverUrl);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            Log.d("noteam","토큰대가리심음 : "+authorization);
+            Log.d("noitem","토큰대가리심음 : "+authorization);
             conn.setRequestProperty("Authorization", authorization);   //토큰
             conn.setRequestProperty("Content-Type", contentType);
             conn.setRequestMethod(method);
@@ -114,7 +117,7 @@ public class RestAPITask extends AsyncTask<String, Object, String[]> {
                         for(Iterator i = c.iterator(); i.hasNext(); ) {
                             authorization = (String)i.next();
                         }
-                        Log.d("noteam-받은header 토큰값", authorization);
+                        Log.d("noitem-받은header 토큰값", authorization);
                     }
                     Log.d("test-RestAPITsk", "reqData : " + reqData);
                     Log.d("test-RestAPITsk", "resData : " + resData);
@@ -133,13 +136,13 @@ public class RestAPITask extends AsyncTask<String, Object, String[]> {
 
                 Log.d("응답 코드", conn.getResponseCode()+"에러");    //응답코드받기
                 Log.d("응답 메시지", conn.getResponseMessage());    //응답메시지
-                Log.d("noteam", "응답코드가 ok가 아님");
+                Log.d("noitem", "응답코드가 ok가 아님");
             }
         } catch (MalformedURLException e) {
-            Log.d("noteam","MalformedURLException");
+            Log.d("noitem","MalformedURLException");
             e.printStackTrace();
         } catch (IOException e) {
-            Log.d("noteam","IOException");
+            Log.d("noitem","IOException");
             e.printStackTrace();
         }
         Log.d("test-RestAPITsk", "req body data : " + reqData);

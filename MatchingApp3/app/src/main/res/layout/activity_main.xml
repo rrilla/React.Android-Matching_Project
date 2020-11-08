@@ -32,8 +32,7 @@
                 android:background="#D5D5D5"
                 android:elevation="1dp"
                 app:tabGravity="fill"
-                app:tabMode="fixed"
-                />
+                app:tabMode="fixed" />
 
         </com.google.android.material.appbar.AppBarLayout>
 

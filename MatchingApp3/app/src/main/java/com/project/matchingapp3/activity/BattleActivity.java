@@ -148,7 +148,7 @@ public class BattleActivity extends AppCompatActivity implements NavigationView.
                 etLocation = findViewById(R.id.battle_et_location);
                 etDate = findViewById(R.id.battle_et_date);
                 etInfo = findViewById(R.id.battle_et_info);
-                if(etLocation == null || etDate == null || etInfo == null){
+                if(etLocation.getText() == null || etDate.getText() == null || etInfo.getText() == null){
                     Snackbar.make(view, "빈 값을 다 채워주세요.", Snackbar.LENGTH_SHORT).show();
                     return;
                 }
@@ -158,8 +158,8 @@ public class BattleActivity extends AppCompatActivity implements NavigationView.
                 }
                 Battle battle = new Battle();
                 battle.setLocation(etLocation.getText().toString());
-                battle.setMatchDate(etLocation.getText().toString());
-                battle.setInfo(etLocation.getText().toString());
+                battle.setMatchDate(etDate.getText().toString());
+                battle.setInfo(etInfo.getText().toString());
 
                 String[] result2 = new String[1];
                 RestAPITask task2 = new RestAPITask(jwtToken);
@@ -173,7 +173,7 @@ public class BattleActivity extends AppCompatActivity implements NavigationView.
                 Log.e("test-Battle액티비티", "매치 신청하기 클릭 : " + result2[0]);
                 if(result2[0].equals("ok")){
                     Snackbar.make(view, "매치 신청 완료.", Snackbar.LENGTH_SHORT).show();
-                    btnChoice.setClickable(false);
+                    //매치 리스트로 보내기
                 }else {
                     Snackbar.make(view, "매치 신청 실패. " + result2[0], Snackbar.LENGTH_SHORT).show();
                 }
@@ -314,7 +314,7 @@ public class BattleActivity extends AppCompatActivity implements NavigationView.
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.appbar_menu, menu);
-        toolbar.setTitle("매칭 신청");
+        toolbar.setTitle("경기 신청");
         return true;
     }
 

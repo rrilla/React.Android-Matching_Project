@@ -122,7 +122,8 @@
                         android:gravity="right"
                         android:background="#E7E7E7"
                         android:layout_marginBottom="15dp"
-                        android:inputType="date" />
+                        android:hint="ex) 2020/12/25/오후3시"
+                        android:inputType="textPersonName" />
 
                     <TextView
                         android:gravity="right"
@@ -157,7 +158,7 @@
                     android:id="@+id/battle_btn_match"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="매칭 신청 하기" />
+                    android:text="경기 신청 하기" />
             </LinearLayout>
 
             <com.google.android.material.bottomnavigation.BottomNavigationView
