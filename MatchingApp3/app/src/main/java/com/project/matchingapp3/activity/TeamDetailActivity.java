@@ -163,6 +163,7 @@ public class TeamDetailActivity extends AppCompatActivity implements NavigationV
                 Intent intent = new Intent(getApplicationContext(), BattleActivity.class);
                 intent.putExtra("jwtToken", jwtToken);
                 intent.putExtra("loginUser", loginUser);
+                intent.putExtra("selectTeam", selectTeam);
                 startActivity(intent);
             }
         });

@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +35,7 @@ import com.project.matchingapp3.TeamActivity;
 import com.project.matchingapp3.UserActivity;
 import com.project.matchingapp3.adapter.BattleUsersAdapter;
 import com.project.matchingapp3.adapter.OnBattleUClickListener;
+import com.project.matchingapp3.model.Battle;
 import com.project.matchingapp3.model.Team;
 import com.project.matchingapp3.model.TeamInfo;
 import com.project.matchingapp3.model.User;
@@ -55,9 +57,13 @@ public class BattleActivity extends AppCompatActivity implements NavigationView.
 
     User loginUser;
     String jwtToken;
+    Team selectTeam;
 
     HashMap checkUsers = new HashMap();
     TeamInfo teamInfo = new TeamInfo();
+    Gson gson = new Gson();
+    Button btnChoice, btnMatch;
+    EditText etLocation, etDate, etInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +73,7 @@ public class BattleActivity extends AppCompatActivity implements NavigationView.
         Intent intent = getIntent();
         jwtToken = intent.getStringExtra("jwtToken");
         loginUser = (User)intent.getSerializableExtra("loginUser");
+        selectTeam = (Team)intent.getSerializableExtra("selectTeam");
 
         recyclerView = findViewById(R.id.recyclerView);
         //리사이클러뷰에 설정할 레이아웃 매니저 - 방향세로로 설정함.
@@ -95,29 +102,28 @@ public class BattleActivity extends AppCompatActivity implements NavigationView.
                 Log.e("test-Battle액티비티", "저장데이터 : " + checkUsers.toString());
             }
         });
-        Button btnChoice = findViewById(R.id.battle_btn_choice);
+        btnChoice = findViewById(R.id.battle_btn_choice);
         btnChoice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(checkUsers.size() != 10){
+                if(checkUsers.size() != 11){
                     Snackbar.make(view, "선택 실패. 11명만 선택 가능합니다. 선택 수 = '" + checkUsers.size() + "'명", Snackbar.LENGTH_SHORT).show();
                     return;
                 }
-                    teamInfo.setTeam(loginUser.getTeams());
-                    teamInfo.setUser2((User)checkUsers.get(0));
-                    teamInfo.setUser3((User)checkUsers.get(1));
-                    teamInfo.setUser4((User)checkUsers.get(2));
-                    teamInfo.setUser5((User)checkUsers.get(3));
-                    teamInfo.setUser6((User)checkUsers.get(4));
-                    teamInfo.setUser7((User)checkUsers.get(5));
-                    teamInfo.setUser8((User)checkUsers.get(6));
-                    teamInfo.setUser9((User)checkUsers.get(7));
-                    teamInfo.setUser10((User)checkUsers.get(8));
-                    teamInfo.setUser11((User)checkUsers.get(9));
-                    //teamInfo.setUser11((User)checkUsers.get(10));
+                teamInfo.setUser1((User)checkUsers.get(0));
+                teamInfo.setUser2((User)checkUsers.get(1));
+                teamInfo.setUser3((User)checkUsers.get(2));
+                teamInfo.setUser4((User)checkUsers.get(3));
+                teamInfo.setUser5((User)checkUsers.get(4));
+                teamInfo.setUser6((User)checkUsers.get(5));
+                teamInfo.setUser7((User)checkUsers.get(6));
+                teamInfo.setUser8((User)checkUsers.get(7));
+                teamInfo.setUser9((User)checkUsers.get(8));
+                teamInfo.setUser10((User)checkUsers.get(9));
+                teamInfo.setUser11((User)checkUsers.get(10));
+
                 String[] result = new String[1];
                 RestAPITask task = new RestAPITask(jwtToken);
-                Gson gson = new Gson();
                 try {
                     result = task.execute("user/teamInfo", gson.toJson(teamInfo)).get();
                 } catch (ExecutionException e) {
@@ -125,8 +131,52 @@ public class BattleActivity extends AppCompatActivity implements NavigationView.
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                Log.e("test-Battle액티비티", "받은데이터 : " + result[0]);
-                //List<Team> tList = gson.fromJson(result[0], new TypeToken<List<Team>>(){}.getType());
+                Log.e("test-Battle액티비티", "선수선택 클릭 : " + result[0]);
+                if(result[0].equals("ok")){
+                    Snackbar.make(view, "팀 선택 완료.", Snackbar.LENGTH_SHORT).show();
+                    btnChoice.setClickable(false);
+                    btnChoice.setEnabled(false);
+                }else {
+                    Snackbar.make(view, "팀 선택 실패. " + result[0], Snackbar.LENGTH_SHORT).show();
+                }
+            }
+        });
+        btnMatch = findViewById(R.id.battle_btn_match);
+        btnMatch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                etLocation = findViewById(R.id.battle_et_location);
+                etDate = findViewById(R.id.battle_et_date);
+                etInfo = findViewById(R.id.battle_et_info);
+                if(etLocation == null || etDate == null || etInfo == null){
+                    Snackbar.make(view, "빈 값을 다 채워주세요.", Snackbar.LENGTH_SHORT).show();
+                    return;
+                }
+                if(btnChoice.isClickable()){
+                    Snackbar.make(view, "참여 선수를 먼저 선택하세요.", Snackbar.LENGTH_SHORT).show();
+                    return;
+                }
+                Battle battle = new Battle();
+                battle.setLocation(etLocation.getText().toString());
+                battle.setMatchDate(etLocation.getText().toString());
+                battle.setInfo(etLocation.getText().toString());
+
+                String[] result2 = new String[1];
+                RestAPITask task2 = new RestAPITask(jwtToken);
+                try {
+                    result2 = task2.execute("user/matchApply/", Integer.toString(selectTeam.getId()), gson.toJson(battle)).get();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Log.e("test-Battle액티비티", "매치 신청하기 클릭 : " + result2[0]);
+                if(result2[0].equals("ok")){
+                    Snackbar.make(view, "매치 신청 완료.", Snackbar.LENGTH_SHORT).show();
+                    btnChoice.setClickable(false);
+                }else {
+                    Snackbar.make(view, "매치 신청 실패. " + result2[0], Snackbar.LENGTH_SHORT).show();
+                }
             }
         });
 

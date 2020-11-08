@@ -19,7 +19,7 @@ public class User implements Serializable {
     private String location;
     private String image;
     private String role; // 권한
-    private Timestamp joindate;
+    //private Timestamp joindate;
     private Team teams;
     private List<Party> partys;
 
@@ -127,13 +127,13 @@ public class User implements Serializable {
         this.role = role;
     }
 
-    public Timestamp getJoindate() {
-        return joindate;
-    }
-
-    public void setJoindate(Timestamp joindate) {
-        this.joindate = joindate;
-    }
+//    public Timestamp getJoindate() {
+//        return joindate;
+//    }
+//
+//    public void setJoindate(Timestamp joindate) {
+//        this.joindate = joindate;
+//    }
 
     @Override
     public String toString() {
@@ -149,7 +149,7 @@ public class User implements Serializable {
                 ", location='" + location + '\'' +
                 ", image='" + image + '\'' +
                 ", role='" + role + '\'' +
-                ", joindate=" + joindate +
+               // ", joindate=" + joindate +
                 ", teams=" + teams +
                 '}';
     }
@@ -163,9 +163,9 @@ public class User implements Serializable {
     }
 
     //joindate 출력양식
-    public String getDate() {
-        Timestamp time = this.getJoindate();
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        return format.format(time);
-    }
+//    public String getDate() {
+//        Timestamp time = this.getJoindate();
+//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+//        return format.format(time);
+//    }
 }
