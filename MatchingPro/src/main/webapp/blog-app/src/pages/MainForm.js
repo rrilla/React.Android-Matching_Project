@@ -11,6 +11,7 @@ import TitleH1TagStyle from './constant/TitleH1TagStyle';
 import TitleH3TagStyle from './constant/TitleH3TagStyle';
 import Br2 from './constant/Br2';
 import Footer from '../components/Footer';
+import TeamCreateModal from "../components/modal/TeamCreateModal";
 
 
 const MainCardStyle = styled.div`
@@ -18,6 +19,10 @@ const MainCardStyle = styled.div`
     width: 100%;
     margin: auto;
 `;
+const JumbotronStyle=styled.div`
+opacity: 0.9;
+`;
+
 
 const MainForm = () => {
   useEffect(() => {
@@ -61,11 +66,11 @@ const MainForm = () => {
       <Slide />
       <Row>
         <MainCardStyle>
+          <JumbotronStyle>
           <Jumbotron>
             <TitleH1TagStyle msg="아마추어 축구 여기서 시작하세요!"></TitleH1TagStyle>
-            <Button variant="info">
-              <Link to="/Team_create"><SpanTagStyle msg="팀 만들기"></SpanTagStyle></Link>
-            </Button>
+            
+            <TeamCreateModal></TeamCreateModal>
             <hr />
 
             <TitleH3TagStyle msg="원하는 팀과 선수를 찾아보세요"></TitleH3TagStyle>
@@ -108,6 +113,7 @@ const MainForm = () => {
               </Tab>
             </Tabs>
           </Jumbotron>
+       </JumbotronStyle>
         </MainCardStyle>
       </Row>
 

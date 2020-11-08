@@ -73,8 +73,10 @@ const Header = (props) => {
               width="30"
               height="30"
               alt="React Bootstrap logo" />{''}
-              &nbsp;MATCH HERO
+
+              &nbsp;FIELD HERO
           </Navbar.Brand>}></LogoStyle>
+
         </Link></Nav.Link>
         {/* 윗 부분 로고 */}
 
