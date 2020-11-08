@@ -49,8 +49,8 @@ const Header = (props) => {
         <NavDropdown title="MYPAGE" id="basic-nav-dropdown">
           <NavDropdown.Item ><Nav.Link><Link to="/Mypage"><SpanTagStyle msg="MYPAGE"></SpanTagStyle></Link></Nav.Link></NavDropdown.Item>
           <NavDropdown.Item ><Nav.Link><Link to="/MyTeam"><SpanTagStyle msg="MYTEAM"></SpanTagStyle></Link></Nav.Link></NavDropdown.Item>
-          <NavDropdown.Divider />
-          <NavDropdown.Item ><Nav.Link><Link to="/"><SpanTagStyle msg="MYTEAM"></SpanTagStyle></Link></Nav.Link></NavDropdown.Item>
+          {/* <NavDropdown.Divider />
+          <NavDropdown.Item ><Nav.Link><Link to="/"><SpanTagStyle msg="MYTEAM"></SpanTagStyle></Link></Nav.Link></NavDropdown.Item> */}
         </NavDropdown>
         {/* <Nav.Link><Link to="/"><SpanTagStyle func={logoutfunction} msg="Logout"></SpanTagStyle></Link></Nav.Link> */}
         <Nav.Link><Link to="/"><SpanStyle onClick={logoutfunction}>Logout</SpanStyle></Link></Nav.Link>

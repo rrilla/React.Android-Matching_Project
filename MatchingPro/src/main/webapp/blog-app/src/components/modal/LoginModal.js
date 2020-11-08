@@ -1,5 +1,6 @@
+// ok
 import React, { useState } from 'react';
-import { Container, Form, Col, Button, Row, ListGroup, Badge, Modal } from 'react-bootstrap';
+import { Container, Form, Col, Button, Modal } from 'react-bootstrap';
 
 function LoginModal(props) {
 	const setToken = props.setToken;
@@ -41,8 +42,11 @@ function LoginModal(props) {
 				}
 			}
 			return res.text();
-		}).then(res => alert(res)
-		);
+		}).then(
+			res => {
+				alert(res);
+				if (res === "ok") handleClose();
+			});
 	}
 
 	return (

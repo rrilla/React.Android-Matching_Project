@@ -1,8 +1,7 @@
 // ok
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Container, Row, Col, Carousel, Jumbotron, Button, Breadcrumb, Card, ListGroup, ListGroupItem, ResponsiveEmbed, Form, FormControl, Modal, Tabs, Tab } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Container, Row, Col, Jumbotron, Tabs, Tab } from 'react-bootstrap';
 import TeamCard from '../components/card/TeamCard';
 import UserCard from '../components/card/UserCard';
 import Slide from '../components/Slide';
@@ -10,19 +9,16 @@ import SpanTagStyle from './constant/SpanTagStyle';
 import TitleH1TagStyle from './constant/TitleH1TagStyle';
 import TitleH3TagStyle from './constant/TitleH3TagStyle';
 import Br2 from './constant/Br2';
-import Footer from '../components/Footer';
 import TeamCreateModal from "../components/modal/TeamCreateModal";
 
-
 const MainCardStyle = styled.div`
-
-    width: 100%;
-    margin: auto;
+  width: 100%;
+  margin: auto;
 `;
+
 const JumbotronStyle=styled.div`
-opacity: 0.9;
+  opacity: 0.9;
 `;
-
 
 const MainForm = () => {
   useEffect(() => {
@@ -116,9 +112,6 @@ const MainForm = () => {
        </JumbotronStyle>
         </MainCardStyle>
       </Row>
-
-
-  
     </Container>
   );
 };

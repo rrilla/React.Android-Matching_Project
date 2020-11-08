@@ -21,8 +21,33 @@ const Team_schedule = (props) => {
 	const [schedule, setSchedule] = useState([]);
 	const [teaminfo, setTeaminfo] = useState([]);	// 해당 page 팀에 대한 정보
 
-	const [team1, setTeam1] = useState({}); // request team member
-	const [team2, setTeam2] = useState({}); // response team member
+	const [team1, setTeam1] = useState({
+		user1: null,
+		user2: null,
+		user3: null,
+		user4: null,
+		user5: null,
+		user6: null,
+		user7: null,
+		user8: null,
+		user9: null,
+		user10: null,
+		user11: null
+	}); // request team member
+
+	const [team2, setTeam2] = useState({
+		user1: null,
+		user2: null,
+		user3: null,
+		user4: null,
+		user5: null,
+		user6: null,
+		user7: null,
+		user8: null,
+		user9: null,
+		user10: null,
+		user11: null
+	}); // response team member
 
 	useEffect(() => {
 		// 해당 id의 팀 battle list

@@ -1,64 +1,8 @@
+// ok
 import React, { useState } from 'react';
-import { Container, Row, Col, Carousel, Jumbotron, Button, Breadcrumb, Card, ListGroup, ListGroupItem, ResponsiveEmbed, Form, FormControl, Modal } from 'react-bootstrap';
-import styled from "styled-components";
-import { Link } from 'react-router-dom';
+import { Container, Row, Col, Button, Form, Modal } from 'react-bootstrap';
 
-/*const Input_style = styled.input`
-			width: 30%;
-			padding: 15px;
-			margin: 5px 0 22px 0;
-			display: inline-block;
-			border: none;
-			background: #f1f1f1;
-			align : center;
-			`;*/
 const JoinModal = () => {
-
-	const handleFileOnChange = (e) => {
-		e.preventDefault();
-		let reader = new FileReader();
-		let file = e.target.files[0];
-		reader.onloadend = () => {
-			setS({
-				file: file,
-				previewURL: reader.result
-			})
-		}
-		reader.readAsDataURL(file);
-	}
-
-	const [s, setS] = useState({
-		file: '',
-		previewURL: ''
-	});
-
-	const render = () => {
-		let profile_preview = null;
-		if (this.state.file !== '') {
-			profile_preview = <img className='profile_preview' src={this.state.previewURL}></img>
-		}
-
-		return (
-			<div>
-				<input type='file'
-					accept='image/jpg,impge/png,image/jpeg,image/gif'
-					name='profile_img'
-					onChange={this.handleFileOnChange}>
-				</input>
-				{profile_preview}
-			</div>
-		)
-	}
-
-	// ----- ----- ----- ----- 
-
-	const LinkStyle = styled.span`
-	color : black;
-	`;
-
-	const SpanStyle = styled.span`
-		line-height:100%
-	`;
 	const [show, setShow] = useState(false);
 
 	const handleClose = () => setShow(false);
@@ -183,6 +127,7 @@ const JoinModal = () => {
 				else return "회원가입 실패하였습니다.";
 			}).then(res => {
 				alert(res);   // 로그인의 결과
+				handleClose();
 			});
 		} else {
 			if (!emptyFlag) alert("빈 값 있음");
@@ -192,25 +137,15 @@ const JoinModal = () => {
 	}
 
 	return (
-
-
-
-		<>
-			<Button variant="dark" onClick={handleShow}>
-				회원가입
-		</Button>
+		<div>
+			<Button variant="dark" onClick={handleShow}>회원가입</Button>
 
 			<Modal show={show} size={"lg"} onHide={handleClose}>
 				<Modal.Header closeButton>
 					<Modal.Title>회원가입</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
-
-
 					<Container>
-						<br /><br /><br /><br /><br />
-
-
 						<Form>
 							<Form.Group as={Col} controlId="formGridEmail">
 								<Form.Label>아이디</Form.Label>
@@ -304,19 +239,8 @@ const JoinModal = () => {
 									value={user.position} />
 							</Form.Group>
 
-
 							<Form.Group as={Col} controlId="formGridEmail">
 								<Button variant="dark" name="name" onClick={openTextFile}>Select Image</Button>{' '}
-
-								<div>
-									<input type='file'
-										accept='image/jpg,impge/png,image/jpeg,image/gif'
-										name='profile_img'
-										onChange={handleFileOnChange}>
-									</input>
-								</div>
-
-
 							</Form.Group>
 
 							<Form.Group as={Col} controlId="formGridEmail">
@@ -327,15 +251,11 @@ const JoinModal = () => {
 					</Container>
 				</Modal.Body>
 				<Modal.Footer>
-					<Button variant="secondary" onClick={handleClose}>
-						Close
-					</Button>
+					<Button variant="secondary" onClick={handleClose}>Close</Button>
 				</Modal.Footer>
 			</Modal>
-		</>
-	);
+		</div>
+	)
 }
-
-
 
 export default JoinModal;
