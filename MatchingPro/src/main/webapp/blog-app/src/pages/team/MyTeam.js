@@ -29,7 +29,7 @@ const MyTeam = () => {
 	const [team, setTeam] = useState([]);
 	const [owner, setOwner] = useState([]);
 	const [users, setUsers] = useState([]);
-	const { id, explaintation, name } = team;
+	const { explaintation, name } = team;
 
 	const [partys, setPartys] = useState([]);
 	const [battles, setBattles] = useState([]);
@@ -43,21 +43,31 @@ const MyTeam = () => {
 
 
 	const [battleIdInModal, setBattleIdInModal] = useState(0);
+	const [battleIdInModalData, setBattleIdInModalData] = useState({});
+
 	const [show3, setShow3] = useState(false);
 	const handleClose3 = () => setShow3(false);
 	const handleShow3 = (id) => {
+		battles.map((res) => (
+			res.id === id
+				?
+				setBattleIdInModalData(res)
+				: null
+		))
 		setBattleIdInModal(id);
 		setShow3(true);
 	};
 
 	const [show2, setShow2] = useState(false);
 	const handleClose2 = () => setShow2(false);
-	const handleShow2 = (id, myTeam, jteam) => {
+	const handleShow2 = (id, myTeam, jteam, location, matchDate) => {
 		setShow2(true);
 		setDeId({
 			id: id,
 			myTeam: myTeam,
-			jteam: jteam
+			jteam: jteam,
+			location: location,
+			matchDate: matchDate
 		});
 	};
 
@@ -76,7 +86,9 @@ const MyTeam = () => {
 	const [deId, setDeId] = useState({
 		id: null,
 		myTeam: null,
-		jteam: null
+		jteam: null,
+		location: null,
+		matchDate: null
 	}); // 진행하기로 결정 된 경기 자세히 보기 모달에 가져갈 data
 
 	// 팀원 선택 state
@@ -313,6 +325,11 @@ const MyTeam = () => {
 					<Modal.Title>대전요청 자세히보기</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
+					<Row>
+						<Col md={6}>📍{battleIdInModalData.location}</Col>
+						<Col md={6}>🕰{battleIdInModalData.matchDate}</Col>
+					</Row>
+					<hr />
 					<SpanTagStyle msg="게임에 참여할 팀원을 선택해 주세요"></SpanTagStyle>
 					<hr />
 					<Row>
@@ -323,32 +340,6 @@ const MyTeam = () => {
 					</Row>
 					<br />
 					<Button onClick={memberCheck} size="sm" variant="outline-secondary">선택된 팀원 확인</Button>
-					<hr />
-					{/* <Form>
-						<Form.Group as={Col} controlId="formGridEmail">
-							<Form.Label><SpanTagStyle msg="location"></SpanTagStyle></Form.Label>
-							<Row>
-								<Col md={10}>
-									<Form.Control
-										type="text"
-										name="location"
-										placeholder="enter message"
-										onChange={inputHandle}
-										value={battleInfo.location} /></Col>
-							</Row>
-							<br />
-							<Form.Label><SpanTagStyle msg="matchDate"></SpanTagStyle></Form.Label>
-							<Row>
-								<Col md={10}>
-									<Form.Control
-										type="text"
-										name="matchDate"
-										placeholder="matchDate"
-										onChange={inputHandle}
-										value={battleInfo.matchDate} /></Col>
-							</Row>
-						</Form.Group>
-					</Form> */}
 				</Modal.Body>
 				<Modal.Footer>
 					<Button onClick={() => createInfo()} variant="outline-secondary">수락하기</Button>
@@ -365,16 +356,23 @@ const MyTeam = () => {
 				</Modal.Header>
 				<Modal.Body>
 					{/* <MatchingCard></MatchingCard> */}
-					<SpanTagStyle msg="상세 경기 정보가 들어갈 공간입니다"></SpanTagStyle>
+					<Row>
+						<Col md={6}>
+							<SpanTagStyle imt="📍 " msg={deId.location}></SpanTagStyle>
+						</Col>
+						<Col md={6}>
+							<SpanTagStyle imt="🕰 " msg={deId.matchDate}></SpanTagStyle>
+						</Col>
+					</Row>
 					<hr />
 					<Row>
 						<Col md={4}>
 							<SpanTagStyle msg="승리팀을 선택해주세요!"></SpanTagStyle>
 						</Col>
-						<Col md={2}>
+						<Col md={3}>
 							<Button variant="outline-secondary" onClick={as}>{deId.myTeam}</Button>
 						</Col>
-						<Col md={2}>
+						<Col md={3}>
 							<Button variant="outline-secondary" onClick={as}>{deId.jteam}</Button>
 						</Col>
 						{/* <Button variant="secondary" onClick={as}>{deId.id}</Button> */}
@@ -408,7 +406,10 @@ const MyTeam = () => {
 							<Col md={12}><br /></Col>
 							{users.map((res) => (//이 팀에 들어온 파티 번호 : {res.id}
 								<Col md={3}>🏃 {res.nickname}</Col>
+								/* 								<Col md={3}>🏃 {res.username}</Col> */
 							))}
+
+
 						</Row>
 					</Jumbotron>
 				</MainCardStyle>
@@ -436,7 +437,7 @@ const MyTeam = () => {
 							{battles.map((res) => (
 								res.role === 1
 									?
-									<Col md={4}>
+									<Col md={6}>
 										💥{res.requestTeam.name}&nbsp;&nbsp;&nbsp;
 										<Button onClick={() => handleShow3(res.id)} size="sm" variant="outline-secondary">자세히보기</Button>&nbsp;&nbsp;&nbsp;
 										<Button size="sm" variant="outline-secondary" onClick={() => rjwjf()}>거절</Button>
@@ -461,7 +462,7 @@ const MyTeam = () => {
 								{schedule.map((res) => (
 									res.role === 2
 										? <div>{res.requestTeam.name} ⚔ {res.responseTeam.name}&nbsp;&nbsp;&nbsp;
-											< Button onClick={() => handleShow2(res.id, res.requestTeam.name, res.responseTeam.name)} size="sm" variant="outline-secondary" >자세히보기</Button>
+											< Button onClick={() => handleShow2(res.id, res.requestTeam.name, res.responseTeam.name, res.location, res.matchDate)} size="sm" variant="outline-secondary" >자세히보기</Button>
 										</div>
 										: null
 								))}
