@@ -6,6 +6,7 @@ import styled from "styled-components";
 import SpanTagStyle from "../pages/constant/SpanTagStyle";
 import LoginModal from "./modal/LoginModal";
 import JoinModal from "./modal/JoinModal";
+import LogoStyle from "../pages/constant/LogoStyle";
 
 const HeaderStyle = styled.div`
   width: 100%;
@@ -67,13 +68,15 @@ const Header = (props) => {
       <Navbar bg="light" expand="lg">
 
         <Nav.Link><Link to="/">
-          <SpanTagStyle msg={<Navbar.Brand >
+          <LogoStyle msg={<Navbar.Brand >
             <img src="/soccer_logo-removebg-preview.png"
               width="30"
               height="30"
               alt="React Bootstrap logo" />{''}
-             FIELD HERO
-          </Navbar.Brand>}></SpanTagStyle>
+
+              &nbsp;FIELD HERO
+          </Navbar.Brand>}></LogoStyle>
+
         </Link></Nav.Link>
         {/* 윗 부분 로고 */}
 
