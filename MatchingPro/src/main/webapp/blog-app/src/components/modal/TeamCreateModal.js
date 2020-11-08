@@ -1,7 +1,6 @@
+//ok
 import React, { useState } from 'react';
-import { Container, Row, Col, Carousel, Jumbotron, Button, Breadcrumb, Card, ListGroup, ListGroupItem, ResponsiveEmbed, Form, FormControl, Modal } from 'react-bootstrap';
-import styled from "styled-components";
-import { Link } from 'react-router-dom';
+import { Container, Row, Col, Button, Form, Modal } from 'react-bootstrap';
 
 let teamNameCheckFlag = false;
 let emptyFlag = true;
@@ -28,9 +27,7 @@ const TeamCreateModal = () => {
 				if (res === "ok") {
 					teamNameCheckFlag = true;
 					alert("사용 가능한 팀 이름  입니다");
-				} else {
-					alert("중복 팀 이름  입니다");
-				}
+				} else alert("중복 팀 이름  입니다");
 			});
 	}
 
@@ -48,9 +45,7 @@ const TeamCreateModal = () => {
 			explaintation: team.explaintation
 		}
 		//빈 값 없음이 이렇게 해도 되나?
-		if (team.name === "" || team.explaintation === "") {
-			emptyFlag = false;
-		}
+		if (team.name === "" || team.explaintation === "") emptyFlag = false;
 
 		if (emptyFlag && teamNameCheckFlag) {
 			fetch("http://localhost:8000/user/create", {
@@ -61,40 +56,29 @@ const TeamCreateModal = () => {
 					'Authorization': localStorage.getItem("Authorization")
 				}
 			}).then(res => {
-				if (res.text = "ok") return "팀 생성에  성공하였습니다.";
+				if (res.text = "ok") {
+					// 여기서 모달을 닫으면 되지?
+					handleClose();
+					return "팀 생성에  성공하였습니다.";
+				}
 				else return "팀 생성에  실패하였습니다.";
-			}).then(res => {
-				alert(res);
-			});
+			}).then(res => alert(res));
 		} else {
-			if (!emptyFlag) {
-				alert("빈 값 있음");
-			}
-			if (!teamNameCheckFlag) {
-				alert("팀 이름 중복확인을 해 주세요");
-			}
+			if (!emptyFlag) alert("빈 값 있음");
+			if (!teamNameCheckFlag) alert("팀 이름 중복확인을 해 주세요");
 		}
 	};
 
-
 	return (
-
-
-
-		<>
-			<Button variant="dark" onClick={handleShow}>
-				팀만들기
-		</Button>
+		<div>
+			<Button variant="dark" onClick={handleShow}>팀만들기</Button>
 
 			<Modal show={show} size={"lg"} onHide={handleClose}>
 				<Modal.Header closeButton>
 					<Modal.Title>팀만들기</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
-
-
 					<Container>
-
 						<Form>
 							<Form.Group as={Col} controlId="formGridEmail">
 								<Form.Label>팀이름</Form.Label>
@@ -132,23 +116,18 @@ const TeamCreateModal = () => {
 									value={team.location}
 								/>
 							</Form.Group>
-
-
 						</Form>
 					</Container>
 				</Modal.Body>
 				<Modal.Footer>
-<Button onClick={joinRequest}>생성하기</Button>
+					<Button onClick={joinRequest}>생성하기</Button>
 
-					<Button variant="secondary" onClick={handleClose}>
-						Close
-					</Button>
+					<Button variant="secondary" onClick={handleClose}>Close</Button>
 				</Modal.Footer>
 			</Modal>
-		</>
+		</div>
 	);
 }
 
-
-
 export default TeamCreateModal;
+
