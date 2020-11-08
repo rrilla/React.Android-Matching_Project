@@ -46,7 +46,7 @@ public class UserService {
 		if (n == 0) {
 			return new ResponseEntity<String>("ok", HttpStatus.OK);
 		} else {
-			return new ResponseEntity<String>("중복됨", HttpStatus.OK);
+			return new ResponseEntity<String>("중복됨", HttpStatus.NOT_FOUND);
 		}
 	}
 
