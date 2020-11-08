@@ -1,19 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Style = styled.h1`
+const Style = styled.span`
 	color : black;
-	font-weight : 500;
-	font-family : fantasy; 
+	font-weight : 700;
+	font-family : "Times New Roman"; 
 	/* Georgia serif cursive sans-serif monospace fantasy  */
 `;
 
-const TitleH1TagStyle = (props) => {
+const LogoStyle = (props) => {
 	return (
 		<Style>
-			{props.msg}
+			{props.imt}{props.msg}{props.msg2}
 		</Style>
 	);
 };
 
-export default TitleH1TagStyle;
+export default LogoStyle;
