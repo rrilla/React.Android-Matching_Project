@@ -13,6 +13,45 @@ import { Link } from 'react-router-dom';
 			align : center;
 			`;*/
 const JoinModal = () => {
+
+	const handleFileOnChange = (e) => {
+		e.preventDefault();
+		let reader = new FileReader();
+		let file = e.target.files[0];
+		reader.onloadend = () => {
+			setS({
+				file: file,
+				previewURL: reader.result
+			})
+		}
+		reader.readAsDataURL(file);
+	}
+
+	const [s, setS] = useState({
+		file: '',
+		previewURL: ''
+	});
+
+	const render = () => {
+		let profile_preview = null;
+		if (this.state.file !== '') {
+			profile_preview = <img className='profile_preview' src={this.state.previewURL}></img>
+		}
+
+		return (
+			<div>
+				<input type='file'
+					accept='image/jpg,impge/png,image/jpeg,image/gif'
+					name='profile_img'
+					onChange={this.handleFileOnChange}>
+				</input>
+				{profile_preview}
+			</div>
+		)
+	}
+
+	// ----- ----- ----- ----- 
+
 	const LinkStyle = styled.span`
 	color : black;
 	`;
@@ -256,7 +295,7 @@ const JoinModal = () => {
 							</Form.Group>
 
 							<Form.Group as={Col} controlId="formGridEmail">
-								<Form.Label>지역 </Form.Label>
+								<Form.Label>포지션 </Form.Label>
 								<Form.Control
 									type="text"
 									name="position"
@@ -269,8 +308,15 @@ const JoinModal = () => {
 							<Form.Group as={Col} controlId="formGridEmail">
 								<Button variant="dark" name="name" onClick={openTextFile}>Select Image</Button>{' '}
 
-								<input></input>
-								
+								<div>
+									<input type='file'
+										accept='image/jpg,impge/png,image/jpeg,image/gif'
+										name='profile_img'
+										onChange={handleFileOnChange}>
+									</input>
+								</div>
+
+
 							</Form.Group>
 
 							<Form.Group as={Col} controlId="formGridEmail">
