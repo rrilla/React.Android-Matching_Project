@@ -72,6 +72,7 @@ const Header = (props) => {
               width="30"
               height="30"
               alt="React Bootstrap logo" />{''}
+              MATCH HERO
           </Navbar.Brand>}></SpanTagStyle>
         </Link></Nav.Link>
         {/* 윗 부분 로고 */}

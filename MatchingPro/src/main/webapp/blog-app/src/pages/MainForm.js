@@ -10,8 +10,11 @@ import SpanTagStyle from './constant/SpanTagStyle';
 import TitleH1TagStyle from './constant/TitleH1TagStyle';
 import TitleH3TagStyle from './constant/TitleH3TagStyle';
 import Br2 from './constant/Br2';
+import Footer from '../components/Footer';
+
 
 const MainCardStyle = styled.div`
+
     width: 100%;
     margin: auto;
 `;
@@ -33,7 +36,7 @@ const MainForm = () => {
     }).then((res) => res.json())
       .then((res) => {
         console.log("mainForm userList response [json type]", res);
-        setTusers(res);
+        setUsers(res);
       });
 
     // rank fetch -> rank tab에서 보여줌
@@ -48,10 +51,13 @@ const MainForm = () => {
 
   const [rank, setRank] = useState([]);
   const [teams, setTeams] = useState([]);
-  const [users, setTusers] = useState([]);
+  const [users, setUsers] = useState([]);
 
   return (
     <Container>
+      <br/>
+        <br/>
+          <br/>
       <Slide />
       <Row>
         <MainCardStyle>
@@ -103,6 +109,9 @@ const MainForm = () => {
           </Jumbotron>
         </MainCardStyle>
       </Row>
+
+
+  
     </Container>
   );
 };
