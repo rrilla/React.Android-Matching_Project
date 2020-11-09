@@ -220,8 +220,6 @@ public class UserActivity extends AppCompatActivity implements NavigationView.On
                 intent.putExtra("loginUser", loginUser);
                 startActivity(intent);
             }
-        } else if (id == R.id.nav_menu3) {
-            Toast.makeText(this, "네비-메뉴3 선택", Toast.LENGTH_LONG).show();
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;

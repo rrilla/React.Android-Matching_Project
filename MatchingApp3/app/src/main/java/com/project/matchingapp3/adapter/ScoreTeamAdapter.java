@@ -1,5 +1,6 @@
 package com.project.matchingapp3.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,7 +70,7 @@ public class ScoreTeamAdapter extends RecyclerView.Adapter<ScoreTeamAdapter.View
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvName, tvTotal, tvWin, tvDraw, tvLose;
+        TextView tvRank, tvName, tvTotal, tvWin, tvDraw, tvLose;
         ImageView ivImage;
         View view;
 
@@ -77,6 +78,7 @@ public class ScoreTeamAdapter extends RecyclerView.Adapter<ScoreTeamAdapter.View
             super(itemView);
             this.view = itemView;
 
+            tvRank = itemView.findViewById(R.id.iScore_tv_rank);
             tvName = itemView.findViewById(R.id.iScore_tv_name);
             tvTotal = itemView.findViewById(R.id.iScore_tv_total);
             tvWin = itemView.findViewById(R.id.iScore_tv_win);
@@ -96,6 +98,7 @@ public class ScoreTeamAdapter extends RecyclerView.Adapter<ScoreTeamAdapter.View
         }
 
         public void setItem(Score item) {
+            tvRank.setText(Integer.toString(item.getRank()));
             tvName.setText(item.getTeam().getName());
             tvTotal.setText(Integer.toString(item.getTotal()));
             tvWin.setText(Integer.toString(item.getWin()));

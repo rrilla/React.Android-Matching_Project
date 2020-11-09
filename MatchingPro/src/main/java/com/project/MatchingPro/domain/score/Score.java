@@ -25,6 +25,7 @@ public class Score {
 	private int draw;
 	private int lose;
 	private int total;
+	private int rank;
 	
 	
 	@JsonIgnoreProperties({"score"})

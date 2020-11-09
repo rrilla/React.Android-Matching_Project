@@ -9,6 +9,7 @@ public class Score implements Serializable {
     private int draw;
     private int lose;
     private int total;
+    private int rank;
     private Team team;
     private List<Team> score;
 
@@ -20,6 +21,7 @@ public class Score implements Serializable {
                 ", draw=" + draw +
                 ", lose=" + lose +
                 ", total=" + total +
+                ", rank=" + rank +
                 ", team=" + team +
                 ", score=" + score +
                 '}';
@@ -27,6 +29,14 @@ public class Score implements Serializable {
 
     public String getSummary(){
         return win+"승 "+draw+"무 "+lose+"패 승점="+total;
+    }
+
+    public int getRank() {
+        return rank;
+    }
+
+    public void setRank(int rank) {
+        this.rank = rank;
     }
 
     public int getId() {
