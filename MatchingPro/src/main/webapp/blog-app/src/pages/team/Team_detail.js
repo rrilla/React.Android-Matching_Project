@@ -148,7 +148,10 @@ const Team_detail = (props) => {
 			}
 		}).then((res) => res.text())
 			.then(res => {
-				if (res === "ok") alert("battle request complete");
+				if (res === "ok") {
+					handleClose();
+					alert("battle request complete");
+				}
 				else alert("battle request failed");
 			});
 	};

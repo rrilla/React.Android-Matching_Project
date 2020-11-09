@@ -1,6 +1,6 @@
 // ok
 import React, { useEffect, useState } from 'react';
-import { Jumbotron, Row, Container, Col } from 'react-bootstrap';
+import { Jumbotron, Row, Container, Col, Button, Modal } from 'react-bootstrap';
 import styled from 'styled-components';
 import TitleH3TagStyle from '../constant/TitleH3TagStyle';
 import SpanTagStyle from '../constant/SpanTagStyle';
@@ -99,14 +99,12 @@ const Team_schedule = (props) => {
 						<hr />
 						{schedule.map((res) => (
 							<Row>
-								<Col md={3}>
+								<Col md={4}></Col>
+								<Col md={8}>
 									<SpanTagStyle imt={res.requestTeam.name} msg=" ⚔ " msg2={res.responseTeam.name} ></SpanTagStyle>
 								</Col>
-								<Col md={9}></Col>
 								{/* 상대하는 두 팀 */}
-								<Col md={1} />
-								<Col md={10}><hr /></Col>
-								<Col md={1} />
+								<Col md={12}><hr /></Col>
 
 								<Col md={6}>
 									<SpanTagStyle imt="📍 " msg={res.location}></SpanTagStyle>
@@ -116,9 +114,7 @@ const Team_schedule = (props) => {
 									<SpanTagStyle imt="🕰 " msg={res.matchDate}></SpanTagStyle>
 								</Col>
 								{/* 시간 */}
-								<Col md={1} />
-								<Col md={10}><hr /></Col>
-								<Col md={1} />
+								<Col md={12}><hr /></Col>
 								{/* 선 */}
 
 								<Col md={6}>
@@ -150,12 +146,16 @@ const Team_schedule = (props) => {
 
 								<Col md={2}>10. {team1.user10}</Col>
 								<Col md={2}>11. {team1.user11}</Col>
-								<Col md={2}/>
+								<Col md={2} />
 								<Col md={2}>10. {team2.user10}</Col>
 								<Col md={2}>11. {team2.user11}</Col>
 								<Col md={12}><hr /></Col>
 							</Row>
 						))}
+						{/* 오른쪽 정렬하려고 모달 푸터 사용 */}
+						<Modal.Footer>
+							<Button onClick={() => props.history.push("/")} variant="secondary">Close</Button>
+						</Modal.Footer>
 					</Jumbotron>
 				</MainCardStyle>
 			</SlideStyle>

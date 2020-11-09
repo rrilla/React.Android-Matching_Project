@@ -1,5 +1,5 @@
 // ok (image - x) 
-import React from 'react';
+import React, { useState } from 'react';
 import { ListGroup, Card, ListGroupItem, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import SpanTagStyle from '../../pages/constant/SpanTagStyle';
@@ -14,16 +14,18 @@ opacity: 1;
 const TeamCard = (props) => {
 	console.log("TeamCard:: props data: ", props);
 
-	const { id, explaintation, name, owner } = props.team;
+	const { id, explaintation, name, owner, image } = props.team;
 	const nickname = owner.nickname;
 	const url1 = "/Team_detail/" + id;
 	const url2 = "/Team_schedule/" + id;
 
-	//http://ip:8000/image/ imageValue
+	const imageStr = `http://localhost:8000/image/${image}`
+
 	return (
 		<CardStyle>
 			<Card style={{ width: '18rem' }}>
-				<Card.Img variant="top" src="1slideepic.png" />
+				{/* <Card.Img variant="top" src="image" /> */}
+				<Card.Img variant="top" src={imageStr}/>
 				<Card.Body>
 					<Card.Title>{name}</Card.Title>
 					<Card.Text>

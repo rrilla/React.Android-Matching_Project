@@ -90,21 +90,25 @@ const MainForm = () => {
               <Tab eventKey="rank" title="RANK">
                 <Br2/>
                 <Row>
-                  <Col md={1}></Col>
+                  <Col md={2}></Col>
+                  <Col md={1}><SpanTagStyle msg="RANK"></SpanTagStyle></Col>
                   <Col md={3}><SpanTagStyle msg="TEAM"></SpanTagStyle></Col>
-                  <Col md={2}><SpanTagStyle msg="SCORE"></SpanTagStyle></Col>
-                  <Col md={2}><SpanTagStyle msg="W"></SpanTagStyle></Col>
-                  <Col md={2}><SpanTagStyle msg="L"></SpanTagStyle></Col>
-                  <Col md={2}><SpanTagStyle msg="D"></SpanTagStyle></Col>
+                  <Col md={1}><SpanTagStyle msg="SCORE"></SpanTagStyle></Col>
+                  <Col md={1}><SpanTagStyle msg="W"></SpanTagStyle></Col>
+                  <Col md={1}><SpanTagStyle msg="L"></SpanTagStyle></Col>
+                  <Col md={1}><SpanTagStyle msg="D"></SpanTagStyle></Col>
+                  <Col md={2}></Col>
                   <Col md={12}><hr/></Col>
                 </Row>
                 {rank.map((res) => <Row>
-                  <Col md={1}></Col>
+                  <Col md={2}></Col>
+                  <Col md={1}>{res.rank}</Col>
                   <Col md={3}>{res.team.name}</Col>
-                  <Col md={2}>{res.total}</Col>
-                  <Col md={2}>{res.win}</Col>
-                  <Col md={2}>{res.lose}</Col>
-                  <Col md={2}>{res.draw}</Col>
+                  <Col md={1}>{res.total}</Col>
+                  <Col md={1}>{res.win}</Col>
+                  <Col md={1}>{res.lose}</Col>
+                  <Col md={1}>{res.draw}</Col>
+                  <Col md={2}></Col>
                 </Row>)}
               </Tab>
             </Tabs>

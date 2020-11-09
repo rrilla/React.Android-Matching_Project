@@ -13,13 +13,15 @@ const UserCard = (props) => {
 	}
 
 	const Team = userTeamFunc();
-	const { nickname, location, position } = props.user;
+	const { nickname, location, position, image } = props.user;
+
+	const imageStr = `http://localhost:8000/image/${image}`
 
 	return (
 		<div>
 			<Card style={{ width: '18rem' }}>
 				{/* 이미지 나중에 고치기  */}
-				<Card.Img variant="top" src="1slideepic.png" />
+				<Card.Img variant="top" src={imageStr} />
 				<Card.Body>
 					<Card.Title>🧑 {nickname} </Card.Title>
 				</Card.Body>
