@@ -58,7 +58,7 @@ public class PartyListFragment1 extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //party리스트 없을시 띄울 화면
         if(partyList == null || partyList.size() == 0){
             final ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.noitem, container, false);

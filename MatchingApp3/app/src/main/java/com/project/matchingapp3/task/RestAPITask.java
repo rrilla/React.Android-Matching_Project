@@ -90,6 +90,10 @@ public class RestAPITask extends AsyncTask<String, Object, String[]> {
         }else if(json[0].equals("rank")){
             reqUrl = json[0];
             serverUrl += reqUrl;
+        }else if(json[0].equals("user/matchAccept/")){
+            reqUrl = json[0];
+            serverUrl += reqUrl + json[1];
+            method = "PUT";
         }
 
         try {

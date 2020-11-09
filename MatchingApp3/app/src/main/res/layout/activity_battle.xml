@@ -159,6 +159,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="경기 신청 하기" />
+
+                <Button
+                    android:id="@+id/battle_btn_accept"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:text="경기 수락 하기" />
             </LinearLayout>
 
             <com.google.android.material.bottomnavigation.BottomNavigationView

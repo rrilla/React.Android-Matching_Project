@@ -26,7 +26,7 @@ public class Score implements Serializable {
     }
 
     public String getSummary(){
-        return win+"승 "+draw+"무 "+lose+"패 승점="+score;
+        return win+"승 "+draw+"무 "+lose+"패 승점="+total;
     }
 
     public int getId() {
