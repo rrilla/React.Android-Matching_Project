@@ -57,32 +57,37 @@ const Team_schedule = (props) => {
 			.then((res) => {
 				console.log("team schedule fetch second then res [json type]", res);
 				setSchedule(res);
-				setTeam1({
-					user1: res[0].teamInfo1.user1.nickname,
-					user2: res[0].teamInfo1.user2.nickname,
-					user3: res[0].teamInfo1.user3.nickname,
-					user4: res[0].teamInfo1.user4.nickname,
-					user5: res[0].teamInfo1.user5.nickname,
-					user6: res[0].teamInfo1.user6.nickname,
-					user7: res[0].teamInfo1.user7.nickname,
-					user8: res[0].teamInfo1.user8.nickname,
-					user9: res[0].teamInfo1.user9.nickname,
-					user10: res[0].teamInfo1.user10.nickname,
-					user11: res[0].teamInfo1.user11.nickname,
-				});
-				setTeam2({
-					user1: res[0].teamInfo2.user1.nickname,
-					user2: res[0].teamInfo2.user2.nickname,
-					user3: res[0].teamInfo2.user3.nickname,
-					user4: res[0].teamInfo2.user4.nickname,
-					user5: res[0].teamInfo2.user5.nickname,
-					user6: res[0].teamInfo2.user6.nickname,
-					user7: res[0].teamInfo2.user7.nickname,
-					user8: res[0].teamInfo2.user8.nickname,
-					user9: res[0].teamInfo2.user9.nickname,
-					user10: res[0].teamInfo2.user10.nickname,
-					user11: res[0].teamInfo2.user11.nickname,
-				});
+				if (res[0] != null) {
+					setTeam1({
+						user1: res[0].teamInfo1.user1.nickname,
+						user2: res[0].teamInfo1.user2.nickname,
+						user3: res[0].teamInfo1.user3.nickname,
+						user4: res[0].teamInfo1.user4.nickname,
+						user5: res[0].teamInfo1.user5.nickname,
+						user6: res[0].teamInfo1.user6.nickname,
+						user7: res[0].teamInfo1.user7.nickname,
+						user8: res[0].teamInfo1.user8.nickname,
+						user9: res[0].teamInfo1.user9.nickname,
+						user10: res[0].teamInfo1.user10.nickname,
+						user11: res[0].teamInfo1.user11.nickname,
+					});
+					setTeam2({
+						user1: res[0].teamInfo2.user1.nickname,
+						user2: res[0].teamInfo2.user2.nickname,
+						user3: res[0].teamInfo2.user3.nickname,
+						user4: res[0].teamInfo2.user4.nickname,
+						user5: res[0].teamInfo2.user5.nickname,
+						user6: res[0].teamInfo2.user6.nickname,
+						user7: res[0].teamInfo2.user7.nickname,
+						user8: res[0].teamInfo2.user8.nickname,
+						user9: res[0].teamInfo2.user9.nickname,
+						user10: res[0].teamInfo2.user10.nickname,
+						user11: res[0].teamInfo2.user11.nickname,
+					});
+				}else{
+					alert("no schedule");
+					props.history.push("/");
+				}
 			});
 		fetch(`http://localhost:8000/teamDetail/${id}`, {
 			method: "get",
