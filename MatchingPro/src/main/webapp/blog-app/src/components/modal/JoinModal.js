@@ -99,7 +99,7 @@ const JoinModal = () => {
 			email: user.email,
 			phone: user.phone,
 			location: user.location,
-			image: user.image,
+			image: "default.png",
 			position: user.position
 		}
 		const keys = Object.keys(person) // ['name', 'weight', 'price', 'isFresh']

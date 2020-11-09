@@ -42,7 +42,8 @@ const TeamCreateModal = () => {
 		e.preventDefault();
 		let team2 = {
 			name: team.name,
-			explaintation: team.explaintation
+			explaintation: team.explaintation,
+			image: "default.png"
 		}
 		//빈 값 없음이 이렇게 해도 되나?
 		if (team.name === "" || team.explaintation === "") emptyFlag = false;

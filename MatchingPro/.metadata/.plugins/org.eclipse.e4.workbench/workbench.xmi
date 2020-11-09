@@ -400,7 +400,7 @@
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_HvXhUBc4Eeu5Y4-Rwplnvg" elementId="org.eclipse.ui.workbench.file">
         <tags>Draggable</tags>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_HvbLsBc4Eeu5Y4-Rwplnvg" elementId="print" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/print_edit.png" tooltip="Print" enabled="false" command="_HhuuYhc4Eeu5Y4-Rwplnvg"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_9rhmsCIgEeuOf6wxoTazmQ" elementId="print" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/print_edit.png" tooltip="Print" command="_HhuuYhc4Eeu5Y4-Rwplnvg"/>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_HvYIYBc4Eeu5Y4-Rwplnvg" elementId="group.edit" toBeRendered="false">
         <tags>toolbarSeparator</tags>
@@ -428,7 +428,7 @@
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_HvYIZxc4Eeu5Y4-Rwplnvg" elementId="org.eclipse.ui.workbench.navigate">
         <tags>Draggable</tags>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_HvcZ0Bc4Eeu5Y4-Rwplnvg" elementId="org.eclipse.ui.window.pinEditor" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/pin_editor.png" tooltip="Pin Editor" enabled="false" type="Check" command="_HhuuCBc4Eeu5Y4-Rwplnvg"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_9rkqACIgEeuOf6wxoTazmQ" elementId="org.eclipse.ui.window.pinEditor" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/pin_editor.png" tooltip="Pin Editor" enabled="false" type="Check" command="_HhuuCBc4Eeu5Y4-Rwplnvg"/>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_IHJIIBc4Eeu5Y4-Rwplnvg" elementId="com.genuitec.eclipse.code.css" visible="false">
         <tags>Draggable</tags>
@@ -781,9 +781,6 @@
     <bindings xmi:id="_HiKy1Bc4Eeu5Y4-Rwplnvg" keySequence="ALT+SHIFT+Q Z" command="_HhuHEBc4Eeu5Y4-Rwplnvg">
       <parameters xmi:id="_HiKy1Rc4Eeu5Y4-Rwplnvg" elementId="org.eclipse.ui.views.showView.viewId" name="org.eclipse.ui.views.showView.viewId" value="org.eclipse.team.ui.GenericHistoryView"/>
     </bindings>
-    <bindings xmi:id="_HiKy2hc4Eeu5Y4-Rwplnvg" keySequence="CTRL+P" command="_HhuuYhc4Eeu5Y4-Rwplnvg">
-      <tags>deleted</tags>
-    </bindings>
     <bindings xmi:id="_HiKy2xc4Eeu5Y4-Rwplnvg" keySequence="CTRL+Q" command="_HhuudBc4Eeu5Y4-Rwplnvg"/>
     <bindings xmi:id="_HiKy5Bc4Eeu5Y4-Rwplnvg" keySequence="ALT+SHIFT+C" command="_HhuuOBc4Eeu5Y4-Rwplnvg"/>
     <bindings xmi:id="_HiKy5Rc4Eeu5Y4-Rwplnvg" keySequence="CTRL+S" command="_HhsRxRc4Eeu5Y4-Rwplnvg"/>
@@ -878,10 +875,10 @@
     <bindings xmi:id="_HiRgmhc4Eeu5Y4-Rwplnvg" keySequence="ALT+SHIFT+D O" command="_Hhs5Dxc4Eeu5Y4-Rwplnvg"/>
     <bindings xmi:id="_HiRgmxc4Eeu5Y4-Rwplnvg" keySequence="ALT+SHIFT+D P" command="_HhuuXhc4Eeu5Y4-Rwplnvg"/>
     <bindings xmi:id="_HiRgnBc4Eeu5Y4-Rwplnvg" keySequence="ALT+SHIFT+D Q" command="_HhsR-hc4Eeu5Y4-Rwplnvg"/>
-    <bindings xmi:id="_IyX2cRc4Eeu5Y4-Rwplnvg" keySequence="CTRL+SHIFT+P" command="_HhrDqRc4Eeu5Y4-Rwplnvg">
+    <bindings xmi:id="_pq80USIgEeuZQ-GjbEgNKg" keySequence="CTRL+SHIFT+P" command="_HhrDqRc4Eeu5Y4-Rwplnvg">
       <tags>type:user</tags>
     </bindings>
-    <bindings xmi:id="_IyX2chc4Eeu5Y4-Rwplnvg" keySequence="CTRL+P" command="_HhrDqBc4Eeu5Y4-Rwplnvg">
+    <bindings xmi:id="_pq9bYCIgEeuZQ-GjbEgNKg" keySequence="CTRL+P" command="_HhrDqBc4Eeu5Y4-Rwplnvg">
       <tags>type:user</tags>
     </bindings>
   </bindingTables>
@@ -918,7 +915,7 @@
     <bindings xmi:id="_HiQSYhc4Eeu5Y4-Rwplnvg" keySequence="CTRL+NUMPAD_SUBTRACT" command="_Hhs4zRc4Eeu5Y4-Rwplnvg"/>
     <bindings xmi:id="_HiQSbRc4Eeu5Y4-Rwplnvg" keySequence="CTRL+SHIFT+NUMPAD_MULTIPLY" command="_HhtgFxc4Eeu5Y4-Rwplnvg"/>
     <bindings xmi:id="_HiQ5chc4Eeu5Y4-Rwplnvg" keySequence="CTRL+SHIFT+NUMPAD_DIVIDE" command="_HhrqtBc4Eeu5Y4-Rwplnvg"/>
-    <bindings xmi:id="_IyX2cBc4Eeu5Y4-Rwplnvg" keySequence="CTRL+SHIFT+T" command="_HhuuOhc4Eeu5Y4-Rwplnvg">
+    <bindings xmi:id="_pq80UCIgEeuZQ-GjbEgNKg" keySequence="CTRL+SHIFT+T" command="_HhuuOhc4Eeu5Y4-Rwplnvg">
       <tags>type:user</tags>
     </bindings>
   </bindingTables>
