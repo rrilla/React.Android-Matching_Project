@@ -103,7 +103,7 @@ public class BattleUsersAdapter extends RecyclerView.Adapter<BattleUsersAdapter.
         public void setItem(User item) {
             this.item = item;
             tvName.setText(item.getNickname());
-            tvAgePosition.setText("나이xx, " + item.getPosition());
+            tvAgePosition.setText(item.getPosition());
             tvLocation.setText(item.getLocation());
             Glide.with(view).load(item.getUrlImage()).into(ivImage);
         }
