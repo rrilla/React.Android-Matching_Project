@@ -87,15 +87,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         loginUser = gson.fromJson(result[0], User.class);
         allBattleList = gson.fromJson(result2[0], new TypeToken<ArrayList<Battle>>() {}.getType());
 
-        try{
-            result3 = task3.execute("app/battleList2/", Integer.toString(loginUser.getTeams().getId())).get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        if(loginUser.getTeams() != null) {
+            try {
+                result3 = task3.execute("app/battleList2/", Integer.toString(loginUser.getTeams().getId())).get();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            Log.e("test-Main액티비티", "myBattle리스트 받음 : " + result3[0]);
+            myBattleList = gson.fromJson(result3[0], new TypeToken<ArrayList<Battle>>() {
+            }.getType());
         }
-        Log.e("test-Main액티비티", "myBattle리스트 받음 : " + result3[0]);
-        myBattleList = gson.fromJson(result3[0], new TypeToken<ArrayList<Battle>>() {}.getType());
 
 
         //툴바
