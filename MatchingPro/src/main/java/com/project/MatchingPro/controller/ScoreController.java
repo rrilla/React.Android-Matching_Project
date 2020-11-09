@@ -62,7 +62,7 @@ public class ScoreController {
 	//랭크 리스트<11/05>
 	@GetMapping("/rank")
 	public List<Score> rank(){
-		return scoreRepository.rank();
+		return scoreRepository.rankAll();
 	}
 	
 }
