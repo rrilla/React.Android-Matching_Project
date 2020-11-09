@@ -11,11 +11,11 @@ import com.project.matchingapp3.R;
 
 public class HomeFragment1 extends Fragment {
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-//        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_main, container, false);
-//
 //        Button button = rootView.findViewById(R.id.button);
 //        button.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -28,5 +28,8 @@ public class HomeFragment1 extends Fragment {
 
         return inflater.inflate(R.layout.home_fragment1, container, false);
     }
+
+
+
 
 }

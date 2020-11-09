@@ -7,11 +7,10 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,12 +23,8 @@ import com.project.MatchingPro.domain.score.Score;
 import com.project.MatchingPro.domain.score.ScoreRepository;
 import com.project.MatchingPro.domain.team.Team;
 import com.project.MatchingPro.domain.team.TeamRepository;
-import com.project.MatchingPro.domain.teamInfo.TeamInfo;
 import com.project.MatchingPro.domain.user.User;
 import com.project.MatchingPro.domain.user.UserRepository;
-import com.project.MatchingPro.dto.app.NavDataDto;
-import com.project.MatchingPro.service.TeamInfoService;
-import com.project.MatchingPro.service.UserService;
 import com.project.MatchingPro.service.app.AppService;
 
 import lombok.RequiredArgsConstructor;
@@ -107,11 +102,12 @@ public class AppController {
 	//수락한 모든 내팀의 배틀리스트
 	@PostMapping("app/battleList2/{teamid}")
 	public List<Battle> battleList2(@PathVariable int teamid){
+		System.out.println(teamid);
 		return battleRepository.acceptMFindAll(teamid);
 	}
 	
-	@PostMapping("/rank")
+	@PutMapping("/rank")
 	public List<Score> rank(){
-		return scoreRepository.rank();
+		return scoreRepository.rankAll();
 	}
 }
