@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Jumbotron, Button, Form, FormControl, Row, Col, Modal } from 'react-bootstrap';
 import styled from 'styled-components';
-import MatchingCard from '../../components/card/MatchingCard';
+import Team_schedule from './Team_schedule';
 import SpanTagStyle from '../constant/SpanTagStyle';
+import { Link } from 'react-router-dom';
 
 const MainCardStyle = styled.div`
   width: 100%;
@@ -15,6 +16,9 @@ const SlideStyle = styled.div`
 `;
 
 const MyTeam = () => {
+
+	const id = 1;
+	const url2 = "/Team_schedule/" + id;
 
 	const inputHandle = (e) => {
 		setSearchUser({
@@ -117,7 +121,10 @@ const MyTeam = () => {
 			}
 		}).then((res) => res.text())
 			.then(res => {
-				if (res === "ok") alert("팀가입 요청 완료");
+				if (res === "ok") {
+					handleClose();
+					alert("팀가입 요청 완료");
+				}
 				else alert("팀가입 요청 실패");
 			});
 	};
@@ -211,8 +218,8 @@ const MyTeam = () => {
 
 	// ----- ----- -----
 
-	// 승자 선택
-	const as = () => {
+	// 우리팀 이겼다 선택
+	const win = () => {
 		fetch(`http://localhost:8000/user/scoreWiner/${deId.id}`, {
 			method: "put",
 			headers: {
@@ -222,7 +229,29 @@ const MyTeam = () => {
 		}).then((res) => res.text())
 			.then(res => {
 				console.log(res);
-				if (res === "ok") alert("완료");
+				if (res === "ok") {
+					handleClose2();
+					alert("완료");
+				}
+				else alert("실패");
+			});
+	}
+
+	// 상대팀 이겼다 선택
+	const lose = () => {
+		fetch(`http://localhost:8000/user/scoreLose/${deId.id}`, {
+			method: "put",
+			headers: {
+				//'Content-Type': "application/json; charset=utf-8",
+				'Authorization': localStorage.getItem("Authorization")
+			}
+		}).then((res) => res.text())
+			.then(res => {
+				console.log(res);
+				if (res === "ok") {
+					handleClose2();
+					alert("완료");
+				}
 				else alert("실패");
 			});
 	}
@@ -370,10 +399,10 @@ const MyTeam = () => {
 							<SpanTagStyle msg="승리팀을 선택해주세요!"></SpanTagStyle>
 						</Col>
 						<Col md={3}>
-							<Button variant="outline-secondary" onClick={as}>{deId.myTeam}</Button>
+							<Button variant="outline-secondary" onClick={win}>{deId.myTeam}</Button>
 						</Col>
 						<Col md={3}>
-							<Button variant="outline-secondary" onClick={as}>{deId.jteam}</Button>
+							<Button variant="outline-secondary" onClick={lose}>{deId.jteam}</Button>
 						</Col>
 						{/* <Button variant="secondary" onClick={as}>{deId.id}</Button> */}
 					</Row>
@@ -456,13 +485,21 @@ const MyTeam = () => {
 					<Jumbotron>
 						<Row>
 							<Col md={3}><h3>🗓 경기일정</h3></Col>
+							<Col md={9} />
 							<Col md={12}><br /></Col>
+							<Col md={12}>
+								{/* <Button onClick={() => handleShow4()} size="sm" variant="outline-secondary">경기일정보기</Button> */}
+								<Button size="sm" variant="outline-secondary"><Link to={url2}><SpanTagStyle msg="schedule"></SpanTagStyle></Link></Button>
+							</Col>
 
+							<Col md={12}><hr /></Col>
+							<Col md={12}><SpanTagStyle msg="승리팀을 선택해주세요"></SpanTagStyle></Col>
+							<Col md={12}><br /></Col>
 							<Col md={12}>
 								{schedule.map((res) => (
 									res.role === 2
 										? <div>{res.requestTeam.name} ⚔ {res.responseTeam.name}&nbsp;&nbsp;&nbsp;
-											< Button onClick={() => handleShow2(res.id, res.requestTeam.name, res.responseTeam.name, res.location, res.matchDate)} size="sm" variant="outline-secondary" >자세히보기</Button>
+											< Button onClick={() => handleShow2(res.id, res.requestTeam.name, res.responseTeam.name, res.location, res.matchDate)} size="sm" variant="outline-secondary" ><SpanTagStyle msg="승리팀선택"></SpanTagStyle></Button>
 										</div>
 										: null
 								))}

@@ -34,6 +34,7 @@ public class ScoreController {
 	//로그인한 유저가 자기팀 승 등록 , 상대팀 패 등록
 	@PutMapping("/user/scoreWiner/{battleid}")
 	public ResponseEntity<?> scoreWiner(@PathVariable int battleid){
+		System.out.println("우리팀이 이겼다 컨트롤러로 무사히 들어옴");
 		User user = (User) session.getAttribute("principal");
 		scoreService.scoreWin(user,battleid);
 		scoreService.total(user,battleid);
