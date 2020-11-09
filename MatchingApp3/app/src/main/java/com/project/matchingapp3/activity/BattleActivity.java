@@ -58,11 +58,14 @@ public class BattleActivity extends AppCompatActivity implements NavigationView.
     User loginUser;
     String jwtToken;
     Team selectTeam;
+    Battle selectBattle;
+
+    int role;
 
     HashMap checkUsers = new HashMap();
     TeamInfo teamInfo = new TeamInfo();
     Gson gson = new Gson();
-    Button btnChoice, btnMatch;
+    Button btnChoice, btnAccept, btnMatch;
     EditText etLocation, etDate, etInfo;
 
     @Override
@@ -74,7 +77,15 @@ public class BattleActivity extends AppCompatActivity implements NavigationView.
         jwtToken = intent.getStringExtra("jwtToken");
         loginUser = (User)intent.getSerializableExtra("loginUser");
         selectTeam = (Team)intent.getSerializableExtra("selectTeam");
+        selectBattle = (Battle)intent.getSerializableExtra("selectBattle");
+        role = intent.getIntExtra("role", 0);
 
+        btnChoice = findViewById(R.id.battle_btn_choice);
+        btnMatch = findViewById(R.id.battle_btn_match);
+        btnAccept = findViewById(R.id.battle_btn_accept);
+        etLocation = findViewById(R.id.battle_et_location);
+        etDate = findViewById(R.id.battle_et_date);
+        etInfo = findViewById(R.id.battle_et_info);
         recyclerView = findViewById(R.id.recyclerView);
         //리사이클러뷰에 설정할 레이아웃 매니저 - 방향세로로 설정함.
         GridLayoutManager layoutManager = new GridLayoutManager(this,  2);
@@ -102,7 +113,6 @@ public class BattleActivity extends AppCompatActivity implements NavigationView.
                 Log.e("test-Battle액티비티", "저장데이터 : " + checkUsers.toString());
             }
         });
-        btnChoice = findViewById(R.id.battle_btn_choice);
         btnChoice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -141,13 +151,41 @@ public class BattleActivity extends AppCompatActivity implements NavigationView.
                 }
             }
         });
-        btnMatch = findViewById(R.id.battle_btn_match);
+        if(role == 1) {
+            etLocation.setText(selectBattle.getLocation());
+            etDate.setText(selectBattle.getMatchDate());
+            etInfo.setText(selectBattle.getInfo());
+            btnMatch.setVisibility(View.GONE);
+            btnAccept.setVisibility(View.VISIBLE);
+            btnAccept.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String[] result2 = new String[1];
+                    RestAPITask task2 = new RestAPITask(jwtToken);
+                    try {
+                        result2 = task2.execute("user/matchAccept/", Integer.toString(selectBattle.getId())).get();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    Log.e("test-Battle액티비티", "매치 수락하기 클릭 : " + result2[0]);
+                    if(result2[0].equals("ok")){
+                        Snackbar.make(view, "매치 수락 완료.", Snackbar.LENGTH_SHORT).show();
+                        //매치 리스트로 보내기
+                        Intent intent = new Intent(getApplicationContext(), PartyListActivity.class);
+                        intent.putExtra("jwtToken", jwtToken);
+                        intent.putExtra("loginUser", loginUser);
+                        startActivity(intent);
+                    }else {
+                        Snackbar.make(view, "매치 수락 실패. " + result2[0], Snackbar.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
         btnMatch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                etLocation = findViewById(R.id.battle_et_location);
-                etDate = findViewById(R.id.battle_et_date);
-                etInfo = findViewById(R.id.battle_et_info);
                 if(etLocation.getText() == null || etDate.getText() == null || etInfo.getText() == null){
                     Snackbar.make(view, "빈 값을 다 채워주세요.", Snackbar.LENGTH_SHORT).show();
                     return;
@@ -161,21 +199,25 @@ public class BattleActivity extends AppCompatActivity implements NavigationView.
                 battle.setMatchDate(etDate.getText().toString());
                 battle.setInfo(etInfo.getText().toString());
 
-                String[] result2 = new String[1];
-                RestAPITask task2 = new RestAPITask(jwtToken);
+                String[] result3 = new String[1];
+                RestAPITask task3 = new RestAPITask(jwtToken);
                 try {
-                    result2 = task2.execute("user/matchApply/", Integer.toString(selectTeam.getId()), gson.toJson(battle)).get();
+                    result3 = task3.execute("user/matchApply/", Integer.toString(selectTeam.getId()), gson.toJson(battle)).get();
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                Log.e("test-Battle액티비티", "매치 신청하기 클릭 : " + result2[0]);
-                if(result2[0].equals("ok")){
+                Log.e("test-Battle액티비티", "매치 신청하기 클릭 : " + result3[0]);
+                if(result3[0].equals("ok")){
                     Snackbar.make(view, "매치 신청 완료.", Snackbar.LENGTH_SHORT).show();
                     //매치 리스트로 보내기
+                    Intent intent = new Intent(getApplicationContext(), PartyListActivity.class);
+                    intent.putExtra("jwtToken", jwtToken);
+                    intent.putExtra("loginUser", loginUser);
+                    startActivity(intent);
                 }else {
-                    Snackbar.make(view, "매치 신청 실패. " + result2[0], Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(view, "매치 신청 실패. " + result3[0], Snackbar.LENGTH_SHORT).show();
                 }
             }
         });

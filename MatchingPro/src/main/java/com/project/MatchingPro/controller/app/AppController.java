@@ -107,6 +107,7 @@ public class AppController {
 	//수락한 모든 내팀의 배틀리스트
 	@PostMapping("app/battleList2/{teamid}")
 	public List<Battle> battleList2(@PathVariable int teamid){
+		System.out.println(teamid);
 		return battleRepository.acceptMFindAll(teamid);
 	}
 	

@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.google.android.material.snackbar.Snackbar;
 import com.project.matchingapp3.R;
 import com.project.matchingapp3.TeamActivity;
+import com.project.matchingapp3.activity.BattleActivity;
 import com.project.matchingapp3.activity.TeamDetailActivity;
 import com.project.matchingapp3.adapter.NoticeBListAdapter;
 import com.project.matchingapp3.adapter.OnNoticeBClickListener;
@@ -116,7 +117,6 @@ public class PartyListFragment2 extends Fragment {
                     intent.putExtra("selectTeam", item.getResponseTeam());
                 }
 
-
                 startActivity(intent);
             }
         }, new OnNoticeBClickListener() {
@@ -126,7 +126,16 @@ public class PartyListFragment2 extends Fragment {
                 Battle item = adapter.getItem(position);
                 if(loginUser.getTeams().getOwner().getId() != loginUser.getId()){
                     Snackbar.make(view, "경기 수락 실패. 구단주만 수락 가능합니다.", Snackbar.LENGTH_SHORT).show();
+                    return ;
                 }
+                //매치 수락 페이지로 이동
+                Intent intent = new Intent(getContext(), BattleActivity.class);
+                intent.putExtra("jwtToken", jwtToken);
+                intent.putExtra("loginUser", loginUser);
+                intent.putExtra("selectTeam", item.getRequestTeam());
+                intent.putExtra("selectBattle", item);
+                intent.putExtra("role", 1);
+                startActivity(intent);
             }
         });
 

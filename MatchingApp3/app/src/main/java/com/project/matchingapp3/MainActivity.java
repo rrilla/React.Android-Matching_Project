@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             e.printStackTrace();
         }
         Log.e("test-Main액티비티", "myBattle리스트 받음 : " + result3[0]);
-        myBattleList = gson.fromJson(result2[0], new TypeToken<ArrayList<Battle>>() {}.getType());
+        myBattleList = gson.fromJson(result3[0], new TypeToken<ArrayList<Battle>>() {}.getType());
 
 
         //툴바
