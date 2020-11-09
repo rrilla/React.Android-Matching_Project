@@ -75,6 +75,10 @@ const MyTeam = () => {
 		});
 	};
 
+	//console.log("myteam",deId.myTeam);
+	//console.log("realmyteam",name);
+	
+
 	// 팀원 초대할 때 사용되는 state. 아래 status는 검색 결과가 적합한 지 check하는 용도
 	const [searchUser, setSearchUser] = useState({
 		nickname: "",
