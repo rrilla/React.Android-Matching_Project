@@ -13,10 +13,13 @@ import javax.persistence.OneToOne;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.project.MatchingPro.domain.team.Team;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-@Entity
+@Entity	
 public class Score {
 	@Id // 기본키 설정
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // 해당 데이터베이스 번호증가 전략을 따라가기
@@ -25,13 +28,13 @@ public class Score {
 	private int draw;
 	private int lose;
 	private int total;
-	
+	private int rank;
 	
 	@JsonIgnoreProperties({"score"})
 	@OneToOne
 	private Team team;
-	
+	 
 	
 	@OneToMany//<11/05>
-	private List<Team> score; 
+	private List<Team> score; 	
 }
