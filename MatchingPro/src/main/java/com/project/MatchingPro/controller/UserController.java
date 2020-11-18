@@ -2,6 +2,7 @@ package com.project.MatchingPro.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -136,4 +138,11 @@ public class UserController { // app,web 둘다적용
 		User user = (User) session.getAttribute("principal");
 		return userService.teamLeave(user);
 	}
+	
+	@GetMapping("python/user")
+	public List<User> pUser(@RequestParam("id") String id, HttpServletRequest request){
+		System.out.println(request.getParameter("id"));
+		return userRepository.findAll();
+	}
+	
 }
