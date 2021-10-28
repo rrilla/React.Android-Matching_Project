@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const Style = styled.span`
 	color : black;
-	font-weight : 700;
+	font-weight : 700;z
 `;
 
 const SpanTagStyle = (props) => {

@@ -1,25 +1,31 @@
-import React from 'react';
+// ok (image - x) 
+import React, { useState } from 'react';
 import { ListGroup, Card, ListGroupItem, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import SpanTagStyle from '../../pages/constant/SpanTagStyle';
 import styled from 'styled-components';
 
-const LinkStyle = styled.span`
-    color : black;
-  `;
 
+const CardStyle = styled.div`
+opacity: 1;
+
+
+`;
 const TeamCard = (props) => {
 	console.log("TeamCard:: props data: ", props);
 
-	const memberCount = props.team.users.length;
 	const { id, explaintation, name, owner, image } = props.team;
 	const nickname = owner.nickname;
 	const url1 = "/Team_detail/" + id;
 	const url2 = "/Team_schedule/" + id;
-	//http://ip:8000/image/ imageValue
+
+	const imageStr = `http://localhost:8000/image/${image}`
+
 	return (
-		<div>
+		<CardStyle>
 			<Card style={{ width: '18rem' }}>
-				<Card.Img variant="top" src="1slideepic.png" />
+				{/* <Card.Img variant="top" src="image" /> */}
+				<Card.Img variant="top" src={imageStr}/>
 				<Card.Body>
 					<Card.Title>{name}</Card.Title>
 					<Card.Text>
@@ -29,15 +35,12 @@ const TeamCard = (props) => {
 				<ListGroup className="list-group-flush">
 					<ListGroupItem><Row><Col md={2}>👑</Col>{nickname}</Row></ListGroupItem>
 					<ListGroupItem><Row><Col md={2}>👭</Col>{props.team.users.length}/20</Row></ListGroupItem>
-					<ListGroupItem><Link to={url2}><LinkStyle><Row><Col md={2}>🗓</Col>경기일정</Row></LinkStyle></Link></ListGroupItem>
-					<ListGroupItem><Link to={url1}><LinkStyle><Row><Col md={2}>✔</Col>상세보기</Row></LinkStyle></Link></ListGroupItem>
+					<ListGroupItem><Link to={url2}><SpanTagStyle msg={<Row><Col md={2}>🗓</Col>경기일정</Row>}></SpanTagStyle></Link></ListGroupItem>
+					<ListGroupItem><Link to={url1}><SpanTagStyle msg={<Row><Col md={2}>✔</Col>상세보기</Row>}></SpanTagStyle></Link></ListGroupItem>
 				</ListGroup>
-				{/* <Card.Body>
-				<Link to={url}><LinkStyle>✔상세보기</LinkStyle></Link>
-			</Card.Body> */}
 			</Card>
 			<br />
-		</div>
+		</CardStyle>
 	);
 };
 

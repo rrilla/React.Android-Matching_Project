@@ -93,6 +93,13 @@ const Team_create = () => {
 				value={team.explaintation}
 			/>
 			<br />
+						<input
+				type="text"
+				name="location"
+				placeholder="type location here"
+				onChange={inputHandle}
+				value={team.location}
+			/>
 			<Button onClick={joinRequest}>생성하기</Button>
 		</Container>
 	);

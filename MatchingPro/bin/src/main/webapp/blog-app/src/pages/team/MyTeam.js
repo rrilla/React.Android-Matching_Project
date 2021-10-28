@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Jumbotron, Button, Form, FormControl, Row, Col, Modal } from 'react-bootstrap';
 import styled from 'styled-components';
-import MatchingCard from '../../components/card/MatchingCard';
+import Team_schedule from './Team_schedule';
 import SpanTagStyle from '../constant/SpanTagStyle';
+import { Link } from 'react-router-dom';
 
 const MainCardStyle = styled.div`
   width: 100%;
@@ -15,6 +16,9 @@ const SlideStyle = styled.div`
 `;
 
 const MyTeam = () => {
+
+	const id = 1;
+	const url2 = "/Team_schedule/" + id;
 
 	const inputHandle = (e) => {
 		setSearchUser({
@@ -29,7 +33,7 @@ const MyTeam = () => {
 	const [team, setTeam] = useState([]);
 	const [owner, setOwner] = useState([]);
 	const [users, setUsers] = useState([]);
-	const { id, explaintation, name } = team;
+	const { explaintation, name } = team;
 
 	const [partys, setPartys] = useState([]);
 	const [battles, setBattles] = useState([]);
@@ -41,16 +45,39 @@ const MyTeam = () => {
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
 
+
+	const [battleIdInModal, setBattleIdInModal] = useState(0);
+	const [battleIdInModalData, setBattleIdInModalData] = useState({});
+
+	const [show3, setShow3] = useState(false);
+	const handleClose3 = () => setShow3(false);
+	const handleShow3 = (id) => {
+		battles.map((res) => (
+			res.id === id
+				?
+				setBattleIdInModalData(res)
+				: null
+		))
+		setBattleIdInModal(id);
+		setShow3(true);
+	};
+
 	const [show2, setShow2] = useState(false);
 	const handleClose2 = () => setShow2(false);
-	const handleShow2 = (id, myTeam, jteam) => {
+	const handleShow2 = (id, myTeam, jteam, location, matchDate) => {
 		setShow2(true);
 		setDeId({
 			id: id,
 			myTeam: myTeam,
-			jteam: jteam
+			jteam: jteam,
+			location: location,
+			matchDate: matchDate
 		});
 	};
+
+	//console.log("myteam",deId.myTeam);
+	//console.log("realmyteam",name);
+	
 
 	// 팀원 초대할 때 사용되는 state. 아래 status는 검색 결과가 적합한 지 check하는 용도
 	const [searchUser, setSearchUser] = useState({
@@ -67,9 +94,26 @@ const MyTeam = () => {
 	const [deId, setDeId] = useState({
 		id: null,
 		myTeam: null,
-		jteam: null
+		jteam: null,
+		location: null,
+		matchDate: null
 	}); // 진행하기로 결정 된 경기 자세히 보기 모달에 가져갈 data
 
+	// 팀원 선택 state
+	const [rteam, setRteam] = useState(["팀장"]);
+
+	const rteamplus = (id) => {
+		alert("추가되었습니다");
+		setRteam([
+			...rteam,
+			id
+		]);
+		console.log(rteam);
+	}
+
+	const memberCheck = () => {
+		alert(rteam);
+	}
 	// 여기가지 state ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- 
 
 	const inviteMember = (userid) => {	// 팀원 초대 함수 (검색 다음 초대)
@@ -81,7 +125,10 @@ const MyTeam = () => {
 			}
 		}).then((res) => res.text())
 			.then(res => {
-				if (res === "ok") alert("팀가입 요청 완료");
+				if (res === "ok") {
+					handleClose();
+					alert("팀가입 요청 완료");
+				}
 				else alert("팀가입 요청 실패");
 			});
 	};
@@ -118,6 +165,8 @@ const MyTeam = () => {
 			});
 	};
 
+	// ----- ----- ----- ----- -----  
+
 	const matchAccept = (battleid) => {	// 베틀 신청에 대한 수락 fetch
 		fetch(`http://localhost:8000/user/matchAccept/${battleid}`, {
 			method: "put",
@@ -130,31 +179,23 @@ const MyTeam = () => {
 			});
 	};
 
-
-	// ----- ----- ----- ----- -----  
-
-	const as = () => {
-		fetch(`http://localhost:8000/user/scoreWiner/${deId.id}`, {
-			method: "put",
-			headers: {
-				//'Content-Type': "application/json; charset=utf-8",
-				'Authorization': localStorage.getItem("Authorization")
-			}
-		}).then((res) => res.text())
-			.then(res => {
-				console.log(res);
-				if (res === "ok") alert("완료");
-				else alert("실패");
-			});
-	}
-
-	// teaminfo create
-	const sss = () => {
+	// teaminfo create & 베틀 수락 포함
+	const createInfo = () => {
 		let teamInfo = {
 			/* loginid: user.loginid,
 			password: user.password */
 			//user1: {id: 1},
-			user2: { id: 1 },
+			user2: { id: rteam[1] },
+			user3: { id: rteam[2] },
+			user4: { id: rteam[3] },
+			user5: { id: rteam[4] },
+			user6: { id: rteam[5] },
+			user7: { id: rteam[6] },
+			user8: { id: rteam[7] },
+			user9: { id: rteam[8] },
+			user10: { id: rteam[9] },
+			user11: { id: rteam[10] },
+			/* user2: { id: 1 },
 			user3: { id: 1 },
 			user4: { id: 1 },
 			user5: { id: 1 },
@@ -163,10 +204,8 @@ const MyTeam = () => {
 			user8: { id: 1 },
 			user9: { id: 1 },
 			user10: { id: 1 },
-			user11: { id: 1 },
-
+			user11: { id: 1 }, */
 		}
-
 		fetch(`http://localhost:8000/user/teamInfo`, {
 			method: "post",
 			body: JSON.stringify(teamInfo),
@@ -176,11 +215,54 @@ const MyTeam = () => {
 			}
 		}).then((res) => res.text())
 			.then(res => {
-				if (res === "ok") alert("tema info create");
-				else alert("팀가입 요청 실패");
+				if (res === "ok") matchAccept(battleIdInModal);
+				else alert("요청 실패");
 			});
 	};
 
+	// ----- ----- -----
+
+	// 우리팀 이겼다 선택
+	const win = () => {
+		fetch(`http://localhost:8000/user/scoreWiner/${deId.id}`, {
+			method: "put",
+			headers: {
+				//'Content-Type': "application/json; charset=utf-8",
+				'Authorization': localStorage.getItem("Authorization")
+			}
+		}).then((res) => res.text())
+			.then(res => {
+				console.log(res);
+				if (res === "ok") {
+					handleClose2();
+					alert("완료");
+				}
+				else alert("실패");
+			});
+	}
+
+	// 상대팀 이겼다 선택
+	const lose = () => {
+		fetch(`http://localhost:8000/user/scoreLose/${deId.id}`, {
+			method: "put",
+			headers: {
+				//'Content-Type': "application/json; charset=utf-8",
+				'Authorization': localStorage.getItem("Authorization")
+			}
+		}).then((res) => res.text())
+			.then(res => {
+				console.log(res);
+				if (res === "ok") {
+					handleClose2();
+					alert("완료");
+				}
+				else alert("실패");
+			});
+	}
+
+	const rjwjf = () => {
+		alert("거절되었습니다");
+	}
 	useEffect(() => {
 		// 현재 로그인 되어있는 ID가 가입한 팀의 ID를 받아옴
 		fetch("http://localhost:8000/user/myTeam", {
@@ -270,24 +352,61 @@ const MyTeam = () => {
 				</Modal.Footer>
 			</Modal>
 
+			{/* 경기 요청 자세히 보기(+팀원입력 및 수락) 모달 */}
+			<Modal show={show3} size={"lg"} onHide={handleClose3}>
+				<Modal.Header closeButton>
+					<Modal.Title>대전요청 자세히보기</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+					<Row>
+						<Col md={6}>📍{battleIdInModalData.location}</Col>
+						<Col md={6}>🕰{battleIdInModalData.matchDate}</Col>
+					</Row>
+					<hr />
+					<SpanTagStyle msg="게임에 참여할 팀원을 선택해 주세요"></SpanTagStyle>
+					<hr />
+					<Row>
+						{users.map((res) => (//이 팀에 들어온 파티 번호 : {res.id}
+							<Col md={3}>🏃 {res.nickname}&nbsp;&nbsp;&nbsp;
+								<Button onClick={() => rteamplus(battleIdInModal)} size="sm" variant="outline-secondary">추가</Button></Col>
+						))}
+					</Row>
+					<br />
+					<Button onClick={memberCheck} size="sm" variant="outline-secondary">선택된 팀원 확인</Button>
+				</Modal.Body>
+				<Modal.Footer>
+					<Button onClick={() => createInfo()} variant="outline-secondary">수락하기</Button>
+					{/* createInfo 안에 베틀수락함수 포함 */}
+					<Button variant="secondary" onClick={handleClose3}>Close
+					</Button>
+				</Modal.Footer>
+			</Modal >
+
 			{/* 경기 자세히 보기(+결과입력) 모달 */}
-			<Modal show={show2} size={"lg"} onHide={handleClose}>
+			<Modal show={show2} size={"lg"} onHide={handleClose2}>
 				<Modal.Header closeButton>
 					<Modal.Title>경기</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
 					{/* <MatchingCard></MatchingCard> */}
-					<SpanTagStyle msg="상세 경기 정보가 들어갈 공간입니다"></SpanTagStyle>
+					<Row>
+						<Col md={6}>
+							<SpanTagStyle imt="📍 " msg={deId.location}></SpanTagStyle>
+						</Col>
+						<Col md={6}>
+							<SpanTagStyle imt="🕰 " msg={deId.matchDate}></SpanTagStyle>
+						</Col>
+					</Row>
 					<hr />
 					<Row>
 						<Col md={4}>
 							<SpanTagStyle msg="승리팀을 선택해주세요!"></SpanTagStyle>
 						</Col>
-						<Col md={2}>
-							<Button variant="outline-secondary" onClick={as}>{deId.myTeam}</Button>
+						<Col md={3}>
+							<Button variant="outline-secondary" onClick={win}>{deId.myTeam}</Button>
 						</Col>
-						<Col md={2}>
-							<Button variant="outline-secondary" onClick={as}>{deId.jteam}</Button>
+						<Col md={3}>
+							<Button variant="outline-secondary" onClick={lose}>{deId.jteam}</Button>
 						</Col>
 						{/* <Button variant="secondary" onClick={as}>{deId.id}</Button> */}
 					</Row>
@@ -320,7 +439,10 @@ const MyTeam = () => {
 							<Col md={12}><br /></Col>
 							{users.map((res) => (//이 팀에 들어온 파티 번호 : {res.id}
 								<Col md={3}>🏃 {res.nickname}</Col>
+								/* 								<Col md={3}>🏃 {res.username}</Col> */
 							))}
+
+
 						</Row>
 					</Jumbotron>
 				</MainCardStyle>
@@ -348,10 +470,10 @@ const MyTeam = () => {
 							{battles.map((res) => (
 								res.role === 1
 									?
-									<Col md={4}>
+									<Col md={6}>
 										💥{res.requestTeam.name}&nbsp;&nbsp;&nbsp;
-										<Button onClick={sss} size="sm" variant="outline-secondary">teaminfo</Button>&nbsp;&nbsp;&nbsp;
-										<Button size="sm" variant="outline-secondary" onClick={() => matchAccept(res.id)}>수락</Button>
+										<Button onClick={() => handleShow3(res.id)} size="sm" variant="outline-secondary">자세히보기</Button>&nbsp;&nbsp;&nbsp;
+										<Button size="sm" variant="outline-secondary" onClick={() => rjwjf()}>거절</Button>
 										{/* <Button onClick={zzz}>참가명단보기</Button> */}
 									</Col>
 									: null
@@ -367,13 +489,21 @@ const MyTeam = () => {
 					<Jumbotron>
 						<Row>
 							<Col md={3}><h3>🗓 경기일정</h3></Col>
+							<Col md={9} />
 							<Col md={12}><br /></Col>
+							<Col md={12}>
+								{/* <Button onClick={() => handleShow4()} size="sm" variant="outline-secondary">경기일정보기</Button> */}
+								<Button size="sm" variant="outline-secondary"><Link to={url2}><SpanTagStyle msg="schedule"></SpanTagStyle></Link></Button>
+							</Col>
 
+							<Col md={12}><hr /></Col>
+							<Col md={12}><SpanTagStyle msg="승리팀을 선택해주세요"></SpanTagStyle></Col>
+							<Col md={12}><br /></Col>
 							<Col md={12}>
 								{schedule.map((res) => (
 									res.role === 2
 										? <div>{res.requestTeam.name} ⚔ {res.responseTeam.name}&nbsp;&nbsp;&nbsp;
-											< Button onClick={() => handleShow2(res.id, res.requestTeam.name, res.responseTeam.name)} size="sm" variant="outline-secondary" >자세히보기</Button>
+											< Button onClick={() => handleShow2(res.id, res.requestTeam.name, res.responseTeam.name, res.location, res.matchDate)} size="sm" variant="outline-secondary" ><SpanTagStyle msg="승리팀선택"></SpanTagStyle></Button>
 										</div>
 										: null
 								))}

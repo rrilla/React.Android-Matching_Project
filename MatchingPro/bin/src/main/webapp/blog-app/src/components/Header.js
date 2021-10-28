@@ -6,6 +6,7 @@ import styled from "styled-components";
 import SpanTagStyle from "../pages/constant/SpanTagStyle";
 import LoginModal from "./modal/LoginModal";
 import JoinModal from "./modal/JoinModal";
+import LogoStyle from "../pages/constant/LogoStyle";
 
 const HeaderStyle = styled.div`
   width: 100%;
@@ -48,8 +49,8 @@ const Header = (props) => {
         <NavDropdown title="MYPAGE" id="basic-nav-dropdown">
           <NavDropdown.Item ><Nav.Link><Link to="/Mypage"><SpanTagStyle msg="MYPAGE"></SpanTagStyle></Link></Nav.Link></NavDropdown.Item>
           <NavDropdown.Item ><Nav.Link><Link to="/MyTeam"><SpanTagStyle msg="MYTEAM"></SpanTagStyle></Link></Nav.Link></NavDropdown.Item>
-          <NavDropdown.Divider />
-          <NavDropdown.Item ><Nav.Link><Link to="/"><SpanTagStyle msg="MYTEAM"></SpanTagStyle></Link></Nav.Link></NavDropdown.Item>
+          {/* <NavDropdown.Divider />
+          <NavDropdown.Item ><Nav.Link><Link to="/"><SpanTagStyle msg="MYTEAM"></SpanTagStyle></Link></Nav.Link></NavDropdown.Item> */}
         </NavDropdown>
         {/* <Nav.Link><Link to="/"><SpanTagStyle func={logoutfunction} msg="Logout"></SpanTagStyle></Link></Nav.Link> */}
         <Nav.Link><Link to="/"><SpanStyle onClick={logoutfunction}>Logout</SpanStyle></Link></Nav.Link>
@@ -67,13 +68,15 @@ const Header = (props) => {
       <Navbar bg="light" expand="lg">
 
         <Nav.Link><Link to="/">
-          <SpanTagStyle msg={<Navbar.Brand >
+          <LogoStyle msg={<Navbar.Brand >
             <img src="/soccer_logo-removebg-preview.png"
               width="30"
               height="30"
               alt="React Bootstrap logo" />{''}
-              MATCH HERO
-          </Navbar.Brand>}></SpanTagStyle>
+
+              &nbsp;FIELD HERO
+          </Navbar.Brand>}></LogoStyle>
+
         </Link></Nav.Link>
         {/* 윗 부분 로고 */}
 

@@ -72,21 +72,22 @@ const Team_detail = (props) => {
 		setShow(true);
 	};
 
-
-
-
-	// 
+	// 초대 가능한 파티원 (베틀 신청할 때)
 	const [users2, setUsers2] = useState([]);
-	const [rteam, setRteam] = useState([]);
+	// 초대에 선택된 파티원
+	const [rteam, setRteam] = useState(["팀장"]);
 
-
-	const rteamplus = () => {
-		alert("clickd");
-		setRteam({
+	const rteamplus = (id) => {
+		alert("추가되었습니다");
+		setRteam([
 			...rteam,
-			id: 1,
-			nickname: "a"
-		})
+			id
+		]);
+		console.log(rteam);
+	}
+
+	const memberCheck = () =>{
+		alert(rteam);
 	}
 
 	// teaminfo 만들기 - battle 신청 함수도 안에 있음
@@ -95,16 +96,16 @@ const Team_detail = (props) => {
 			/* loginid: user.loginid,
 			password: user.password */
 			//user1: {id: 1},
-			user2: { id: 1 },
-			user3: { id: 1 },
-			user4: { id: 1 },
-			user5: { id: 1 },
-			user6: { id: 1 },
-			user7: { id: 1 },
-			user8: { id: 1 },
-			user9: { id: 1 },
-			user10: { id: 1 },
-			user11: { id: 1 },
+			user2: { id: rteam[1] },
+			user3: { id: rteam[2] },
+			user4: { id: rteam[3] },
+			user5: { id: rteam[4] },
+			user6: { id: rteam[5] },
+			user7: { id: rteam[6] },
+			user8: { id: rteam[7] },
+			user9: { id: rteam[8] },
+			user10: { id: rteam[9] },
+			user11: { id: rteam[10] },
 		}
 
 		fetch(`http://localhost:8000/user/teamInfo`, {
@@ -117,12 +118,11 @@ const Team_detail = (props) => {
 		}).then((res) => res.text())
 			.then(res => {
 				if (res === "ok") battleRequest();
-				else alert("팀가입 요청 실패");
+				else alert("요청 실패");
 			});
 	};
 
 	const [battleInfo, setBattleInfo] = useState([{
-		info: "",
 		location: "",
 		matchDate: ""
 	}]);
@@ -136,7 +136,6 @@ const Team_detail = (props) => {
 
 	const battleRequest = () => {	// battle 신청 함수
 		let battle = {
-			info: battleInfo.info,
 			location: battleInfo.location,
 			matchDate: battleInfo.matchDate
 		}
@@ -149,7 +148,10 @@ const Team_detail = (props) => {
 			}
 		}).then((res) => res.text())
 			.then(res => {
-				if (res === "ok") alert("battle request complete");
+				if (res === "ok") {
+					handleClose();
+					alert("battle request complete");
+				}
 				else alert("battle request failed");
 			});
 	};
@@ -167,24 +169,15 @@ const Team_detail = (props) => {
 					<Row>
 						{users2.map((res) => (//이 팀에 들어온 파티 번호 : {res.id}
 							<Col md={3}>🏃 {res.nickname}&nbsp;&nbsp;&nbsp;
-								<Button onClick={rteamplus} size="sm" variant="outline-secondary">추가</Button></Col>
+								<Button onClick={() => rteamplus(res.id)} size="sm" variant="outline-secondary">추가</Button></Col>
 						))}
 					</Row>
+					<br/>
+					<Button onClick={memberCheck} size="sm" variant="outline-secondary">선택된 팀원 확인</Button>
 
-					<hr/>
+					<hr />
 					<Form>
 						<Form.Group as={Col} controlId="formGridEmail">
-							<Form.Label><SpanTagStyle msg="message"></SpanTagStyle></Form.Label>
-							<Row>
-								<Col md={10}>
-									<Form.Control
-										type="text"
-										name="battleInfo"
-										placeholder="enter message"
-										onChange={inputHandle}
-										value={battleInfo.info} /></Col>
-							</Row>
-							<br />
 							<Form.Label><SpanTagStyle msg="location"></SpanTagStyle></Form.Label>
 							<Row>
 								<Col md={10}>
